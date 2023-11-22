@@ -1,0 +1,466 @@
+<div class="m-1 sm:m-2 md:m-4">
+    <section class="flex flex-col gap-5 mb-4">
+        <div class="flex flex-row items-center gap-3">
+            <div
+                class="items-center rounded-full bg-gray-200 p-1.5 text-sm text-mirage-600 hidden dark:bg-mirage-950 dark:text-mirage-400 sm:flex">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-layout-grid-add" width="30"
+                    height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M4 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+                    <path d="M14 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+                    <path d="M4 14m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+                    <path d="M14 17h6m-3 -3v6"></path>
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-sm font-semibold sm:text-lg">Gestión de Usuarios</h1>
+                <p class="text-xs text-gray-400">Agregue y administre usuarios aquí.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="flex flex-col items-center justify-between gap-1 sm:flex-row">
+
+            <div class="flex flex-row">
+                <div class="p-2 mr-0.5 text-gray-200 bg-mirage-600 border-none rounded-l-md dark:bg-mirage-500">
+                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                    <span class="sr-only">Search</span>
+                </div>
+                <input [(ngModel)]="searchUserString"
+                    class="tracking-wide custom-input-light-square placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark-square dark:shadow-none"
+                    placeholder="Buscar Paciente" type="text" name="search" maxlength="12">
+            </div>
+
+            <div class="">
+                <button (click)="toggleCreateModal()"
+                    class="custom-blue-button hover:shadow-md dark:custom-blue-button-dark">
+                    <span>Agregar</span>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- User modal -->
+        <section *ngIf="showNewUserModal">
+            <div
+                class="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+                <div
+                    class="relative w-full my-3 mx-auto max-w-[16rem] sm:my-6 sm:max-w-md sm:min-w-[20rem] md:max-w-2xl">
+                    <!--content-->
+                    <div
+                        class="relative flex w-full min-w-[14rem] flex-col rounded overflow-hidden border border-mirage-400 border-solid outline-none focus:outline-none dark:border-mirage-600">
+                        <form [formGroup]="addUserForm" autocomplete="off" (ngSubmit)="createNewUserInformation()">
+                            <!--header-->
+                            <div
+                                class="flex items-center justify-between px-3 py-2 border-b border-solid border-mirage-400 bg-mirage-50 dark:bg-mirage-950 dark:border-mirage-600">
+                                <div class="flex flex-col">
+                                    <h3 class="text-xs font-semibold uppercase">Creación de Nuevo
+                                        Usuario
+                                    </h3>
+                                    <span><small>Los campos con <strong class="font-semibold text-blue-500">*</strong>
+                                            son
+                                            obligatorios.</small></span>
+                                </div>
+                                <button class="custom-close-button dark:custom-close-button-dark"
+                                    (click)="toggleCreateModalClose()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x"
+                                        width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5"
+                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M18 6l-12 12"></path>
+                                        <path d="M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <!--body-->
+                            <div
+                                class="relative flex-auto px-3 py-2 max-h-[440px] bg-gray-50 overflow-y-auto dark:bg-mirage-950 dark:border-mirage-600">
+                                <div class="relative overflow-x-auto min-h-[6rem]">
+                                    <p class="text-xs uppercase sr-only">Formulario de registro</p>
+
+                                    <div class="flex flex-col gap-3">
+                                        <fieldset
+                                            class="p-3 border border-gray-300 border-solid dark:border-mirage-600">
+                                            <legend
+                                                class="px-2 text-xs font-medium uppercase text-mirage-600 dark:text-mirage-400">
+                                                Perfil
+                                            </legend>
+                                            <div class="grid grid-cols-1 gap-y-2 gap-x-3 sm:grid-cols-2">
+
+                                                <div>
+                                                    <label for="us_cedula"
+                                                        class="block text-[10px] uppercase font-medium dark:text-gray-400">Cédula
+                                                        <strong class="font-semibold text-blue-500">*</strong></label>
+                                                    <input type="text" id="us_cedula" formControlName="us_cedula"
+                                                        class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none"
+                                                        placeholder="P.ej., 0600000000">
+                                                </div>
+
+                                                <div>
+                                                    <label for="us_apellidos"
+                                                        class="block text-[10px] uppercase font-medium dark:text-gray-400">Apellidos
+                                                        <strong class="font-semibold text-blue-500">*</strong></label>
+                                                    <input type="text" id="us_apellidos" formControlName="us_apellidos"
+                                                        class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none"
+                                                        placeholder="Apellidos Completos">
+                                                </div>
+
+                                                <div>
+                                                    <label for="us_nombres"
+                                                        class="block text-[10px] uppercase font-medium dark:text-gray-400">Nombres
+                                                        <strong class="font-semibold text-blue-500">*</strong></label>
+                                                    <input type="text" id="us_nombres" formControlName="us_nombres"
+                                                        class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none"
+                                                        placeholder="Nombres Completos">
+                                                </div>
+
+                                                <div>
+                                                    <label for="us_carrera"
+                                                        class="block text-[10px] uppercase font-medium dark:text-gray-400">Carrera
+                                                        <strong class="font-semibold text-blue-500">*</strong></label>
+                                                    <input type="text" id="us_carrera" formControlName="us_carrera"
+                                                        class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none"
+                                                        placeholder="P.ej., Medicina General">
+                                                </div>
+
+                                                <div>
+                                                    <label for="us_fecha_nac"
+                                                        class="block text-[10px] uppercase font-medium dark:text-gray-400">Fecha
+                                                        de nacimiento
+                                                        <strong class="font-semibold text-blue-500">*</strong></label>
+                                                    <input type="date" id="us_fecha_nac" formControlName="us_fecha_nac"
+                                                        class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none">
+                                                </div>
+
+                                                <div>
+                                                    <label for="us_sexo"
+                                                        class="block text-[10px] uppercase font-medium dark:text-gray-400">Género
+                                                        <strong class="font-semibold text-blue-500">*</strong></label>
+                                                    <ng-select [items]="genre" labelForId="us_sexo"
+                                                        class="mt-1.5 text-sm" placeholder="-- Seleccione --"
+                                                        formControlName="us_sexo">
+                                                    </ng-select>
+                                                </div>
+
+                                                <div>
+                                                    <label for="us_user"
+                                                        class="block text-[10px] uppercase font-medium dark:text-gray-400">Usuario
+                                                        <strong class="font-semibold text-blue-500">*</strong></label>
+                                                    <input type="text" id="us_user" formControlName="us_user"
+                                                        class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none"
+                                                        placeholder="P.ej., 0600000000">
+                                                </div>
+
+                                                <div>
+                                                    <label for="us_password"
+                                                        class="block text-[10px] uppercase font-medium dark:text-gray-400">Contraseña
+                                                        <strong class="font-semibold text-blue-500">*</strong></label>
+                                                    <input type="text" id="us_password" formControlName="us_password"
+                                                        class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none"
+                                                        placeholder="P.ej., 0600000000">
+                                                </div>
+
+                                                <div>
+                                                    <label for="us_role"
+                                                        class="block text-[10px] uppercase font-medium dark:text-gray-400">Rol
+                                                        <strong class="font-semibold text-blue-500">*</strong></label>
+                                                    <ng-select [items]="userRol" labelForId="us_role"
+                                                        class="mt-1.5 text-sm" placeholder="-- Seleccione --"
+                                                        formControlName="us_role">
+                                                    </ng-select>
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+
+                                        <form [formGroup]="searchAreasInformation" autocomplete="off">
+                                            <fieldset
+                                                class="p-3 border border-gray-300 border-solid dark:border-mirage-600">
+                                                <legend
+                                                    class="px-2 text-xs font-medium uppercase text-mirage-600 dark:text-mirage-400">
+                                                    Área de Trabajo
+                                                </legend>
+                                                <div class="grid grid-cols-1 gap-y-2 gap-x-3 sm:grid-cols-2">
+                                                    <div class="">
+                                                        <label for="area_agenda"
+                                                            class="block text-[10px] uppercase font-medium dark:text-gray-400">Área
+                                                            de
+                                                            servicio <strong
+                                                                class="font-semibold text-blue-500">*</strong></label>
+                                                        <ng-select labelForId="area_agenda"
+                                                            formControlName="area_agenda" class="mt-1.5 text-sm"
+                                                            placeholder="-- Seleccione --">
+                                                            <ng-option *ngFor="let area of areasInformation"
+                                                                [value]="area.id_area">{{area.descripcion}}</ng-option>
+                                                        </ng-select>
+                                                    </div>
+
+                                                    <div *ngIf="searchAreasInformation.get('area_agenda')?.value">
+                                                        <label for="seccion_agenda"
+                                                            class="block text-[10px] uppercase font-medium dark:text-gray-400">Sección
+                                                            <strong
+                                                                class="font-semibold text-blue-500">*</strong></label>
+                                                        <ng-select labelForId="seccion_agenda"
+                                                            formControlName="seccion_agenda" class="mt-1.5 text-sm"
+                                                            placeholder="-- Seleccione --">
+                                                            <ng-option *ngFor="let section of sectionsInformation"
+                                                                [value]="section.descripcion">{{section.descripcion}}</ng-option>
+                                                        </ng-select>
+                                                    </div>
+
+                                                    <div *ngIf="searchAreasInformation.get('seccion_agenda')?.value">
+                                                        <label for="pol_agenda"
+                                                            class="block text-[10px] uppercase font-medium dark:text-gray-400">Polivalente
+                                                            <strong
+                                                                class="font-semibold text-blue-500">*</strong></label>
+                                                        <ng-select labelForId="pol_agenda" formControlName="pol_agenda"
+                                                            class="mt-1.5 text-sm" placeholder="-- Seleccione --">
+                                                            <ng-option *ngFor="let pol of polsInformation"
+                                                                [value]="pol.id_estacion">{{pol.descripcion}}</ng-option>
+                                                        </ng-select>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--footer-->
+                            <div
+                                class="flex items-center justify-end px-3 py-2 border-t border-solid border-mirage-400 bg-mirage-50 dark:bg-mirage-950 dark:border-mirage-600">
+                                <button type="submit"
+                                    class="custom-blue-button hover:shadow-md disabled:hover:shadow-none dark:custom-blue-button-dark dark:disabled:hover:shadow-none"
+                                    [disabled]="addUserForm.invalid">Aceptar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="showNewUserModal"
+                class="fixed inset-0 z-40 opacity-60 bg-zinc-500 dark:bg-zinc-900 dark:opacity-60">
+            </div>
+        </section>
+
+        <div class="py-2">
+            <div class="flex">
+                <div class="w-full overflow-y-auto">
+                    <table class="w-full text-left">
+                        <thead
+                            class="border border-mirage-400 bg-mirage-50 text-[10px] font-medium uppercase dark:bg-mirage-950 dark:border-mirage-600">
+                            <tr>
+                                <th scope="col" class="p-4">
+                                    Cédula
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Nombre
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Carrera
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Rol
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Estado
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Área
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Pol/Módulo
+                                </th>
+                                <th scope="col" class="p-4">
+                                    A/I
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Reasignar
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of userInformation | filterUserString: searchUserString | paginate: config"
+                                class="border border-mirage-400 hover:bg-gray-100 dark:border-mirage-600 dark:hover:bg-mirage-900/10">
+                                <td class="p-4 whitespace-nowrap">
+                                    {{user.us_cedula}}</td>
+                                <td class="p-4 whitespace-nowrap">
+                                    <h2 class="font-medium text-gray-800 dark:text-white ">
+                                        {{user.us_apellidos}}
+                                    </h2>
+                                    <p class="text-sm font-normal text-gray-600 dark:text-gray-400">
+                                        {{user.us_nombres}}</p>
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{user.us_carrera}}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{user.us_role}}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    <span [ngClass]="getStatusClass(user.us_isActive)">
+                                        {{user.us_isActive | statusManagement
+                                        }}
+                                    </span>
+                                </td>
+
+                                <td class="p-4 whitespace-nowrap">
+                                    {{user.estacion_trabajo.seccion.area.descripcion}}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    <h2 class="font-medium text-gray-800 dark:text-white ">
+                                        {{user.estacion_trabajo.descripcion}}
+                                    </h2>
+                                    <p class="text-[10px] font-semibold text-gray-600 -mt-1 dark:text-gray-400">
+                                        {{user.estacion_trabajo.seccion.descripcion}}</p>
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" [checked]="user.us_isActive" name="user-active"
+                                            (change)="updateUserStatus(user.id_usuario, user.us_nombres, user.us_isActive)"
+                                            class="sr-only peer" />
+                                        <div
+                                            class="peer h-5 w-9 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-mirage-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-mirage-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-mirage-800">
+                                        </div>
+                                        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
+                                    </label>
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    <button (click)="toggleReassignmentModal(user)"
+                                        class="p-1 text-xs font-medium text-green-800 bg-green-100 rounded-full dark:bg-green-900 dark:text-green-300 disabled:bg-orange-100 disabled:text-orange-800 disabled:opacity-25 disabled:dark:text-orange-300 disabled:dark:bg-orange-900"
+                                        [disabled]="!user.us_isActive">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-arrows-exchange" width="24" height="24"
+                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M7 10h14l-4 -4"></path>
+                                            <path d="M17 14h-14l4 4"></path>
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reassignments modal -->
+        <section *ngIf="showReassignmentModal">
+            <div
+                class="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
+                <div
+                    class="relative w-full my-3 mx-auto max-w-[16rem] sm:my-6 sm:max-w-md sm:min-w-[20rem] md:max-w-2xl">
+                    <!--content-->
+                    <div
+                        class="relative flex w-full min-w-[14rem] flex-col rounded overflow-hidden border border-mirage-400 border-solid outline-none focus:outline-none dark:border-mirage-600">
+                        <form [formGroup]="searchAreasInformation" autocomplete="off"
+                            (ngSubmit)="reassignmentUserInformation()">
+                            <!--header-->
+                            <div
+                                class="flex items-center justify-between px-3 py-2 border-b border-solid border-mirage-400 bg-mirage-50 dark:bg-mirage-950 dark:border-mirage-600">
+                                <div class="flex flex-col">
+                                    <h3 class="text-xs font-semibold uppercase">Reasignación de Área de Trabajo
+                                    </h3>
+                                    <span><small>Los campos con <strong class="font-semibold text-blue-500">*</strong>
+                                            son
+                                            obligatorios.</small></span>
+                                </div>
+                                <button class="custom-close-button dark:custom-close-button-dark"
+                                    (click)="toggleReassignmentModalClose()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x"
+                                        width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5"
+                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M18 6l-12 12"></path>
+                                        <path d="M6 6l12 12"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <!--body-->
+                            <div
+                                class="relative flex-auto px-3 py-2 max-h-[440px] bg-gray-50 overflow-y-auto dark:bg-mirage-950 dark:border-mirage-600">
+                                <div class="relative overflow-x-auto min-h-[6rem]">
+                                    <p class="text-xs uppercase sr-only">Cambio de Pol/Módulo</p>
+
+                                    <div class="text-justify">
+                                        <span class="text-xs sm:text-sm">
+                                            {{userSelectedMssg}} </span>
+                                    </div>
+
+                                    <div class="flex flex-col gap-3 mt-3">
+                                        <div class="grid grid-cols-1 gap-y-2 gap-x-3 sm:grid-cols-2">
+                                            <div class="">
+                                                <label for="area_agenda"
+                                                    class="block text-[10px] uppercase font-medium dark:text-gray-400">Área
+                                                    de
+                                                    servicio <strong
+                                                        class="font-semibold text-blue-500">*</strong></label>
+                                                <ng-select labelForId="area_agenda" formControlName="area_agenda"
+                                                    class="mt-1.5 text-sm" placeholder="-- Seleccione --">
+                                                    <ng-option *ngFor="let area of areasInformation"
+                                                        [value]="area.id_area">{{area.descripcion}}</ng-option>
+                                                </ng-select>
+                                            </div>
+
+                                            <div *ngIf="searchAreasInformation.get('area_agenda')!.value !== ''">
+                                                <label for="seccion_agenda"
+                                                    class="block text-[10px] uppercase font-medium dark:text-gray-400">Sección
+                                                    <strong class="font-semibold text-blue-500">*</strong></label>
+                                                <ng-select labelForId="seccion_agenda" formControlName="seccion_agenda"
+                                                    class="mt-1.5 text-sm" placeholder="-- Seleccione --">
+                                                    <ng-option *ngFor="let section of sectionsInformation"
+                                                        [value]="section.descripcion">{{section.descripcion}}</ng-option>
+                                                </ng-select>
+                                            </div>
+
+                                            <div *ngIf="searchAreasInformation.get('seccion_agenda')!.value !== ''">
+                                                <label for="pol_agenda"
+                                                    class="block text-[10px] uppercase font-medium dark:text-gray-400">Polivalente
+                                                    <strong class="font-semibold text-blue-500">*</strong></label>
+                                                <ng-select labelForId="pol_agenda" formControlName="pol_agenda"
+                                                    class="mt-1.5 text-sm" placeholder="-- Seleccione --">
+                                                    <ng-option *ngFor="let pol of polsInformation"
+                                                        [value]="pol.id_estacion">{{pol.descripcion}}</ng-option>
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--footer-->
+                            <div
+                                class="flex items-center justify-end px-3 py-2 border-t border-solid border-mirage-400 bg-mirage-50 dark:bg-mirage-950 dark:border-mirage-600">
+                                <button type="submit"
+                                    class="custom-blue-button hover:shadow-md disabled:hover:shadow-none dark:custom-blue-button-dark dark:disabled:hover:shadow-none"
+                                    [disabled]="searchAreasInformation.invalid">Aceptar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="showReassignmentModal"
+                class="fixed inset-0 z-40 opacity-60 bg-zinc-500 dark:bg-zinc-900 dark:opacity-60">
+            </div>
+        </section>
+
+        <div class="mt-3 text-center text-[10px] sm:text-xs">
+            <pagination-controls [id]="config.id!" class="my-pagination" [maxSize]="maxSize"
+                [directionLinks]="directionLinks" [autoHide]="autoHide" [responsive]="responsive"
+                [previousLabel]="labels.previousLabel" [nextLabel]="labels.nextLabel"
+                [screenReaderPaginationLabel]="labels.screenReaderPaginationLabel"
+                [screenReaderPageLabel]="labels.screenReaderPageLabel"
+                [screenReaderCurrentLabel]="labels.screenReaderCurrentLabel" (pageChange)="onPageChange($event)"
+                (pageBoundsCorrection)="onPageBoundsCorrection($event)"></pagination-controls>
+        </div>
+
+    </section>
+
+</div>

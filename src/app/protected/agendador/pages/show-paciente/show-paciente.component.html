@@ -1,0 +1,166 @@
+<div class="m-1 sm:m-2 md:m-4">
+
+    <section class="flex flex-col gap-5 mb-4">
+        <div class="flex flex-col justify-between gap-3 md:flex-row md:items-center">
+            <div class="flex flex-row items-center gap-3">
+                <div
+                    class="items-center rounded-full bg-gray-200 p-1.5 text-sm text-mirage-600 hidden dark:text-mirage-400 dark:bg-mirage-950 sm:flex">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-friends" width="30"
+                        height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M7 5m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                        <path d="M5 22v-5l-1 -1v-4a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v4l-1 1v5"></path>
+                        <path d="M17 5m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                        <path d="M15 22v-4h-2l2 -6a1 1 0 0 1 1 -1h2a1 1 0 0 1 1 1l2 6h-2v4"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-sm font-semibold sm:text-lg">Historial de Pacientes</h1>
+                    <p class="text-xs text-gray-400">Información de los pacientes registrados en el sistema.</p>
+                </div>
+            </div>
+
+            <div class="flex flex-row gap-0.5">
+                <input [(ngModel)]="searchPatientString"
+                    class="tracking-wide custom-input-light-square placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark-square dark:shadow-none"
+                    placeholder="Buscar Paciente" type="text" name="search" maxlength="12">
+                <div
+                    class="p-2 mr-0.5 text-gray-200 bg-mirage-600 border-none rounded-r-md dark:bg-mirage-500">
+                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                    <span class="sr-only">Search</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="pb-2">
+            <div class="flex">
+                <div class="w-full overflow-y-auto">
+                    <table class="w-full mb-2 text-left">
+                        <thead
+                            class="uppercase bg-mirage-50 border border-mirage-400 text-[10px] font-medium dark:bg-mirage-950 dark:border-mirage-600">
+                            <tr>
+                                <th scope="col" class="p-4">
+                                    Cédula
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Paciente
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Género
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Edad
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Provincia
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Cantón
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Parroquia
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Barrio/Comunidad
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Teléfono
+                                </th>
+                                <th scope="col" class="p-4 whitespace-nowrap">
+                                    Grupo Prioritario
+                                </th>
+                                <th scope="col" class="p-4 whitespace-nowrap">
+                                    Ref. Nombre
+                                </th>
+                                <th scope="col" class="p-4 whitespace-nowrap">
+                                    Ref. Parentesco
+                                </th>
+                                <th scope="col" class="p-4 whitespace-nowrap">
+                                    Ref. Teléfono
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="border border-mirage-400 dark:border-mirage-600">
+                            <tr *ngFor="let item of patientsInformation | filterPacienteString: searchPatientString | paginate: config"
+                                class="hover:bg-gray-100 dark:hover:bg-mirage-900">
+                                <td class="p-4 select-all whitespace-nowrap">
+                                    {{item.pac_cedula}}</td>
+                                <td class="p-4 whitespace-nowrap">
+                                    <h2 class="font-medium text-gray-800 dark:text-white ">
+                                        {{item.pac_apellido}}
+                                    </h2>
+                                    <p class="text-sm font-normal text-gray-600 dark:text-gray-400">
+                                        {{item.pac_nombre}}</p>
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{item.pac_sexo}}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{item.pac_fecha_nac |
+                                    birthday}}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{item.pac_provincia | nullPipe
+                                    }}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{item.pac_canton | nullPipe
+                                    }}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{item.pac_parroquia | nullPipe
+                                    }}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{item.pac_direccion | nullPipe
+                                    }}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{item.pac_telefono | nullPipe
+                                    }}
+                                </td>
+                                <td class="p-4">
+                                    {{item.pac_gprioritario | emptyArray
+                                    }}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{item.pac_ref_person
+                                    }}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{item.pac_ref_parentesco
+                                    }}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{item.pac_ref_telefono | nullPipe
+                                    }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-3 text-center text-[10px] sm:text-xs">
+            <pagination-controls [id]="config.id!" class="my-pagination" [maxSize]="maxSize"
+                [directionLinks]="directionLinks" [autoHide]="autoHide" [responsive]="responsive"
+                [previousLabel]="labels.previousLabel" [nextLabel]="labels.nextLabel"
+                [screenReaderPaginationLabel]="labels.screenReaderPaginationLabel"
+                [screenReaderPageLabel]="labels.screenReaderPageLabel"
+                [screenReaderCurrentLabel]="labels.screenReaderCurrentLabel" (pageChange)="onPageChange($event)"
+                (pageBoundsCorrection)="onPageBoundsCorrection($event)"></pagination-controls>
+        </div>
+
+    </section>
+
+</div>

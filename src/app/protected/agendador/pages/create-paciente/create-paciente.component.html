@@ -1,0 +1,267 @@
+<div class="m-1 sm:m-2 md:m-4">
+
+    <section class="flex flex-col gap-5 mb-4">
+        <div class="flex flex-row items-center gap-3">
+            <div
+                class="items-center rounded-full bg-gray-200 p-1.5 text-sm text-mirage-600 hidden dark:text-mirage-400 dark:bg-mirage-950 sm:flex">
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-id" width="30" height="30"
+                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M3 4m0 3a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v10a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3z"></path>
+                    <path d="M9 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                    <path d="M15 8l2 0"></path>
+                    <path d="M15 12l2 0"></path>
+                    <path d="M7 16l10 0"></path>
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-sm font-semibold sm:text-lg">Registrar Paciente</h1>
+                <p class="text-xs text-gray-400">Los campos con <strong class="font-semibold text-blue-500">*</strong>
+                    son
+                    obligatorios.</p>
+            </div>
+        </div>
+    </section>
+
+    <section>
+
+        <div class="flex flex-col gap-3 pb-2">
+            <div class="flex-grow">
+                <form [formGroup]="add_patient" autocomplete="off" (ngSubmit)="register_patient_new()">
+
+                    <div class="flex-grow overflow-hidden border rounded border-mirage-400 dark:border-mirage-600">
+                        <div
+                            class="flex items-center gap-2 p-2 font-medium tracking-wider uppercase border-b bg-mirage-50 border-mirage-400 dark:bg-mirage-950 dark:border-mirage-600">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="text-blue-600 icon icon-tabler icon-tabler-info-hexagon dark:text-blue-500"
+                                width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path
+                                    d="M19.875 6.27c.7 .398 1.13 1.143 1.125 1.948v7.284c0 .809 -.443 1.555 -1.158 1.948l-6.75 4.27a2.269 2.269 0 0 1 -2.184 0l-6.75 -4.27a2.225 2.225 0 0 1 -1.158 -1.948v-7.285c0 -.809 .443 -1.554 1.158 -1.947l6.75 -3.98a2.33 2.33 0 0 1 2.25 0l6.75 3.98h-.033z">
+                                </path>
+                                <path d="M12 9h.01"></path>
+                                <path d="M11 12h1v4h1"></path>
+                            </svg>
+                            <h2 class="text-[10px] sm:text-xs">
+                                Datos Personales</h2>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-3 p-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+
+                            <div class="">
+                                <label for="pac-ci"
+                                    class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400">Cédula
+                                    <strong class="font-semibold text-blue-500">*</strong></label>
+                                <input type="text" id="pac-ci" formControlName="pac_cedula"
+                                    class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none"
+                                    placeholder="P.ej., 0612345678" maxlength="12">
+                            </div>
+                            <div class="">
+                                <label for="pac_nombre"
+                                    class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400 ">Nombres
+                                    <strong class="font-semibold text-blue-500">*</strong> </label>
+                                <input type="text" id="pac_nombre" formControlName="pac_nombre"
+                                    class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none"
+                                    placeholder="Nombres completos">
+                            </div>
+                            <div class="">
+                                <label for="pac_apellido"
+                                    class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400 ">Apellidos
+                                    <strong class="font-semibold text-blue-500">*</strong></label>
+                                <input type="text" id="pac_apellido" formControlName="pac_apellido"
+                                    class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none"
+                                    placeholder="Apellidos completos">
+                            </div>
+                            <div class="">
+                                <label for="pac_sexo"
+                                    class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400 ">Género
+                                    <strong class="font-semibold text-blue-500">*</strong></label>
+                                <ng-select [items]="genre" labelForId="pac_sexo" class="mt-1.5 text-sm"
+                                    placeholder="-- Seleccione --" formControlName="pac_sexo">
+                                </ng-select>
+                            </div>
+                            <div class="">
+                                <label for="pac_fecha_nac"
+                                    class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400 truncate">Fecha
+                                    Nacimiento <strong class="font-semibold text-blue-500">*</strong></label>
+                                <input type="date" id="pac_fecha_nac" formControlName="pac_fecha_nac"
+                                    class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none"
+                                    min="1950-01-01" max="{{date_now | date:'yyyy-MM-dd'}}">
+                            </div>
+                            <div class="">
+                                <label for="pac_telefono"
+                                    class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400">Teléfono</label>
+                                <input type="text" id="pac_telefono" formControlName="pac_telefono"
+                                    class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none"
+                                    placeholder="P.ej., 0912345678" maxlength="12">
+                            </div>
+
+                            <div class="">
+                                <label for="pac_gprioritario"
+                                    class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400 truncate">Grupo
+                                    Prioritario <strong class="font-semibold text-blue-500">*</strong>
+                                </label>
+
+                                <ng-select labelForId="pac_gprioritario" class="mt-1.5 text-sm" [items]="listOfGroups"
+                                    placeholder="-- Seleccione --" formControlName="pac_gprioritario" [multiple]="true">
+                                </ng-select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="flex-grow mt-3 overflow-hidden border rounded border-mirage-400 dark:border-mirage-600">
+                        <div
+                            class="flex items-center gap-2 p-2 font-medium tracking-wider uppercase border-b bg-mirage-50 border-mirage-400 dark:bg-mirage-950 dark:border-mirage-600">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="text-blue-600 icon icon-tabler icon-tabler-map-pin-cog dark:text-blue-500"
+                                width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                                <path
+                                    d="M12.005 21.485a1.994 1.994 0 0 1 -1.418 -.585l-4.244 -4.243a8 8 0 1 1 13.634 -5.05">
+                                </path>
+                                <path d="M19.001 19m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                <path d="M19.001 15.5v1.5"></path>
+                                <path d="M19.001 21v1.5"></path>
+                                <path d="M22.032 17.25l-1.299 .75"></path>
+                                <path d="M17.27 20l-1.3 .75"></path>
+                                <path d="M15.97 17.25l1.3 .75"></path>
+                                <path d="M20.733 20l1.3 .75"></path>
+                            </svg>
+                            <h2 class="text-[10px] sm:text-xs">
+                                Datos de
+                                Ubicación
+                            </h2>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-3 p-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                            <div class="">
+                                <label for="pac_provincia"
+                                    class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400 truncate">Provincia<strong
+                                        class="font-semibold text-blue-500">*</strong></label>
+                                <ng-select labelForId="pac_provincia" class="mt-1.5 text-sm" [items]="provincias"
+                                    (change)="onProvinciaChange()" bindLabel="nombre" bindValue="nombre"
+                                    placeholder="-- Seleccione --" formControlName="pac_provincia" required>
+                                </ng-select>
+                            </div>
+                            <div>
+                                <label for="pac_canton"
+                                    class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400">Cantón
+                                    <strong class="font-semibold text-blue-500">*</strong></label>
+                                <ng-select labelForId="pac_canton" class="mt-1.5 text-sm" [items]="cantones"
+                                    (change)="onCantonChange()" bindLabel="nombre" bindValue="nombre"
+                                    placeholder="-- Seleccione --" formControlName="pac_canton" required>
+                                </ng-select>
+                            </div>
+                            <div>
+                                <label for="pac_parroquia"
+                                    class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400">Parroquia
+                                    <strong class="font-semibold text-blue-500">*</strong></label>
+                                <ng-select labelForId="pac_parroquia" class="mt-1.5 text-sm" [items]="parroquias"
+                                    (change)="onParroquiaChange()" bindLabel="nombre" bindValue="nombre"
+                                    placeholder="-- Seleccione --" formControlName="pac_parroquia" required>
+                                </ng-select>
+                            </div>
+                            <div>
+                                <label for="pac_direccion"
+                                    class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400">Barrio/Comunidad
+                                    <strong class="font-semibold text-blue-500">*</strong></label>
+
+                                <ng-select labelForId="pac_direccion" class="mt-1.5 text-sm" [items]="barrios"
+                                    formControlName="pac_direccion" bindLabel="nombre" bindValue="nombre"
+                                    [addTag]="true" placeholder="-- Seleccione --">
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-grow mt-3 overflow-hidden border rounded border-mirage-400 dark:border-mirage-600">
+                        <div
+                            class="flex items-center gap-2 p-2 font-medium tracking-wider uppercase border-b bg-mirage-50 border-mirage-400 dark:bg-mirage-950 dark:border-mirage-600">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="text-blue-600 icon icon-tabler icon-tabler-heart-handshake dark:text-blue-500"
+                                width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572">
+                                </path>
+                                <path
+                                    d="M12 6l-3.293 3.293a1 1 0 0 0 0 1.414l.543 .543c.69 .69 1.81 .69 2.5 0l1 -1a3.182 3.182 0 0 1 4.5 0l2.25 2.25">
+                                </path>
+                                <path d="M12.5 15.5l2 2"></path>
+                                <path d="M15 13l2 2"></path>
+                            </svg>
+                            <h2 class="text-[10px] sm:text-xs">
+                                Datos de
+                                Referencia
+                            </h2>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-3 p-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+
+                            <div class="">
+                                <label for="pac-ref-person"
+                                    class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400 truncate">En
+                                    caso necesario
+                                    llamar
+                                    a? <strong class="font-semibold text-blue-500">*</strong></label>
+                                <input type="text" id="pac-ref-person" formControlName="pac_ref_person"
+                                    class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none"
+                                    placeholder="Nombre y Apellido">
+                            </div>
+                            <div class="">
+                                <label for="pac_ref_parentesco"
+                                    class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400">Parentesco
+                                    <strong class="font-semibold text-blue-500">*</strong></label>
+                                <ng-select [items]="listOfKinship" labelForId="pac_ref_parentesco"
+                                    class="mt-1.5 text-sm" placeholder="-- Seleccione --"
+                                    formControlName="pac_ref_parentesco">
+                                </ng-select>
+                            </div>
+                            <div class="">
+                                <label for="pac_ref_telefono"
+                                    class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400">Teléfono</label>
+                                <input type="text" id="pac_ref_telefono" formControlName="pac_ref_telefono"
+                                    class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none"
+                                    placeholder="P.ej., 0912345678" maxlength="12">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-grow mt-3 overflow-hidden border rounded border-mirage-400 dark:border-mirage-600">
+                        <div
+                            class="flex items-center gap-2 p-2 font-medium tracking-wider uppercase border-b bg-mirage-50 border-mirage-400 dark:bg-mirage-950 dark:border-mirage-600">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="text-blue-600 icon icon-tabler icon-tabler-browser-check dark:text-blue-500"
+                                width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path
+                                    d="M4 4m0 1a1 1 0 0 1 1 -1h14a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-14a1 1 0 0 1 -1 -1z">
+                                </path>
+                                <path d="M4 8h16"></path>
+                                <path d="M8 4v4"></path>
+                                <path d="M9.5 14.5l1.5 1.5l3 -3"></path>
+                            </svg>
+                            <h2 class="text-[10px] sm:text-xs">Efectuar registro
+                            </h2>
+                        </div>
+                        <div class="flex items-center justify-center p-3">
+                            <button type="submit"
+                                class="custom-blue-button hover:shadow-md disabled:hover:shadow-none dark:custom-blue-button-dark dark:disabled:hover:shadow-none"
+                                [disabled]="add_patient.invalid">
+                                <span class="px-3">Registrar Paciente</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+</div>

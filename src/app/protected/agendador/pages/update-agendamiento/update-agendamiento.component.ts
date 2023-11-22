@@ -1,0 +1,536 @@
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Confirm, Loading, Notify, Report } from 'notiflix';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import {
+  Agendamiento,
+  EstacionTrabajo,
+  Eventos,
+} from 'src/app/protected/prointerfaces/api.interface';
+import { AgendamientoService } from '../../../proservices/agendamiento.service';
+import { PacienteService } from '../../../proservices/paciente.service';
+import { Paciente, Usuario } from '../../../prointerfaces/api.interface';
+import { filter, switchMap, tap } from 'rxjs';
+import { PaginationInstance } from 'ngx-pagination';
+import { UsuarioService } from 'src/app/protected/proservices/usuario.service';
+import { PolivalenteService } from 'src/app/protected/proservices/polivalente.service';
+import { NgSelectConfig } from '@ng-select/ng-select';
+
+@Component({
+  selector: 'app-update-agendamiento',
+  templateUrl: './update-agendamiento.component.html',
+  styleUrls: ['./update-agendamiento.component.css'],
+})
+export class UpdateAgendamientoComponent implements OnInit {
+  get currentProfesional() {
+    return this.authService.currentUser();
+  }
+
+  //Paginacion
+  public filter: string = '';
+  public maxSize: number = 7;
+  public directionLinks: boolean = true;
+  public autoHide: boolean = false;
+  public responsive: boolean = false;
+  public config: PaginationInstance = {
+    id: 'advanced',
+    itemsPerPage: 20,
+    currentPage: 1,
+  };
+  public labels: any = {
+    previousLabel: 'Anterior',
+    nextLabel: 'Siguiente',
+    screenReaderPaginationLabel: 'Pagination',
+    screenReaderPageLabel: 'Pág.',
+    screenReaderCurrentLabel: `Página nro.`,
+  };
+  public eventLog: string[] = [];
+
+  //Variables
+  patientInformation: Paciente = Object.create([]);
+  showUpdateModal: boolean = false;
+  idAgendamientoSelected: string = '';
+  agendaUpdateSumary: string = '';
+  patientNumerOfDates: number = 0;
+  searchPatientString: string = '';
+  getDateNow = new Date();
+  isAgendaFound: boolean = false;
+  listUsersBySection: Usuario[] = [];
+  agendamientos: Agendamiento[] = [];
+
+  //Eventos
+  eventos: Eventos[] = [];
+  formatedDateNow: string = this.getDateNow.toISOString().split('T')[0];
+  formatedTimeNow: string = '';
+  defaultAppointmentTime: number = 30;
+  getProfessionalToUpdate: string = '';
+
+  updateDateForm: FormGroup = this.fb.group({
+    usuario: ['', [Validators.required]],
+    fecha_consulta: ['', [Validators.required]],
+    hora_consulta: ['', [Validators.required]],
+    detalle_agenda: ['', [Validators.required]],
+    duracion_consulta: ['', [Validators.required]],
+  });
+
+  cancelDateForm: FormGroup = this.fb.group({
+    detalle_agenda: ['', [Validators.required]],
+    estado_agenda: false,
+  });
+
+  polFilterValue: string = '';
+  polsInformation: EstacionTrabajo[] = [];
+
+  constructor(
+    private authService: AuthService,
+    private agendaService: AgendamientoService,
+    private pacienteService: PacienteService,
+    private usuarioService: UsuarioService,
+    private polService: PolivalenteService,
+    private fb: FormBuilder,
+    private ngSelectConfig: NgSelectConfig
+  ) {
+    this.ngSelectConfig.appendTo = 'body';
+  }
+
+  ngOnInit(): void {
+    Loading.pulse('Obteniendo información');
+    this.polService.searchAllPolInApi().subscribe({
+      next: (pols) => {
+        console.log(pols);
+        this.polsInformation = pols;
+        this.polFilterValue = pols[0].descripcion;
+        this.searchAgendaByPol();
+        Loading.remove();
+      },
+      error: (e) => {
+        this.polsInformation = [];
+        Loading.remove();
+        Report.failure(
+          '¡Ups! Algo ha salido mal',
+          `${e.error.message}`,
+          'Volver'
+        );
+      },
+    });
+  }
+
+  searchAgendaByPol() {
+    Loading.dots('Cargando...');
+    console.log('Buscando agendamientos por polivalente');
+
+    this.agendaService
+      .searchAgendaByWorkstationAndDate(
+        this.polFilterValue,
+        this.formatedDateNow
+      )
+      .subscribe({
+        next: (agenda) => {
+          this.agendamientos = agenda;
+          console.log('Agenda:', agenda);
+          Loading.remove();
+        },
+        error: (e) => {
+          console.log(e);
+          this.agendamientos = [];
+          Loading.remove();
+        },
+      });
+  }
+
+  updatePatientInformationForm(agenda: Agendamiento) {
+    const getTimeNow = new Date();
+    this.formatedTimeNow = this.formatTime(getTimeNow);
+    this.formatedDateNow = this.getDateNow.toISOString().split('T')[0];
+    this.idAgendamientoSelected = agenda.id_agendamiento;
+
+    this.agendaUpdateSumary = `La consulta está programada para el ${agenda.fecha_consulta} a las ${agenda.hora_consulta}, con el Profesional ${agenda.usuario?.us_apellidos} ${agenda.usuario?.us_nombres}. Para cambiarla, seleccione una nueva fecha.`;
+    this.updateDateForm.get('detalle_agenda')?.setValue('Reagendado');
+    this.getProfessionalToUpdate = agenda.usuario!.id_usuario;
+    this.updateDateForm.get('usuario')?.setValue(this.getProfessionalToUpdate);
+
+    console.log('Usuario seleccionado', agenda);
+
+    const seccion = agenda.usuario!.estacion_trabajo.seccion.descripcion;
+    console.log(seccion);
+
+    this.usuarioService.searchUsersBySectionFromApi(seccion).subscribe({
+      next: (usuarios) => {
+        this.listUsersBySection = usuarios || [];
+        console.log(this.listUsersBySection);
+
+        Loading.remove();
+      },
+      error: (e) => {
+        this.listUsersBySection = [];
+        Loading.remove();
+        Report.failure(
+          '¡Ups! Algo ha salido mal',
+          `${e.error.message}`,
+          'Volver'
+        );
+      },
+    });
+
+    this.findEventsToCalendar(this.getProfessionalToUpdate);
+
+    this.toggleUpdateModal();
+
+    this.updateDateForm
+      .get('usuario')
+      ?.valueChanges.pipe(
+        tap((user) => {
+          if (user) {
+            this.getProfessionalToUpdate = user;
+            Loading.dots('Cargando');
+          } else {
+            Loading.remove();
+          }
+        }),
+        filter((user) => !!user),
+        switchMap((user) =>
+          this.agendaService.searchEventsByProfessionalAndDateInApi(
+            user,
+            this.formatedDateNow
+          )
+        )
+      )
+      .subscribe({
+        next: (agenda) => {
+          this.eventos = agenda;
+          console.log(agenda);
+          Loading.remove();
+        },
+        error: (e) => {
+          console.log(e);
+          this.eventos = [];
+          Loading.remove();
+        },
+      });
+  }
+
+  // Formatea una fecha en el formato HH:mm
+  formatTime(date: Date) {
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    console.log(`${hours}:${minutes}`);
+
+    return `${hours}:${minutes}`;
+  }
+
+  findEventsToCalendar(usuario: string) {
+    Loading.dots('Cargando');
+
+    this.agendaService
+      .searchEventsByProfessionalAndDateInApi(usuario, this.formatedDateNow)
+      .subscribe({
+        next: (agenda) => {
+          this.eventos = agenda;
+          console.log(agenda);
+          Loading.remove();
+        },
+        error: (e) => {
+          console.log(e);
+          this.eventos = [];
+          Loading.remove();
+        },
+      });
+  }
+
+  updatePatientDate() {
+    this.updateDateForm.get('fecha_consulta')?.setValue(this.formatedDateNow);
+    this.updateDateForm.get('hora_consulta')?.setValue(this.formatedTimeNow);
+    this.updateDateForm.get('detalle_agenda')?.setValue('Reagendado');
+    this.updateDateForm
+      .get('duracion_consulta')
+      ?.setValue(this.defaultAppointmentTime);
+
+    Confirm.show(
+      'Actualización',
+      `¿Cambiar datos de agendamiento?`,
+      'Confirmar',
+      'Cancelar',
+      () => {
+        this.agendaService
+          .updateSchedulingInApi(
+            this.idAgendamientoSelected,
+            this.updateDateForm.value
+          )
+          .subscribe({
+            next: (resp) => {
+              console.log(resp);
+              Notify.success('Actualización exitosa');
+              this.searchPatientString = '';
+              this.patientInformation = Object.create([]);
+              this.isAgendaFound = false;
+              this.updateDateForm.reset(this.resetReservationForm);
+              this.toggleUpdateModal();
+            },
+            error: (e) => {
+              Report.failure('No actualizado', `${e.error.message}`, 'Volver');
+              this.searchPatientString = '';
+              this.patientInformation = Object.create([]);
+              this.isAgendaFound = false;
+              this.updateDateForm.reset(this.resetReservationForm);
+              this.toggleUpdateModal();
+            },
+          });
+      },
+      () => {
+        Notify.failure('Actualización cancelada');
+      }
+    );
+  }
+
+  toggleUpdateModal() {
+    this.searchAgendaByPol();
+    this.showUpdateModal = !this.showUpdateModal;
+  }
+
+  toggleUpdateModalClose() {
+    this.updateDateForm.reset({
+      fecha_consulta: '',
+      hora_consulta: '',
+    });
+    this.showUpdateModal = false;
+  }
+
+  toggleCancelModal(agenda: Agendamiento) {
+    const idAgendamientoSelected = agenda.id_agendamiento;
+    this.cancelDateForm.get('detalle_agenda')?.setValue('Cancelado');
+    Confirm.show(
+      '¿Desea cancelar la cita agendada?',
+      'Esta acción no se podrá deshacer',
+      'Si',
+      'No',
+      () => {
+        this.cancelPatientDate(
+          idAgendamientoSelected,
+          this.cancelDateForm.value
+        );
+      },
+      () => {
+        return;
+      }
+    );
+  }
+
+  cancelPatientDate(id: string, status: Agendamiento) {
+    this.agendaService.cancelSchedulingInApi(id, status).subscribe({
+      next: (resp) => {
+        Notify.success('La cita a sido cancelada.');
+        this.cancelDateForm.reset({
+          detalle_agenda: '',
+          estado_agenda: false,
+        });
+        this.searchAgendaInformation();
+      },
+      error: (e) => {
+        this.cancelDateForm.reset({
+          detalle_agenda: '',
+          estado_agenda: false,
+        });
+        Report.failure(
+          '¡Ups! Algo ha salido mal',
+          `${e.error.message}`,
+          'Volver'
+        );
+      },
+    });
+  }
+
+  searchAgendaInformation() {
+    if (this.searchPatientString) {
+      Loading.dots('Obteniendo información');
+      this.pacienteService
+        .searchPatientMetadataInApi(this.searchPatientString)
+        .subscribe({
+          next: (resp) => {
+            console.log(resp);
+            this.patientInformation = resp;
+            this.patientNumerOfDates =
+              this.patientInformation.agendamiento.length;
+            console.log(this.patientInformation);
+
+            this.isAgendaFound = true;
+            Loading.remove();
+          },
+          error: (e) => {
+            this.isAgendaFound = false;
+            this.patientInformation = Object.create([]);
+            Loading.remove();
+            Report.failure(
+              '¡Ups! Algo ha salido mal',
+              `${e.error.message}`,
+              'Volver'
+            );
+          },
+        });
+    } else {
+      Report.warning(
+        'Ingrese un valor',
+        'Por favor, ingrese el numero de cédula del paciente',
+        'Volver'
+      );
+    }
+  }
+
+  isAnEditableField(agenda: Agendamiento): boolean {
+    if (agenda.detalle_agenda === 'Cancelado') {
+      return false;
+    }
+    const stringDate = `${agenda.fecha_consulta}T${agenda.hora_consulta}`;
+    const fechaCita = new Date(stringDate);
+    return fechaCita >= this.getDateNow;
+  }
+
+  updateDate(event: any) {
+    const newValue = event.target.value;
+    console.log(this.getProfessionalToUpdate);
+
+    if (this.formatedDateNow !== newValue) {
+      this.formatedDateNow = newValue;
+      this.findEventsToCalendar(this.getProfessionalToUpdate);
+    }
+  }
+
+  updateTime(event: any) {
+    const newValue = event.target.value;
+    if (this.formatedTimeNow !== newValue) {
+      this.formatedTimeNow = newValue;
+    }
+
+    const formatedEndTime = this.createEndTime(
+      this.formatedDateNow,
+      this.formatedTimeNow,
+      this.defaultAppointmentTime
+    );
+
+    // Verifica si la hora seleccionada ya está reservada
+    const isTimeStartReserved = this.isTimeAlreadyReserved(
+      this.formatedDateNow,
+      this.formatedTimeNow
+    );
+
+    const isTimeEndReserved = this.isTimeAlreadyReserved(
+      this.formatedDateNow,
+      formatedEndTime
+    );
+
+    this.checkScheduleAvailability(isTimeStartReserved, isTimeEndReserved);
+  }
+
+  updateAppointmentTime(event: any) {
+    const newValue = parseInt(event.target.value, 10);
+    if (!isNaN(newValue) && this.defaultAppointmentTime !== newValue) {
+      this.defaultAppointmentTime = newValue;
+    }
+
+    const formatedEndTime = this.createEndTime(
+      this.formatedDateNow,
+      this.formatedTimeNow,
+      this.defaultAppointmentTime
+    );
+
+    // Verifica si la hora seleccionada ya está reservada
+    const isTimeStartReserved = this.isTimeAlreadyReserved(
+      this.formatedDateNow,
+      this.formatedTimeNow
+    );
+
+    const isTimeEndReserved = this.isTimeAlreadyReserved(
+      this.formatedDateNow,
+      formatedEndTime
+    );
+
+    this.checkScheduleAvailability(isTimeStartReserved, isTimeEndReserved);
+  }
+
+  isTimeAlreadyReserved(selectedDate: string, selectedTime: string): boolean {
+    // Convierte la hora seleccionada a un formato compatible con tus eventos
+    const selectedTimeAsDate = new Date(`${selectedDate}T${selectedTime}`);
+    
+    return this.eventos.some((evento) => {
+      const startTime = new Date(`${selectedDate}T${evento.start}`);
+      const endTime = new Date(`${selectedDate}T${evento.end}`);
+      return selectedTimeAsDate > startTime && selectedTimeAsDate < endTime;
+    });
+  }
+
+  checkScheduleAvailability(startTime: boolean, endTIme: boolean) {
+    // Si la hora está reservada, puedes mostrar un mensaje o deshabilitar el botón de guardar
+    if (startTime || endTIme) {
+      Notify.warning(
+        'La hora seleccionada ya está reservada o superpone a una existente. Por favor, seleccione otra.'
+      );
+    } else {
+      console.log('Hora Valida');
+    }
+  }
+
+  private createEndTime(fecha: string, hora: string, duracion: number): string {
+    const startDate = this.createStartDate(fecha, hora);
+    const endTime = new Date(startDate.getTime() + duracion * 60000);
+    const hours = endTime.getHours().toString().padStart(2, '0');
+    const minutes = endTime.getMinutes().toString().padStart(2, '0');
+    const seconds = endTime.getSeconds().toString().padStart(2, '0');
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
+  private createStartDate(fecha: string, hora: string): Date {
+    return new Date(`${fecha}T${hora}`);
+  }
+
+  onSearchInputChange() {
+    if (this.searchPatientString === '') {
+      this.isAgendaFound = false;
+    }
+  }
+
+  onChangeSelection(value: any) {
+    this.polFilterValue = value.target.value;
+    this.searchAgendaByPol();
+    console.log(this.polFilterValue);
+  }
+
+  onPageChange(number: number) {
+    this.logEvent(`pageChange(${number})`);
+    this.config.currentPage = number;
+  }
+
+  onPageBoundsCorrection(number: number) {
+    this.logEvent(`pageBoundsCorrection(${number})`);
+    this.config.currentPage = number;
+  }
+
+  private logEvent(message: string) {
+    this.eventLog.unshift(`${new Date().toISOString()}: ${message}`);
+  }
+
+  getStatusClass(detalle: string): string {
+    switch (detalle) {
+      case 'Cancelado':
+        return 'bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300';
+      default:
+        return 'bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300';
+    }
+  }
+
+  getAssistanceClass(assistance: boolean): string {
+    if (assistance) {
+      return 'bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300';
+    } else {
+      return 'bg-pink-100 text-pink-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-pink-900 dark:text-pink-300';
+    }
+  }
+
+  get resetReservationForm() {
+    return {
+      usuario: '',
+      detalle_agenda: '',
+      fecha_consulta: '',
+      hora_consulta: '',
+      duracion_consulta: 30,
+    };
+  }
+}

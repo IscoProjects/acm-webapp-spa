@@ -1,0 +1,152 @@
+<div class="m-1 sm:m-2 md:m-4">
+    <section class="flex flex-col gap-5 mb-2">
+        <div class="flex flex-col justify-between gap-3 md:flex-row md:items-center">
+            <div class="flex flex-row items-center gap-3">
+                <div
+                    class="items-center hidden rounded-full bg-gray-200 p-1.5 text-sm text-mirage-600 dark:bg-mirage-950 dark:text-mirage-400 sm:flex">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="30"
+                        height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
+                        <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-sm font-semibold sm:text-lg">Usuarios registrados</h1>
+                    <p class="text-xs text-gray-400">Información de perfiles de usuarios.</p>
+                </div>
+            </div>
+
+            <form autocomplete="off">
+                <div class="flex flex-row">
+                    <input [(ngModel)]="searchUserString"
+                        class="tracking-wide custom-input-light-square placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark-square dark:shadow-none"
+                        placeholder="Buscar Paciente" type="text" name="search" maxlength="12">
+                    <div
+                        class="p-2 ml-0.5 text-gray-200 bg-mirage-600 border-none rounded-r-md dark:bg-mirage-500">
+                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        </svg>
+                        <span class="sr-only">Search</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section>
+        <div class="pb-4">
+            <div class="flex">
+                <div class="w-full overflow-y-auto">
+                    <table class="w-full mb-3 text-left">
+                        <thead
+                            class="border border-mirage-400 bg-mirage-50 text-[10px] font-medium uppercase dark:bg-mirage-950 dark:border-mirage-600">
+                            <tr>
+                                <th scope="col" class="p-4 select-text">
+                                    Cédula
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Nombre
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Carrera
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Género
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Edad
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Téléfono
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Usuario
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Rol
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Área
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Pol/módulo
+                                </th>
+                                <th scope="col" class="p-4">
+                                    Estado
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of userInformation | filterUserString: searchUserString | paginate: config"
+                                class="border border-mirage-400 hover:bg-gray-100 dark:border-mirage-600 dark:hover:bg-mirage-900/10">
+                                <td class="p-4 whitespace-nowrap">
+                                    {{user.us_cedula}}</td>
+                                <td class="p-4 whitespace-nowrap">
+                                    <h2 class="font-medium text-gray-800 dark:text-white ">
+                                        {{user.us_apellidos}}
+                                    </h2>
+                                    <p class="text-sm font-normal text-gray-600 dark:text-gray-400">
+                                        {{user.us_nombres}}</p>
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{user.us_carrera}}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{user.us_sexo}}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{user.us_fecha_nac |
+                                    birthday}}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{user.us_telefono | nullPipe
+                                    }}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{user.us_user}}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{user.us_role}}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    {{user.estacion_trabajo.seccion.area.descripcion}}
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    <h2 class="font-medium text-gray-800 dark:text-white ">
+                                        {{user.estacion_trabajo.descripcion}}
+                                    </h2>
+                                    <p class="text-[10px] font-semibold text-gray-600 -mt-1 dark:text-gray-400">
+                                        {{user.estacion_trabajo.seccion.descripcion}}</p>
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    <span [ngClass]="getStatusClass(user.us_isActive)">
+                                        {{user.us_isActive | statusManagement
+                                        }}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="mt-3 text-center text-[10px] sm:text-xs">
+            <pagination-controls [id]="config.id!" class="my-pagination" [maxSize]="maxSize"
+                [directionLinks]="directionLinks" [autoHide]="autoHide" [responsive]="responsive"
+                [previousLabel]="labels.previousLabel" [nextLabel]="labels.nextLabel"
+                [screenReaderPaginationLabel]="labels.screenReaderPaginationLabel"
+                [screenReaderPageLabel]="labels.screenReaderPageLabel"
+                [screenReaderCurrentLabel]="labels.screenReaderCurrentLabel" (pageChange)="onPageChange($event)"
+                (pageBoundsCorrection)="onPageBoundsCorrection($event)"></pagination-controls>
+        </div>
+    </section>
+
+</div>

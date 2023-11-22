@@ -1,0 +1,73 @@
+<div class="m1 sm:m-2 md:m-4">
+    <section class="flex flex-col gap-5 mb-3">
+        <div class="flex flex-col justify-between gap-3 sm:flex-row">
+            <div>
+                <h1 class="text-sm font-semibold sm:text-lg">Hola, <strong class="text-mirage-600 dark:text-mirage-400">
+                        {{
+                        currentUserInformation.us_nombres }}...</strong></h1>
+                <p class="text-xs text-gray-400">Resumen de tiempos de espera</p>
+            </div>
+
+            <div class="flex flex-row items-center gap-3">
+                <span class="text-xs sm:text-sm">{{ dateNow | date}}</span>
+                <div
+                    class="items-center p-1 text-sm rounded-full bg-mirage-600 text-zinc-100 dark:text-zinc-800 dark:bg-mirage-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-event"
+                        width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z">
+                        </path>
+                        <path d="M16 3l0 4"></path>
+                        <path d="M8 3l0 4"></path>
+                        <path d="M4 11l16 0"></path>
+                        <path d="M8 15h2v2h-2z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="flex flex-col gap-2 mb-3 overflow-auto md:overflow-hidden">
+        <div class="flex flex-row items-center min-w-[500px]">
+            <span class="text-sm font-medium sm:text-base">Tiempos de espera por
+                día</span>
+        </div>
+        <div
+            class="flex justify-center gap-4 p-3 border border-solid bg-mirage-50 border-mirage-400 rounded min-h-[275px] min-w-[500px] max-h-[450px] dark:border-mirage-600 dark:bg-mirage-950">
+            <canvas id="avgGeneralLineChart"> {{generalChart}} </canvas>
+        </div>
+    </section>
+
+    <section class="flex flex-col gap-2 mb-3 overflow-auto md:overflow-hidden">
+        <div class="flex flex-row items-center min-w-[500px]">
+            <span class="text-sm font-medium sm:text-base">Tiempos de Espera por
+                Secciones</span>
+        </div>
+        <div
+            class="flex justify-center gap-4 p-3 border border-solid bg-mirage-50 border-mirage-400 rounded min-h-[275px] min-w-[500px] max-h-[450px] dark:border-mirage-600 dark:bg-mirage-950">
+            <canvas id="avgSeccionsLineChart"> {{seccionChart}} </canvas>
+        </div>
+    </section>
+
+    <section class="flex flex-col gap-3 overflow-auto md:overflow-hidden">
+        <div
+            class="flex flex-row items-center min-w-[500px] gap-5 p-3 border border-mirage-400 rounded dark:border-mirage-600">
+            <span>Consultar por <span class="">Profesional</span>:</span>
+            <div class="w-72">
+                <ng-select labelForId="search-user" [(ngModel)]="userSelectedId" class="text-sm"
+                    placeholder="-- Seleccione --">
+                    <ng-option *ngFor="let profesional of usersList"
+                        [value]="profesional.id_usuario">{{profesional.us_apellidos
+                        + ' ' + profesional.us_nombres}}</ng-option>
+                </ng-select>
+            </div>
+
+            <button (click)="getUserAvgData()"
+                class="custom-blue-button hover:shadow-md dark:custom-blue-button-dark">Consultar</button>
+        </div>
+        <div>
+            <canvas id="avgUserLineChart"> {{userChart}} </canvas>
+        </div>
+    </section>
+</div>

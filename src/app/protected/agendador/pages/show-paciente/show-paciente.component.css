@@ -1,0 +1,4 @@
+.my-pagination::ng-deep .ngx-pagination a {
+    color: rgb(59 130 246);
+  }
+  

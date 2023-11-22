@@ -1,0 +1,514 @@
+<div class="m-1 sm:m-2 md:m-4">
+
+    <section class="flex flex-col gap-5 mb-3">
+        <div class="flex flex-col justify-between gap-3 md:flex-row">
+            <div>
+                <h1 class="text-sm font-semibold sm:text-lg">Hola, <strong
+                        class="text-mirage-600 dark:text-mirage-400">{{
+                        userInformation.us_nombres }}...</strong></h1>
+                <p class="text-xs text-gray-400">Los agendamientos para el día de hoy aparecerán aquí.</p>
+            </div>
+
+            <div class="flex flex-row items-center gap-3">
+                <span>{{ formatedDateNow | date}}</span>
+                <div
+                    class="items-center p-1 text-sm rounded-full bg-mirage-600 text-zinc-100 dark:text-zinc-800 dark:bg-mirage-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-event"
+                        width="22" height="22" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z">
+                        </path>
+                        <path d="M16 3l0 4"></path>
+                        <path d="M8 3l0 4"></path>
+                        <path d="M4 11l16 0"></path>
+                        <path d="M8 15h2v2h-2z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="grid grid-cols-1 py-2 border-mirage-400 border-y dark:border-mirage-600 sm:grid-cols-2 sm:gap-2 md:px-4 xl:grid-cols-4">
+            <div class="flex items-center gap-3 p-2 dark:border-none">
+                <div class="p-2 text-blue-500 bg-blue-100 rounded-full dark:bg-blue-500 dark:text-blue-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-check" width="24"
+                        height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+                        <path d="M15 19l2 2l4 -4"></path>
+                    </svg>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-medium">Asignación</span>
+                    <span class="text-base text-blue-600 dark:text-blue-500"> {{ userPolivalente.descripcion }}
+                    </span>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 p-2 dark:border-none">
+                <div class="p-2 text-purple-500 bg-purple-100 rounded-full dark:bg-purple-500 dark:text-purple-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time"
+                        width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4"></path>
+                        <path d="M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
+                        <path d="M15 3v4"></path>
+                        <path d="M7 3v4"></path>
+                        <path d="M3 11h16"></path>
+                        <path d="M18 16.496v1.504l1 1"></path>
+                    </svg>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-medium w-[80px]">Agendados</span>
+                    <div class="flex flex-row items-center justify-between">
+                        <span class="text-xl font-semibold text-purple-600 dark:text-purple-400"> {{ agendaTotalNumber
+                            }} </span>
+                        <div class="flex flex-row items-center gap-0.5 text-purple-600 dark:text-purple-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-caret-right"
+                                width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M10 18l6 -6l-6 -6v12"></path>
+                            </svg>
+                            <span class="text-xs"> {{porcentajeCuposAgendados | nanToZero}} %</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 p-2 dark:border-none">
+                <div class="p-2 text-green-500 bg-green-100 rounded-full dark:bg-green-500 dark:text-green-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-check" width="24"
+                        height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M20.942 13.021a9 9 0 1 0 -9.407 7.967"></path>
+                        <path d="M12 7v5l3 3"></path>
+                        <path d="M15 19l2 2l4 -4"></path>
+                    </svg>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-medium w-[80px]">Atendidos</span>
+                    <div class="flex flex-row items-center justify-between">
+                        <span class="text-xl font-semibold text-green-600 dark:text-green-400">{{ agendaAtendidosNumber
+                            }}</span>
+                        <div class="flex flex-row items-center gap-0.5 text-green-600 dark:text-green-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-caret-up"
+                                width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M18 14l-6 -6l-6 6h12"></path>
+                            </svg>
+                            <span class="text-xs"> {{porcentajeAtendidos | nanToZero}} %</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 p-2 dark:border-none">
+                <div class="p-2 text-orange-600 bg-orange-100 rounded-full dark:bg-orange-500 dark:text-orange-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-cancel" width="24"
+                        height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M19 19m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                        <path d="M17 21l4 -4"></path>
+                        <path d="M21 12.3a9 9 0 1 0 -8.683 8.694"></path>
+                        <path d="M12 7v5l2 2"></path>
+                    </svg>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-sm font-medium w-[80px]">Pendientes</span>
+                    <div class="flex flex-row items-center justify-between">
+                        <span class="text-xl font-semibold text-orange-600 dark:text-orange-500">{{
+                            agendaPendientesNumber }}</span>
+                        <div class="flex flex-row items-center gap-0.5 text-orange-600 dark:text-orange-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-caret-down"
+                                width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M6 10l6 6l6 -6h-12"></path>
+                            </svg>
+                            <span class="text-xs"> {{porcentajePendientes | nanToZero}} %</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="flex flex-col gap-2">
+            <div class="flex flex-col items-center justify-between gap-2 sm:flex-row">
+                <h2 class="text-base">Citas Registradas</h2>
+                <div class="flex flex-row items-center gap-1.5 bg-gray-200 px-1.5 py-1 rounded-md dark:bg-mirage-950">
+                    <div>
+                        <select id="opciones" (change)="onChangeSelection()" [(ngModel)]="initialState"
+                            class="pl-3 pr-2 truncate appearance-none cursor-pointer h-7 custom-input-light-nomargin focus:shadow-md dark:custom-input-dark-nomargin dark:shadow-none">
+                            <option value="pendientes" selected> Pendientes</option>
+                            <option value="agendados">Agendados</option>
+                            <option value="atendidos">Atendidos</option>
+                            <option value="inasistencias">Inasistencias</option>
+                        </select>
+                    </div>
+                    <div class="items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-adjustments-alt"
+                            width="20" height="20" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M4 8h4v4h-4z"></path>
+                            <path d="M6 4l0 4"></path>
+                            <path d="M6 12l0 8"></path>
+                            <path d="M10 14h4v4h-4z"></path>
+                            <path d="M12 4l0 10"></path>
+                            <path d="M12 18l0 2"></path>
+                            <path d="M16 5h4v4h-4z"></path>
+                            <path d="M18 4l0 1"></path>
+                            <path d="M18 9l0 11"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="initialState === 'pendientes'" class="flex">
+                <ng-container *ngIf="showAgendaInformation.length >= 1">
+                    <div class="w-full overflow-auto">
+                        <table class="w-full text-left">
+                            <thead
+                                class="uppercase bg-mirage-50 border border-mirage-400 text-[10px] font-medium dark:bg-mirage-950 dark:border-mirage-600">
+                                <tr>
+                                    <th scope="col" class="p-4">
+                                        Turno
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Hora
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Duración
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Paciente
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Cédula
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Edad
+                                    </th>
+                                    <th scope="col" class="p-4 whitespace-nowrap">
+                                        Grupo Prioritario
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Observaciones
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Asistencia
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-antenna-bars-1" width="24" height="24"
+                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M6 18l0 .01"></path>
+                                            <path d="M10 18l0 .01"></path>
+                                            <path d="M14 18l0 .01"></path>
+                                            <path d="M18 18l0 .01"></path>
+                                        </svg>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="border border-mirage-400 dark:border-mirage-600">
+                                <tr *ngFor="let cita of showAgendaInformation; let i = index;"
+                                    class="hover:bg-gray-100 dark:hover:bg-mirage-900">
+                                    <td class="p-4">
+                                        <span [ngClass]="getAssistanceClass(cita.pac_asistencia)">
+                                            {{ i + 1 }}
+                                        </span>
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap">
+                                        {{ cita.hora_consulta }}
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap">
+                                        {{ cita.duracion_consulta }} min.
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap">
+                                        <h2 class="font-medium">
+                                            {{cita.paciente!.pac_apellido}}
+                                        </h2>
+                                        <p class="text-sm font-normal">
+                                            {{cita.paciente!.pac_nombre}}</p>
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap">
+                                        {{ cita.paciente!.pac_cedula }}
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap">
+                                        {{ cita.paciente!.pac_fecha_nac |
+                                        birthday }}
+                                    </td>
+                                    <td class="p-4">
+                                        {{ cita.paciente!.pac_gprioritario | emptyArray }}
+                                    </td>
+                                    <td class="p-4">
+                                        {{ cita.observaciones | nullPipe }}
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap">
+                                        <button type="button" (click)="openToggleConsultModal(cita)"
+                                            *ngIf="!enableButton(showConsultModal, cita.estado_agenda)"
+                                            class="flex items-center justify-center py-1 font-medium text-blue-500 hover:text-blue-700 hover:underline">
+                                            <span class="text-xs font-semibold uppercase">Registrar</span>
+                                        </button>
+
+                                        <span *ngIf="enableButton(showConsultModal, cita.estado_agenda)"
+                                            class="text-green-600 dark:text-green-500">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-antenna-bars-1" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M6 18l0 .01"></path>
+                                                <path d="M10 18l0 .01"></path>
+                                                <path d="M14 18l0 .01"></path>
+                                                <path d="M18 18l0 .01"></path>
+                                            </svg>
+                                        </span>
+                                    </td>
+                                    <td class="p-4">
+                                        <button type="button" (click)="openToggleCloseConsultModal(cita)"
+                                            *ngIf="!enableButton(showConsultModal, cita.estado_agenda)"
+                                            class="text-red-400 hover:text-red-500">
+                                            <!-- <span class="text-xs font-semibold uppercase">Cerrar</span> -->
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-square-rounded-x-filled" width="20"
+                                                height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path
+                                                    d="M12 2l.324 .001l.318 .004l.616 .017l.299 .013l.579 .034l.553 .046c4.785 .464 6.732 2.411 7.196 7.196l.046 .553l.034 .579c.005 .098 .01 .198 .013 .299l.017 .616l.005 .642l-.005 .642l-.017 .616l-.013 .299l-.034 .579l-.046 .553c-.464 4.785 -2.411 6.732 -7.196 7.196l-.553 .046l-.579 .034c-.098 .005 -.198 .01 -.299 .013l-.616 .017l-.642 .005l-.642 -.005l-.616 -.017l-.299 -.013l-.579 -.034l-.553 -.046c-4.785 -.464 -6.732 -2.411 -7.196 -7.196l-.046 -.553l-.034 -.579a28.058 28.058 0 0 1 -.013 -.299l-.017 -.616c-.003 -.21 -.005 -.424 -.005 -.642l.001 -.324l.004 -.318l.017 -.616l.013 -.299l.034 -.579l.046 -.553c.464 -4.785 2.411 -6.732 7.196 -7.196l.553 -.046l.579 -.034c.098 -.005 .198 -.01 .299 -.013l.616 -.017c.21 -.003 .424 -.005 .642 -.005zm-1.489 7.14a1 1 0 0 0 -1.218 1.567l1.292 1.293l-1.292 1.293l-.083 .094a1 1 0 0 0 1.497 1.32l1.293 -1.292l1.293 1.292l.094 .083a1 1 0 0 0 1.32 -1.497l-1.292 -1.293l1.292 -1.293l.083 -.094a1 1 0 0 0 -1.497 -1.32l-1.293 1.292l-1.293 -1.292l-.094 -.083z"
+                                                    fill="currentColor" stroke-width="0"></path>
+                                            </svg>
+                                        </button>
+                                        <span *ngIf="enableButton(showConsultModal, cita.estado_agenda)"
+                                            class="text-green-600 dark:text-green-500">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon icon-tabler icon-tabler-antenna-bars-1" width="24"
+                                                height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M6 18l0 .01"></path>
+                                                <path d="M10 18l0 .01"></path>
+                                                <path d="M14 18l0 .01"></path>
+                                                <path d="M18 18l0 .01"></path>
+                                            </svg>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </ng-container>
+                <div class="w-full" *ngIf="showAgendaInformation.length < 1">
+                    <app-no-data></app-no-data>
+                </div>
+            </div>
+
+            <div *ngIf="initialState === 'agendados'" class="flex">
+                <ng-container *ngIf="showAgendaInformation.length >= 1">
+                    <div class="w-full overflow-auto">
+                        <table class="w-full text-left">
+                            <thead
+                                class="uppercase bg-mirage-50 border border-mirage-400 text-[10px] font-medium dark:bg-mirage-950 dark:border-mirage-600">
+                                <tr>
+                                    <th scope="col" class="p-4">
+                                        Turno
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Hora
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Paciente
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Cédula
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Edad
+                                    </th>
+                                    <th scope="col" class="p-4 whitespace-nowrap">
+                                        Grupo Prioritario
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Observaciones
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="border border-mirage-400 dark:border-mirage-600">
+                                <tr *ngFor="let cita of showAgendaInformation; let i = index;"
+                                    class="hover:bg-gray-100 dark:hover:bg-mirage-900">
+                                    <td class="p-4">
+                                        <span [ngClass]="getAssistanceClass(cita.pac_asistencia)">
+                                            {{ i + 1 }}
+                                        </span>
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap">
+                                        {{ cita.hora_consulta }}
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap">
+                                        <h2 class="font-medium">
+                                            {{cita.paciente!.pac_apellido}}
+                                        </h2>
+                                        <p class="text-sm font-normal">
+                                            {{cita.paciente!.pac_nombre}}</p>
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap">
+                                        {{ cita.paciente!.pac_cedula }}
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap">
+                                        {{ cita.paciente!.pac_fecha_nac |
+                                        birthday }}
+                                    </td>
+                                    <td class="p-4">
+                                        {{ cita.paciente!.pac_gprioritario | emptyArray }}
+                                    </td>
+                                    <td class="p-4">
+                                        {{ cita.observaciones | nullPipe }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </ng-container>
+                <div class="w-full" *ngIf="showAgendaInformation.length < 1">
+                    <app-no-data></app-no-data>
+                </div>
+            </div>
+
+            <div *ngIf="initialState === 'atendidos'" class="flex">
+                <ng-container *ngIf="showAgendaInformation.length >= 1">
+                    <div class="w-full overflow-auto">
+                        <table class="w-full text-left">
+                            <thead
+                                class="uppercase bg-mirage-50 border border-mirage-400 text-[10px] font-medium dark:bg-mirage-950 dark:border-mirage-600">
+                                <tr>
+                                    <th scope="col" class="p-4">
+                                        Hora Programada
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Paciente
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Cédula
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Edad
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Hora de Registro
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Observaciones
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="border border-mirage-400 dark:border-mirage-600">
+                                <tr *ngFor="let cita of showAgendaInformation; let i = index;"
+                                    class="hover:bg-gray-100 dark:hover:bg-mirage-900">
+                                    <td class="p-4 whitespace-nowrap">
+                                        {{ cita.hora_consulta }}
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap">
+                                        <h2 class="font-medium">
+                                            {{cita.paciente?.pac_apellido}}
+                                        </h2>
+                                        <p class="text-sm font-normal">
+                                            {{cita.paciente?.pac_nombre}}</p>
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap">
+                                        {{ cita.paciente?.pac_cedula }}
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap">
+                                        {{ cita.paciente!.pac_fecha_nac |
+                                        birthday }}
+                                    </td>
+                                    <td class="p-4">
+                                        {{ cita.consulta?.hora_registro}}
+                                    </td>
+                                    <td class="p-4">
+                                        {{ cita.consulta?.observaciones | nullPipe }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </ng-container>
+                <div class="w-full" *ngIf="showAgendaInformation.length < 1">
+                    <app-no-data></app-no-data>
+                </div>
+            </div>
+
+            <div *ngIf="initialState === 'inasistencias'" class="flex">
+                <ng-container *ngIf="showAgendaInformation.length >= 1">
+                    <div class="w-full overflow-auto">
+                        <table class="w-full text-left">
+                            <thead
+                                class="uppercase bg-mirage-50 border border-mirage-400 text-[10px] font-medium dark:bg-mirage-950 dark:border-mirage-600">
+                                <tr>
+                                    <th scope="col" class="p-4">
+                                        Hora Programada
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Paciente
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Cédula
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Edad
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Hora de Registro
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        Observaciones
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="border border-mirage-400 dark:border-mirage-600">
+                                <tr *ngFor="let cita of showAgendaInformation; let i = index;"
+                                    class="hover:bg-gray-100 dark:hover:bg-mirage-900">
+                                    <td class="p-4 whitespace-nowrap">
+                                        {{ cita.hora_consulta }}
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap">
+                                        <h2 class="font-medium">
+                                            {{cita.paciente?.pac_apellido}}
+                                        </h2>
+                                        <p class="text-sm font-normal">
+                                            {{cita.paciente?.pac_nombre}}</p>
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap">
+                                        {{ cita.paciente?.pac_cedula }}
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap">
+                                        {{ cita.paciente!.pac_fecha_nac |
+                                        birthday }}
+                                    </td>
+                                    <td class="p-4">
+                                        {{ cita.consulta?.hora_registro }}
+                                    </td>
+                                    <td class="p-4">
+                                        {{ cita.consulta?.observaciones }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </ng-container>
+                <div class="w-full" *ngIf="showAgendaInformation.length < 1">
+                    <app-no-data></app-no-data>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

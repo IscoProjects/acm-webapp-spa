@@ -1,0 +1,555 @@
+<section class="flex w-full h-screen overflow-hidden overflow-y-auto">
+
+    <!-- Open Menu -->
+    <div *ngIf="showSidebar"
+        class="inset-0 min-w-[225px] overflow-y-auto bg-gray-50 border-gray-300 border-solid border-r dark:bg-zinc-900 dark:border-gray-600 md:min-w-[288px]">
+        <div class="flex items-center gap-4 px-3 py-6">
+            <button class="text-mirage-700 focus:text-orange-500 dark:text-mirage-500" (click)="toggleSidebar()">
+                <span class="sr-only">Menu Sidebar</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" width="38"
+                    height="22" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M4 6l16 0"></path>
+                    <path d="M4 12l16 0"></path>
+                    <path d="M4 18l16 0"></path>
+                </svg>
+            </button>
+            <div
+                class="flex items-center justify-center w-full h-6 rounded text-mirage-700 bg-mirage-100 dark:text-mirage-500 dark:bg-mirage-700/30">
+                <h1 class="text-xs font-semibold tracking-wide uppercase">Menú</h1>
+            </div>
+            <!-- <button class="text-gray-300 focus:text-orange-500" (click)="toggleSidebar()">
+                <span class="sr-only">Close sidebar</span>
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="icon icon-tabler icon-tabler-layout-sidebar-left-collapse" width="22" height="22"
+                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z">
+                    </path>
+                    <path d="M9 4v16"></path>
+                    <path d="M15 10l-2 2l2 2"></path>
+                </svg>
+            </button> -->
+        </div>
+
+        <!-- menu -->
+        <div class="flex flex-col w-full gap-1 px-3 my-2">
+
+            <div class="py-1">
+                <span class="text-xs font-semibold uppercase text-mirage-700 dark:text-mirage-500"> Home</span>
+            </div>
+
+            <div [routerLink]="['/protected-route/agendador/pages/home/']"
+                class="flex items-center w-full select-none group gap-x-1">
+                <div routerLinkActive="bg-orange-500"
+                    class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
+                    <div
+                        class="absolute top-0 left-0 w-full h-8 transition-all duration-300 translate-y-full bg-orange-500 group-hover:translate-y-0">
+                    </div>
+                </div>
+                <div routerLinkActive="bg-mirage-300/20 font-semibold"
+                    class="flex items-center self-stretch w-full pl-2 space-x-2 text-sm transition-all duration-200 rounded group-hover:bg-mirage-300/20 group-active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-plus"
+                        width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M12.5 21h-6.5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v5"></path>
+                        <path d="M16 3v4"></path>
+                        <path d="M8 3v4"></path>
+                        <path d="M4 11h16"></path>
+                        <path d="M16 19h6"></path>
+                        <path d="M19 16v6"></path>
+                    </svg>
+                    <span class="tracking-wider">Agendar</span>
+                </div>
+            </div>
+
+            <div class="py-1">
+                <span class="text-xs font-semibold uppercase text-mirage-700 dark:text-mirage-500"> Agendamientos</span>
+            </div>
+
+            <div [routerLink]="['/protected-route/agendador/pages/update-agenda']"
+                class="flex items-center w-full select-none group gap-x-1">
+                <div routerLinkActive="bg-orange-500"
+                    class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
+                    <div
+                        class="absolute top-0 left-0 w-full h-8 transition-all duration-300 translate-y-full bg-orange-500 group-hover:translate-y-0">
+                    </div>
+                </div>
+                <div routerLinkActive="bg-mirage-300/20 font-semibold"
+                    class="flex items-center self-stretch w-full pl-2 space-x-2 text-sm transition-all duration-200 rounded group-hover:bg-mirage-300/20 group-active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-layout-dashboard"
+                        width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M4 4h6v8h-6z"></path>
+                        <path d="M4 16h6v4h-6z"></path>
+                        <path d="M14 12h6v8h-6z"></path>
+                        <path d="M14 4h6v4h-6z"></path>
+                    </svg>
+                    <span>Gestionar</span>
+                </div>
+            </div>
+
+            <div [routerLink]="['/protected-route/agendador/pages/agr-calendar']"
+                class="flex items-center w-full select-none group gap-x-1">
+                <div routerLinkActive="bg-orange-500"
+                    class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
+                    <div
+                        class="absolute top-0 left-0 w-full h-8 transition-all duration-300 translate-y-full bg-orange-500 group-hover:translate-y-0">
+                    </div>
+                </div>
+                <div routerLinkActive="bg-mirage-300/20 font-semibold"
+                    class="flex items-center self-stretch w-full pl-2 space-x-2 text-sm transition-all duration-200 rounded group-hover:bg-mirage-300/20 group-active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-due" width="16"
+                        height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z">
+                        </path>
+                        <path d="M16 3v4"></path>
+                        <path d="M8 3v4"></path>
+                        <path d="M4 11h16"></path>
+                        <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                    </svg>
+                    <span>Calendario</span>
+                </div>
+            </div>
+
+            <div class="py-1">
+                <span class="text-xs font-semibold uppercase text-mirage-700 dark:text-mirage-500"> Pacientes</span>
+            </div>
+
+            <div [routerLink]="['/protected-route/agendador/pages/register-patient']"
+                class="flex items-center w-full select-none group gap-x-1">
+                <div routerLinkActive="bg-orange-500"
+                    class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
+                    <div
+                        class="absolute top-0 left-0 w-full h-8 transition-all duration-300 translate-y-full bg-orange-500 group-hover:translate-y-0">
+                    </div>
+                </div>
+                <div routerLinkActive="bg-mirage-300/20 font-semibold"
+                    class="flex items-center self-stretch w-full pl-2 space-x-2 text-sm transition-all duration-200 rounded group-hover:bg-mirage-300/20 group-active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus" width="16"
+                        height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                        <path d="M16 19h6"></path>
+                        <path d="M19 16v6"></path>
+                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+                    </svg>
+                    <span>Registrar</span>
+                </div>
+            </div>
+
+            <div [routerLink]="['/protected-route/agendador/pages/update-patient']"
+                class="flex items-center w-full select-none group gap-x-1">
+                <div routerLinkActive="bg-orange-500"
+                    class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
+                    <div
+                        class="absolute top-0 left-0 w-full h-8 transition-all duration-300 translate-y-full bg-orange-500 group-hover:translate-y-0">
+                    </div>
+                </div>
+                <div routerLinkActive="bg-mirage-300/20 font-semibold"
+                    class="flex items-center self-stretch w-full pl-2 space-x-2 text-sm transition-all duration-200 rounded group-hover:bg-mirage-300/20 group-active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-edit" width="16"
+                        height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                        <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5"></path>
+                        <path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39z"></path>
+                    </svg>
+                    <span>Actualizar</span>
+                </div>
+            </div>
+
+            <div [routerLink]="['/protected-route/agendador/pages/show-patient']"
+                class="flex items-center w-full select-none group gap-x-1">
+                <div routerLinkActive="bg-orange-500"
+                    class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
+                    <div
+                        class="absolute top-0 left-0 w-full h-8 transition-all duration-300 translate-y-full bg-orange-500 group-hover:translate-y-0">
+                    </div>
+                </div>
+                <div routerLinkActive="bg-mirage-300/20 font-semibold"
+                    class="flex items-center self-stretch w-full pl-2 space-x-2 text-sm transition-all duration-200 rounded group-hover:bg-mirage-300/20 group-active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-search" width="16"
+                        height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                        <path d="M6 21v-2a4 4 0 0 1 4 -4h1.5"></path>
+                        <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                        <path d="M20.2 20.2l1.8 1.8"></path>
+                    </svg>
+                    <span>Histórico</span>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-1">
+                <div class="py-1">
+                    <span class="sr-only">User Options</span>
+                    <span
+                        class="text-xs font-semibold uppercase text-mirage-700 dark:text-mirage-500">Configuración</span>
+                </div>
+
+                <div class="flex items-center w-full select-none group gap-x-1">
+                    <div class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
+                        <div
+                            class="absolute top-0 left-0 w-full h-10 transition-all duration-300 translate-y-full bg-orange-500 group-hover:translate-y-0">
+                        </div>
+                    </div>
+                    <div (click)="changeDarkMode()"
+                        class="flex items-center self-stretch w-full pl-2 space-x-2 text-sm transition-all duration-200 rounded group-hover:bg-mirage-300/20 group-active:scale-95">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="icon icon-tabler icon-tabler-moon dark:hidden" width="16" height="16"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path
+                                    d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z">
+                                </path>
+                            </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="hidden icon icon-tabler icon-tabler-sun dark:flex" width="18" height="18"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
+                                <path
+                                    d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7">
+                                </path>
+                            </svg>
+                        </div>
+                        <span class="flex">Modo &nbsp; <span class="dark:hidden">Oscuro</span><span
+                                class="hidden dark:flex">Claro</span></span>
+                    </div>
+                </div>
+
+                <div class="flex items-center w-full select-none group gap-x-1">
+                    <div class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
+                        <div
+                            class="absolute top-0 left-0 w-full h-10 transition-all duration-300 translate-y-full bg-orange-500 group-hover:translate-y-0">
+                        </div>
+                    </div>
+                    <div (click)="userLogout()"
+                        class="flex items-center self-stretch w-full pl-2 space-x-2 text-sm transition-all duration-200 rounded group-hover:bg-mirage-300/20 group-active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-logout" width="16"
+                            height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2">
+                            </path>
+                            <path d="M7 12h14l-3 -3m0 6l3 -3"></path>
+                        </svg>
+                        <span class="">Cerrar Sesión</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hide menu -->
+    <div *ngIf="!showSidebar"
+        class="inset-0 min-w-[64px] overflow-y-auto flex-col bg-gray-50 border-gray-300 border-solid border-r dark:bg-zinc-900 dark:border-gray-600">
+        <div class="flex items-center justify-center gap-4 px-3 py-6">
+            <button (click)="toggleSidebar()"
+                class="hidden text-mirage-700 focus:text-orange-500 dark:text-mirage-500 md:block">
+                <span class="sr-only">Menu Sidebar</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" width="38"
+                    height="22" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M4 6l16 0"></path>
+                    <path d="M4 12l16 0"></path>
+                    <path d="M4 18l16 0"></path>
+                </svg>
+            </button>
+            <img class="h-7 w-7 md:hidden" src="assets/images/ic_logo_acm.png" />
+        </div>
+
+        <div class="flex flex-col w-full gap-1 px-3 my-2">
+
+            <div class="py-1 text-center">
+                <span class="sr-only">Home Label</span>
+                <span class="text-xs font-bold uppercase text-mirage-700 dark:text-mirage-500">H</span>
+            </div>
+
+            <div [routerLink]="['/protected-route/agendador/pages/home/']"
+                class="flex items-center w-full select-none group gap-x-1">
+                <div routerLinkActive="bg-orange-500"
+                    class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
+                    <div
+                        class="absolute top-0 left-0 w-full h-10 transition-all duration-300 translate-y-full bg-orange-500 group-hover:translate-y-0">
+                    </div>
+                </div>
+                <div routerLinkActive="bg-mirage-300/20"
+                    class="flex items-center self-stretch w-full pl-2 space-x-2 text-sm transition-all duration-200 rounded group-hover:bg-mirage-300/20 group-active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-plus"
+                        width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M12.5 21h-6.5a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v5"></path>
+                        <path d="M16 3v4"></path>
+                        <path d="M8 3v4"></path>
+                        <path d="M4 11h16"></path>
+                        <path d="M16 19h6"></path>
+                        <path d="M19 16v6"></path>
+                    </svg>
+                    <span class="sr-only">Agendar</span>
+                </div>
+            </div>
+
+            <div class="py-1 text-center">
+                <span class="sr-only">Agenda Label</span>
+                <span class="text-xs font-bold uppercase text-mirage-700 dark:text-mirage-500">A</span>
+            </div>
+
+            <div [routerLink]="['/protected-route/agendador/pages/update-agenda']"
+                class="flex items-center w-full select-none group gap-x-1">
+                <div routerLinkActive="bg-orange-500"
+                    class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
+                    <div
+                        class="absolute top-0 left-0 w-full h-10 transition-all duration-300 translate-y-full bg-orange-500 group-hover:translate-y-0">
+                    </div>
+                </div>
+                <div routerLinkActive="bg-mirage-300/20"
+                    class="flex items-center self-stretch w-full pl-2 space-x-2 text-sm transition-all duration-200 rounded group-hover:bg-mirage-300/20 group-active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-layout-dashboard"
+                        width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M4 4h6v8h-6z"></path>
+                        <path d="M4 16h6v4h-6z"></path>
+                        <path d="M14 12h6v8h-6z"></path>
+                        <path d="M14 4h6v4h-6z"></path>
+                    </svg>
+                    <span class="sr-only">Gestionar</span>
+                </div>
+            </div>
+
+            <div [routerLink]="['/protected-route/agendador/pages/agr-calendar']"
+                class="flex items-center w-full select-none group gap-x-1">
+                <div routerLinkActive="bg-orange-500"
+                    class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
+                    <div
+                        class="absolute top-0 left-0 w-full h-10 transition-all duration-300 translate-y-full bg-orange-500 group-hover:translate-y-0">
+                    </div>
+                </div>
+                <div routerLinkActive="bg-mirage-300/20"
+                    class="flex items-center self-stretch w-full pl-2 space-x-2 text-sm transition-all duration-200 rounded group-hover:bg-mirage-300/20 group-active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-due" width="16"
+                        height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z">
+                        </path>
+                        <path d="M16 3v4"></path>
+                        <path d="M8 3v4"></path>
+                        <path d="M4 11h16"></path>
+                        <path d="M12 16m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                    </svg>
+                    <span class="sr-only">Calendario</span>
+                </div>
+            </div>
+
+            <div class="py-1 text-center">
+                <span class="sr-only">Patient Label</span>
+                <span class="text-xs font-bold uppercase text-mirage-700 dark:text-mirage-500">P</span>
+            </div>
+
+            <div [routerLink]="['/protected-route/agendador/pages/register-patient']"
+                class="flex items-center w-full select-none group gap-x-1">
+                <div routerLinkActive="bg-orange-500"
+                    class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
+                    <div
+                        class="absolute top-0 left-0 w-full h-10 transition-all duration-300 translate-y-full bg-orange-500 group-hover:translate-y-0">
+                    </div>
+                </div>
+                <div routerLinkActive="bg-mirage-300/20"
+                    class="flex items-center self-stretch w-full pl-2 space-x-2 text-sm transition-all duration-200 rounded group-hover:bg-mirage-300/20 group-active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-plus" width="16"
+                        height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                        <path d="M16 19h6"></path>
+                        <path d="M19 16v6"></path>
+                        <path d="M6 21v-2a4 4 0 0 1 4 -4h4"></path>
+                    </svg>
+                    <span class="sr-only">Registrar</span>
+                </div>
+            </div>
+
+            <div [routerLink]="['/protected-route/agendador/pages/update-patient']"
+                class="flex items-center w-full select-none group gap-x-1">
+                <div routerLinkActive="bg-orange-500"
+                    class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
+                    <div
+                        class="absolute top-0 left-0 w-full h-10 transition-all duration-300 translate-y-full bg-orange-500 group-hover:translate-y-0">
+                    </div>
+                </div>
+                <div routerLinkActive="bg-mirage-300/20"
+                    class="flex items-center self-stretch w-full pl-2 space-x-2 text-sm transition-all duration-200 rounded group-hover:bg-mirage-300/20 group-active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-edit" width="16"
+                        height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                        <path d="M6 21v-2a4 4 0 0 1 4 -4h3.5"></path>
+                        <path d="M18.42 15.61a2.1 2.1 0 0 1 2.97 2.97l-3.39 3.42h-3v-3l3.42 -3.39z"></path>
+                    </svg>
+                    <span class="sr-only">Actualizar</span>
+                </div>
+            </div>
+
+            <div [routerLink]="['/protected-route/agendador/pages/show-patient']"
+                class="flex items-center w-full select-none group gap-x-1">
+                <div routerLinkActive="bg-orange-500"
+                    class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
+                    <div
+                        class="absolute top-0 left-0 w-full h-10 transition-all duration-300 translate-y-full bg-orange-500 group-hover:translate-y-0">
+                    </div>
+                </div>
+                <div routerLinkActive="bg-mirage-300/20"
+                    class="flex items-center self-stretch w-full pl-2 space-x-2 text-sm transition-all duration-200 rounded group-hover:bg-mirage-300/20 group-active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-search" width="16"
+                        height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                        <path d="M6 21v-2a4 4 0 0 1 4 -4h1.5"></path>
+                        <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                        <path d="M20.2 20.2l1.8 1.8"></path>
+                    </svg>
+                    <span class="sr-only">Histórico</span>
+                </div>
+            </div>
+
+            <!-- Mobile Options -->
+            <div class="flex flex-col gap-1">
+                <div class="py-1 text-center">
+                    <span class="sr-only">User Options</span>
+                    <span class="text-xs font-bold uppercase text-mirage-700 dark:text-mirage-500">C</span>
+                </div>
+
+                <div [routerLink]="['/protected-route/agendador/pages/agr-profile']"
+                    class="flex items-center w-full select-none group gap-x-1 md:hidden">
+                    <div routerLinkActive="bg-orange-500"
+                        class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
+                        <div
+                            class="absolute top-0 left-0 w-full h-10 transition-all duration-300 translate-y-full bg-orange-500 group-hover:translate-y-0">
+                        </div>
+                    </div>
+                    <div routerLinkActive="bg-mirage-300/20"
+                        class="flex items-center self-stretch w-full pl-2 space-x-2 text-sm transition-all duration-200 rounded group-hover:bg-mirage-300/20 group-active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+                            <path fill-rule="evenodd"
+                                d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span class="sr-only">User Profile</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center w-full select-none group gap-x-1">
+                    <div class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
+                        <div
+                            class="absolute top-0 left-0 w-full h-10 transition-all duration-300 translate-y-full bg-orange-600 group-hover:translate-y-0">
+                        </div>
+                    </div>
+                    <div (click)="changeDarkMode()"
+                        class="flex items-center self-stretch w-full pl-2 text-sm transition-all duration-200 rounded group-hover:bg-mirage-300/20 group-active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-moon dark:hidden"
+                            width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z">
+                            </path>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="hidden icon icon-tabler icon-tabler-sun dark:flex" width="18" height="18"
+                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
+                            <path
+                                d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7">
+                            </path>
+                        </svg>
+                        <span class="sr-only">Dark Mode</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center w-full select-none group gap-x-1">
+                    <div class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
+                        <div
+                            class="absolute top-0 left-0 w-full h-10 transition-all duration-300 translate-y-full bg-orange-600 group-hover:translate-y-0">
+                        </div>
+                    </div>
+                    <div (click)="userLogout()"
+                        class="flex items-center self-stretch w-full pl-2 space-x-2 text-sm transition-all duration-200 rounded group-hover:bg-mirage-300/20 group-active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-logout" width="16"
+                            height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2">
+                            </path>
+                            <path d="M7 12h14l-3 -3m0 6l3 -3"></path>
+                        </svg>
+                        <span class="sr-only">Logout</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-col h-full" [ngStyle]="{'width': showSidebar ? 'calc(100% - 288px)' : 'calc(100% - 64px)'}">
+        <div
+            class="hidden inset-0 min-h-[64px] w-full items-center justify-between border-b border-solid border-gray-300 p-3 dark:border-gray-600 md:flex">
+            <div class="flex gap-2">
+                <img class="w-6 h-6" src="assets/images/ic_logo_acm.png" />
+                <span class="font-semibold">Agendador de Citas</span>
+            </div>
+
+            <div [routerLink]="['/protected-route/agendador/pages/agr-profile']"
+                routerLinkActive="border-orange-600 dark:border-orange-600"
+                class="flex px-2 border-r-4 border-solid border-mirage-700 dark:border-mirage-500">
+                <button class="flex items-center gap-2 hover:text-slate-700 dark:hover:text-gray-200">
+                    <span class="sr-only">Profile</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8">
+                        <path fill-rule="evenodd"
+                            d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+                            clip-rule="evenodd" />
+                    </svg>
+
+                    <div class="flex w-auto max-w-[8rem] flex-grow-0 flex-col items-start justify-center gap-0">
+                        <p class="max-w-[7rem] truncate tracking-wide text-sm font-semibold">
+                            {{currentProfesional?.us_user}}
+                        </p>
+                        <div class="flex items-center justify-center">
+                            <small class="-mt-1 text-gray-400">{{ currentProfesional?.us_role }}</small>
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="text-green-500 icon icon-tabler icon-tabler-point-filled" width="14" height="14"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M12 7a5 5 0 1 1 -4.995 5.217l-.005 -.217l.005 -.217a5 5 0 0 1 4.995 -4.783z"
+                                    stroke-width="0" fill="currentColor"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </div>
+        <div class="w-full h-full p-2 overflow-y-auto text-sm md:p-0">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+
+</section>
