@@ -35,6 +35,7 @@ export class CreateAgendamientoComponent {
   getDateNow: Date = new Date();
   formatedDateNow: string = this.getDateNow.toISOString().split('T')[0];
   formatedTimeNow: string = '';
+  formatedTimeEnd: string = '';
   defaultAppointmentTime: number = 30;
   isPatientFound: boolean = false;
   showPolModal: boolean = false;
@@ -202,6 +203,7 @@ export class CreateAgendamientoComponent {
               this.isDemandaNoAgendadaChecked = false;
               this.isInterconsultaChecked = false;
               this.searchPatientString = '';
+              this.resetFormatedTime();
               Notify.success('Agendamiento registrado exitosamente');
             },
             error: (e) => {
@@ -211,6 +213,7 @@ export class CreateAgendamientoComponent {
               this.isDemandaNoAgendadaChecked = false;
               this.isInterconsultaChecked = false;
               this.searchPatientString = '';
+              this.resetFormatedTime();
               Report.failure(
                 '¡Ups! Algo ha salido mal',
                 `${e.error.message}`,
@@ -281,6 +284,22 @@ export class CreateAgendamientoComponent {
     this.togglePolModal();
   }
 
+  toggleOpenDateModal() {
+    const getTimeNow = new Date();
+    this.formatedTimeNow = this.formatTime(getTimeNow);
+    this.searchAgendaByPol();
+
+    this.showDateModal = !this.showDateModal;
+  }
+
+  toggleCloseDateModal() {
+    this.registerNewPatientDate.get('fecha_consulta')?.reset('');
+    this.registerNewPatientDate.get('hora_consulta')?.reset('');
+    this.registerNewPatientDate.get('duracion_consulta')?.reset('');
+    this.formatedDateNow = this.getDateNow.toISOString().split('T')[0];
+    this.showDateModal = !this.showDateModal;
+  }
+
   toggleDateModalSubmit() {
     this.registerNewPatientDate
       .get('fecha_consulta')
@@ -291,22 +310,6 @@ export class CreateAgendamientoComponent {
     this.registerNewPatientDate
       .get('duracion_consulta')
       ?.setValue(this.defaultAppointmentTime);
-
-    this.showDateModal = !this.showDateModal;
-  }
-
-  toggleCloseDateModal() {
-    this.registerNewPatientDate.get('fecha_consulta')?.reset('');
-    this.registerNewPatientDate.get('hora_consulta')?.reset('');
-    this.registerNewPatientDate.get('duracion_consulta')?.reset('');
-
-    this.showDateModal = !this.showDateModal;
-  }
-
-  toggleOpenDateModal() {
-    const getTimeNow = new Date();
-    this.formatedTimeNow = this.formatTime(getTimeNow);
-    this.searchAgendaByPol();
 
     this.showDateModal = !this.showDateModal;
   }
@@ -469,25 +472,14 @@ export class CreateAgendamientoComponent {
     if (this.formatedTimeNow !== newValue) {
       this.formatedTimeNow = newValue;
     }
-
-    const formatedEndTime = this.createEndTime(
+    // Verifica si la hora seleccionada ya está reservada
+    const isTimeStartReserved = this.isTimeAlreadyReserved(
       this.formatedDateNow,
       this.formatedTimeNow,
       this.defaultAppointmentTime
     );
 
-    // Verifica si la hora seleccionada ya está reservada
-    const isTimeStartReserved = this.isTimeAlreadyReserved(
-      this.formatedDateNow,
-      this.formatedTimeNow
-    );
-
-    const isTimeEndReserved = this.isTimeAlreadyReserved(
-      this.formatedDateNow,
-      formatedEndTime
-    );
-
-    this.checkScheduleAvailability(isTimeStartReserved, isTimeEndReserved);
+    this.checkScheduleAvailability(isTimeStartReserved);
   }
 
   updateAppointmentTime(event: any) {
@@ -496,40 +488,42 @@ export class CreateAgendamientoComponent {
       this.defaultAppointmentTime = newValue;
     }
 
-    const formatedEndTime = this.createEndTime(
+    // Verifica si la hora seleccionada ya está reservada
+    const isTimeStartReserved = this.isTimeAlreadyReserved(
       this.formatedDateNow,
       this.formatedTimeNow,
       this.defaultAppointmentTime
     );
 
-    // Verifica si la hora seleccionada ya está reservada
-    const isTimeStartReserved = this.isTimeAlreadyReserved(
-      this.formatedDateNow,
-      this.formatedTimeNow
-    );
-
-    const isTimeEndReserved = this.isTimeAlreadyReserved(
-      this.formatedDateNow,
-      formatedEndTime
-    );
-
-    this.checkScheduleAvailability(isTimeStartReserved, isTimeEndReserved);
+    this.checkScheduleAvailability(isTimeStartReserved);
   }
 
-  isTimeAlreadyReserved(selectedDate: string, selectedTime: string): boolean {
+  isTimeAlreadyReserved(
+    selectedDate: string,
+    selectedTime: string,
+    duration: number
+  ): boolean {
     // Convierte la hora seleccionada a un formato compatible con tus eventos
     const selectedTimeAsDate = new Date(`${selectedDate}T${selectedTime}`);
+    const endTimeAsDate = new Date(
+      selectedTimeAsDate.getTime() + duration * 60000
+    );
+
+    this.formatedTimeEnd = this.formatTime(endTimeAsDate);
 
     return this.eventos.some((evento) => {
       const startTime = new Date(`${selectedDate}T${evento.start}`);
       const endTime = new Date(`${selectedDate}T${evento.end}`);
-      return selectedTimeAsDate > startTime && selectedTimeAsDate < endTime;
+      return (
+        (selectedTimeAsDate >= startTime && selectedTimeAsDate < endTime) ||
+        (endTimeAsDate > startTime && endTimeAsDate <= endTime) ||
+        (selectedTimeAsDate < startTime && endTimeAsDate > endTime)
+      );
     });
   }
 
-  checkScheduleAvailability(startTime: boolean, endTIme: boolean) {
-    // Si la hora está reservada, puedes mostrar un mensaje o deshabilitar el botón de guardar
-    if (startTime || endTIme) {
+  checkScheduleAvailability(startTime: boolean) {
+    if (startTime) {
       Notify.warning(
         'La hora seleccionada ya está reservada o superpone a una existente. Por favor, seleccione otra.'
       );
@@ -538,17 +532,10 @@ export class CreateAgendamientoComponent {
     }
   }
 
-  private createEndTime(fecha: string, hora: string, duracion: number): string {
-    const startDate = this.createStartDate(fecha, hora);
-    const endTime = new Date(startDate.getTime() + duracion * 60000);
-    const hours = endTime.getHours().toString().padStart(2, '0');
-    const minutes = endTime.getMinutes().toString().padStart(2, '0');
-    const seconds = endTime.getSeconds().toString().padStart(2, '0');
-    return `${hours}:${minutes}:${seconds}`;
-  }
-
-  private createStartDate(fecha: string, hora: string): Date {
-    return new Date(`${fecha}T${hora}`);
+  resetFormatedTime() {
+    this.formatedDateNow = this.getDateNow.toISOString().split('T')[0];
+    this.formatedTimeEnd = '';
+    this.defaultAppointmentTime = 30;
   }
 
   get resetReservationForm() {

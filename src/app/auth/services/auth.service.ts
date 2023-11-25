@@ -32,6 +32,7 @@ export class AuthService {
   //Control de acceso
 
   private setAuthentication(user: User, token: string): boolean {
+    user.token = token;
     this._currentUser.set(user);
     this._authStatus.set(AuthStatus.authenticated);
     localStorage.setItem('token', token);

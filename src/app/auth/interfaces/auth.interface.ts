@@ -8,6 +8,7 @@ export interface User {
   us_isActive: boolean;
   us_user: string;
   us_role: string;
+  token: string;
 }
 
 export interface CheckTokenResponse {

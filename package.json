@@ -27,6 +27,7 @@
     "@ng-select/ng-select": "^11.2.0",
     "chart.js": "^4.4.0",
     "ngx-pagination": "^6.0.3",
+    "ngx-socket-io": "^4.5.1",
     "notiflix": "^3.2.6",
     "rxjs": "~7.8.1",
     "tslib": "^2.6.2",

@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthModule } from './auth/auth.module';
+import { SocketIoModule } from 'ngx-socket-io';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,6 +16,7 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
     ReactiveFormsModule,
     HttpClientModule,
+    SocketIoModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
