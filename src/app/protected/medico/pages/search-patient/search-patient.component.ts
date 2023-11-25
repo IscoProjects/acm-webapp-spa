@@ -15,7 +15,6 @@ export class SearchPatientComponent {
   searchPatientString: string = '';
   isPatientFound: boolean = false;
   patientNumerOfDates: number = 0;
-  selectedOption: string = 'cedula';
 
   //Paginacion
   public filter: string = '';
@@ -41,28 +40,30 @@ export class SearchPatientComponent {
 
   searchPatientInformation() {
     if (this.searchPatientString) {
-      if (this.selectedOption === 'cedula') {
-        console.log(this.searchPatientString);
-        Loading.standard('Obteniendo información');
-        this.pacienteService
-          .searchPatientInApi(this.searchPatientString)
-          .subscribe({
-            next: (resp) => {
-              console.log(resp);
-              this.patientInformation = resp;
-              this.patientNumerOfDates =
-                this.patientInformation.agendamiento.length;
-              this.isPatientFound = true;
-              Loading.remove();
-            },
-            error: (e) => {
-              Report.failure('Not Found', `${e.error.message}.`, 'Volver');
-              this.isPatientFound = false;
-              this.patientInformation = Object.create([]);
-              Loading.remove();
-            },
-          });
-      }
+      console.log(this.searchPatientString);
+      Loading.standard('Obteniendo información');
+      this.pacienteService
+        .searchPatientInApi(this.searchPatientString)
+        .subscribe({
+          next: (resp) => {
+            console.log(resp);
+            this.patientInformation = resp;
+            this.patientNumerOfDates =
+              this.patientInformation.agendamiento.length;
+            this.isPatientFound = true;
+            Loading.remove();
+          },
+          error: (e) => {
+            this.isPatientFound = false;
+            this.patientInformation = Object.create([]);
+            Loading.remove();
+            Report.failure(
+              '¡Ups! Algo ha salido mal',
+              `${e.error.message}`,
+              'Volver'
+            );
+          },
+        });
     } else {
       Report.warning(
         'Ingrese un valor',

@@ -134,7 +134,11 @@ export class AssignmentsComponent implements OnInit {
       error: (e) => {
         this.userInformation = Object.create([]);
         Loading.remove();
-        Report.failure('Not Found', `${e.error.message}`, 'Volver');
+        Report.failure(
+          '¡Ups! Algo ha salido mal',
+          `${e.error.message}`,
+          'Volver'
+        );
       },
     });
   }

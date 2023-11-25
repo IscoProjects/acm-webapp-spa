@@ -371,12 +371,14 @@ export class ShowAppointmentComponent implements OnInit {
         Notify.success('Datos de consulta registrados correctamente');
       },
       error: (e) => {
-        console.log(e);
         this.registConsultationInformation.reset(
           this.resetConsultationInformation
         );
-        this.ngOnInit();
-        Report.failure('No registrado', `${e.error.message}`, 'Volver');
+        Report.failure(
+          '¡Ups! Algo ha salido mal',
+          `${e.error.message}`,
+          'Volver'
+        );
       },
     });
   }

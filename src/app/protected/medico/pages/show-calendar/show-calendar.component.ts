@@ -34,28 +34,39 @@ export class ShowCalendarComponent {
 
   ngOnInit(): void {
     Loading.standard('Obteniendo información');
-    this.userService.searchUserInfoInApi(this.currentProfesional!.id_usuario).subscribe({
-      next: (resp) => {
-        this.user_info = resp;
-        this.agendaService
-          .searchEventsByProfessionalInApi(this.user_info.id_usuario)
-          .subscribe({
-            next: (response) => {
-              console.log(response);
-              this.eventos = response;
-              Loading.remove();
-            },
-            error: (e) => {
-              console.log(e);
-              this.eventos = [];
-              Loading.remove();
-            },
-          });
-      },
-      error: (e) => {
-        this.user_info = Object.create([]);
-      },
-    });
+    this.userService
+      .searchUserInfoInApi(this.currentProfesional!.id_usuario)
+      .subscribe({
+        next: (resp) => {
+          this.user_info = resp;
+          this.agendaService
+            .searchEventsByProfessionalInApi(this.user_info.id_usuario)
+            .subscribe({
+              next: (response) => {
+                console.log(response);
+                this.eventos = response;
+                Loading.remove();
+              },
+              error: (e) => {
+                this.eventos = [];
+                Loading.remove();
+                Report.failure(
+                  '¡Ups! Algo ha salido mal',
+                  `${e.error.message}`,
+                  'Volver'
+                );
+              },
+            });
+        },
+        error: (e) => {
+          this.user_info = Object.create([]);
+          Report.failure(
+            '¡Ups! Algo ha salido mal',
+            `${e.error.message}`,
+            'Volver'
+          );
+        },
+      });
 
     this.calendarOptions = {
       plugins: [list],
@@ -69,7 +80,6 @@ export class ShowCalendarComponent {
         today: 'Hoy',
       },
       initialView: 'listDay',
-      // eventClick: this.handleEventClick.bind(this),
       validRange: {
         start: '2023-01-01',
       },
@@ -88,14 +98,4 @@ export class ShowCalendarComponent {
       weekends: false,
     };
   }
-
-  // handleEventClick(arg: any) {
-  //   let message = `Paciente: ${arg.event.title}.
-  //   Fecha de consulta: ${arg.event.start.toLocaleString()}.
-  //   Consultorio: ${arg.event.extendedProps.description}.`;
-
-  //   Report.info('Detalles de agendamiento', message, 'Volver', {
-  //     svgSize: '50px',
-  //   });
-  // }
 }

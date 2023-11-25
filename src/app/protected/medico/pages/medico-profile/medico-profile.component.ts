@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Chart } from 'chart.js/auto';
 import { Confirm, Loading, Notify, Report } from 'notiflix';
+import { forkJoin } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import {
   AvgTiempoEspera,
@@ -53,56 +54,46 @@ export class MedicoProfileComponent {
   ) {}
 
   ngOnInit(): void {
-    Loading.circle('Cargando');
-    this.searchUserInformation(this.currentProfesional!.id_usuario);
-    this.getUserAvgData(this.currentProfesional!.id_usuario);
-    Loading.remove();
-  }
+    if (this.currentProfesional?.id_usuario) {
+      Loading.circle('Cargando');
+      forkJoin([
+        this.userService.searchUserInfoInApi(
+          this.currentProfesional!.id_usuario
+        ),
+        this.userService.getAvgWaitingTimeByUser(
+          this.currentProfesional!.id_usuario
+        ),
+      ]).subscribe({
+        next: ([user, data]) => {
+          this.userInformation = user;
+          this.polInformation = user.estacion_trabajo;
+          this.avgTiempoEsperaData = data;
+          this.createChartAVG();
 
-  searchUserInformation(id: string) {
-    this.userService.searchUserInfoInApi(id).subscribe({
-      next: (user) => {
-        console.log(user);
-        this.userInformation = user;
-        this.polInformation = user.estacion_trabajo;
+          this.userInformationForm
+            .get('us_carrera')
+            ?.setValue(this.userInformation.us_carrera);
+          this.userInformationForm
+            .get('us_telefono')
+            ?.setValue(this.userInformation.us_telefono);
+          this.userNicknameForm
+            .get('us_user')
+            ?.setValue(this.userInformation.us_user);
 
-        this.userInformationForm
-          .get('us_carrera')
-          ?.setValue(this.userInformation.us_carrera);
-        this.userInformationForm
-          .get('us_telefono')
-          ?.setValue(this.userInformation.us_telefono);
-        this.userNicknameForm
-          .get('us_user')
-          ?.setValue(this.userInformation.us_user);
-      },
-      error: (e) => {
-        this.userInformation = Object.create([]);
-        Report.failure(
-          '¡Ups! Algo ha salido mal',
-          `${e.error.message}`,
-          'Volver'
-        );
-      },
-    });
-  }
-
-  getUserAvgData(user: string) {
-    this.userService.getAvgWaitingTimeByUser(user).subscribe({
-      next: (data) => {
-        this.avgTiempoEsperaData = data;
-        this.createChartAVG();
-        console.log(this.avgTiempoEsperaData);
-      },
-      error: (e) => {
-        this.avgTiempoEsperaData = [];
-        Report.failure(
-          '¡Ups! Algo ha salido mal',
-          `${e.error.message}`,
-          'Volver'
-        );
-      },
-    });
+          Loading.remove();
+        },
+        error: (e) => {
+          this.avgTiempoEsperaData = [];
+          this.userInformation = Object.create([]);
+          Loading.remove();
+          Report.failure(
+            '¡Ups! Algo ha salido mal',
+            `${e.error.message}`,
+            'Volver'
+          );
+        },
+      });
+    }
   }
 
   updateUserInformation() {

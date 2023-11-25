@@ -124,8 +124,8 @@ export class UpdatePacienteComponent {
             this.patientInformation = Object.create([]);
             Loading.remove();
             Report.failure(
-              'Not Found',
-              `${e.error.message}. Por favor, realice el registro del paciente y vuelva a intentar.`,
+              '¡Ups! Algo ha salido mal',
+              `${e.error.message}`,
               'Volver'
             );
           },

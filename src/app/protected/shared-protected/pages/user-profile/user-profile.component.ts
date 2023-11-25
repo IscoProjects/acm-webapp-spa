@@ -41,8 +41,10 @@ export class UserProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    Loading.dots('Obteniendo Información');
-    this.searchUserInformation(this.currentProfesional!.id_usuario);
+    if (this.currentProfesional?.id_usuario) {
+      Loading.dots('Obteniendo Información');
+      this.searchUserInformation(this.currentProfesional.id_usuario);
+    }
   }
 
   searchUserInformation(id: string) {

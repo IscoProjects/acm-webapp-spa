@@ -49,7 +49,6 @@ export class ShowPacienteComponent implements OnInit {
         next: (resp) => {
           Loading.remove();
           console.log(resp);
-
           this.patientsInformation = resp;
         },
         error: (e) => {

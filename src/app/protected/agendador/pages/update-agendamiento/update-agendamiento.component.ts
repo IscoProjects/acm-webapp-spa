@@ -131,9 +131,13 @@ export class UpdateAgendamientoComponent implements OnInit {
           Loading.remove();
         },
         error: (e) => {
-          console.log(e);
           this.agendamientos = [];
           Loading.remove();
+          Report.failure(
+            '¡Ups! Algo ha salido mal',
+            `${e.error.message}`,
+            'Volver'
+          );
         },
       });
   }
@@ -158,7 +162,6 @@ export class UpdateAgendamientoComponent implements OnInit {
       next: (usuarios) => {
         this.listUsersBySection = usuarios || [];
         console.log(this.listUsersBySection);
-
         Loading.remove();
       },
       error: (e) => {
@@ -202,9 +205,13 @@ export class UpdateAgendamientoComponent implements OnInit {
           Loading.remove();
         },
         error: (e) => {
-          console.log(e);
           this.eventos = [];
           Loading.remove();
+          Report.failure(
+            '¡Ups! Algo ha salido mal',
+            `${e.error.message}`,
+            'Volver'
+          );
         },
       });
   }
@@ -230,9 +237,13 @@ export class UpdateAgendamientoComponent implements OnInit {
           Loading.remove();
         },
         error: (e) => {
-          console.log(e);
           this.eventos = [];
           Loading.remove();
+          Report.failure(
+            '¡Ups! Algo ha salido mal',
+            `${e.error.message}`,
+            'Volver'
+          );
         },
       });
   }

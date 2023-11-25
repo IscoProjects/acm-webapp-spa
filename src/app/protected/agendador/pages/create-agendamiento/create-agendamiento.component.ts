@@ -332,6 +332,11 @@ export class CreateAgendamientoComponent {
       },
       error: (e) => {
         this.areasInformation = [];
+        Report.failure(
+          '¡Ups! Algo ha salido mal',
+          `${e.error.message}`,
+          'Volver'
+        );
       },
     });
 
@@ -358,6 +363,11 @@ export class CreateAgendamientoComponent {
         error: (e) => {
           this.sectionsInformation = [];
           Loading.remove();
+          Report.failure(
+            '¡Ups! Algo ha salido mal',
+            `${e.error.message}`,
+            'Volver'
+          );
         },
       });
 
@@ -389,6 +399,11 @@ export class CreateAgendamientoComponent {
         error: (e) => {
           this.profesionalInformation = [];
           Loading.remove();
+          Report.failure(
+            '¡Ups! Algo ha salido mal',
+            `${e.error.message}`,
+            'Volver'
+          );
         },
       });
   }
