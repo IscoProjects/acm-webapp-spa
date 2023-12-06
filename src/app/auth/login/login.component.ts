@@ -27,32 +27,13 @@ export class LoginComponent {
 
   login() {
     const { us_user, us_password } = this.myLoginForm.value;
-    console.log(us_password, us_user);
-
     this.authService.login(us_user, us_password).subscribe({
       next: (response) => {
-        console.log(response);
-        console.log(this.currentProfesional()?.us_user);
-        switch (this.currentProfesional()?.us_role) {
-          case 'Administrador':
-            this.router.navigateByUrl('/protected-route/admin/pages/home');
-            break;
-
-          case 'Agendador':
-            this.router.navigateByUrl('/protected-route/agendador/pages/home');
-            break;
-
-          case 'Medico':
-            this.router.navigateByUrl('/protected-route/medico/pages/home');
-            break;
-
-          default:
-            this.router.navigateByUrl('/auth/error');
-            break;
-        }
+        const role = this.currentProfesional()?.us_role.toLowerCase();
+        this.router.navigateByUrl(`/protected-route/${role}/pages/home`);
       },
       error: (error) => {
-        Report.failure('Unauthorized', error, 'Regresar');
+        Report.failure('No autorizado', error.message, 'Regresar');
       },
     });
   }

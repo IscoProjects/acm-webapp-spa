@@ -40,13 +40,11 @@ export class SearchPatientComponent {
 
   searchPatientInformation() {
     if (this.searchPatientString) {
-      console.log(this.searchPatientString);
       Loading.standard('Obteniendo información');
       this.pacienteService
         .searchPatientInApi(this.searchPatientString)
         .subscribe({
           next: (resp) => {
-            console.log(resp);
             this.patientInformation = resp;
             this.patientNumerOfDates =
               this.patientInformation.agendamiento.length;

@@ -14,8 +14,8 @@ import { environment } from 'src/environments/environments';
 })
 export class AgendamientoService {
   //variables de entorno
-  private readonly baseUrl: string = environment.baseUrl;
-  private apiUrlAgenda: string = `${this.baseUrl}/scheduling/`;
+  private readonly apiUrl: string = environment.apiUrl;
+  private apiUrlAgenda: string = `${this.apiUrl}/scheduling/`;
 
   constructor(private http: HttpClient) {}
 

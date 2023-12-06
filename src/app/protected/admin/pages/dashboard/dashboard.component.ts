@@ -86,19 +86,16 @@ export class DashboardComponent implements OnInit {
 
   getUserAvgData() {
     const user = this.userSelectedId;
-    console.log(user);
     if (user) {
       this.userService.getAvgWaitingTimeByUser(user).subscribe({
         next: (data) => {
           this.avgTiempoEsperaUser = data;
-          console.log(this.avgTiempoEsperaUser);
           this.showUserChart = true;
         },
         error: (err) => {
           this.avgTiempoEsperaUser = [];
         },
         complete: () => {
-          console.log(this.avgTiempoEsperaUser);
           this.createUserChartAVG();
         },
       });
@@ -106,16 +103,12 @@ export class DashboardComponent implements OnInit {
   }
 
   createGeneralChartAVG() {
-    console.log(this.avgTiempoEsperaUser);
-
     const labels = this.avgTiempoEsperaUsersData.map(
       (item) => item.dia.split('T')[0]
     );
     const data = this.avgTiempoEsperaUsersData.map(
       (item) => item.tiempo_espera_promedio
     );
-    console.log(labels);
-    console.log(data);
 
     this.generalChart = new Chart('avgGeneralLineChart', {
       type: 'line',
@@ -158,8 +151,6 @@ export class DashboardComponent implements OnInit {
     const data = this.avgTiempoEsperaSeccions.map(
       (item) => item.tiempo_espera_promedio
     );
-    console.log(labels);
-    console.log(data);
 
     this.seccionChart = new Chart('avgSeccionsLineChart', {
       type: 'bar',
@@ -213,16 +204,12 @@ export class DashboardComponent implements OnInit {
   }
 
   createUserChartAVG() {
-    console.log(this.avgTiempoEsperaUser);
-
     const labels = this.avgTiempoEsperaUser.map(
       (item) => item.dia.split('T')[0]
     );
     const data = this.avgTiempoEsperaUser.map(
       (item) => item.tiempo_espera_promedio
     );
-    console.log(labels);
-    console.log(data);
 
     if (this.userChart) {
       this.userChart.destroy();

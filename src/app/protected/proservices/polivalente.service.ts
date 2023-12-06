@@ -9,9 +9,8 @@ import { environment } from 'src/environments/environments';
 })
 export class PolivalenteService {
   //variables de entorno
-  private readonly baseUrl: string = environment.baseUrl;
-  private apiUrlPolivalente: string =
-  `${this.baseUrl}/workstation/`;
+  private readonly apiUrl: string = environment.apiUrl;
+  private apiUrlPolivalente: string = `${this.apiUrl}/workstation/`;
 
   constructor(private http: HttpClient) {}
 
@@ -48,7 +47,6 @@ export class PolivalenteService {
     const x_token = `Bearer ${localStorage.getItem('token')}`;
     const headers = new HttpHeaders().set('Authorization', x_token || '');
     const url = `${this.apiUrlPolivalente}searchBySection/${termino}`;
-    console.log(url);
 
     return this.http.get<EstacionTrabajo[]>(url, { headers });
   }

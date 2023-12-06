@@ -4,7 +4,6 @@ import { Observable, of } from 'rxjs';
 import {
   AvgTiempoEsperaPorSeccion,
   Seccion,
-  SeccionMetadata,
   seccionState,
 } from '../prointerfaces/api.interface';
 import { environment } from 'src/environments/environments';
@@ -14,8 +13,8 @@ import { environment } from 'src/environments/environments';
 })
 export class SeccionService {
   //variables de entorno
-  private readonly baseUrl: string = environment.baseUrl;
-  private apiUrlSeccion: string = `${this.baseUrl}/section/`;
+  private readonly apiUrl: string = environment.apiUrl;
+  private apiUrlSeccion: string = `${this.apiUrl}/section/`;
 
   constructor(private http: HttpClient) {}
 

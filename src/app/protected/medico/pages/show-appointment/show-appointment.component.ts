@@ -11,8 +11,7 @@ import { AgendamientoService } from '../../../proservices/agendamiento.service';
 import { ConsultaService } from 'src/app/protected/proservices/consulta.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Confirm, Loading, Notify, Report } from 'notiflix';
-import { Subscription, forkJoin, map } from 'rxjs';
-import { Socket } from 'ngx-socket-io';
+import { Subscription, forkJoin } from 'rxjs';
 import { SocketService } from 'src/app/protected/proservices/socket.service';
 
 @Component({
@@ -68,7 +67,6 @@ export class ShowAppointmentComponent implements OnInit {
   //Socket mssg
   public message: string = '';
   private subscriptions: Subscription[] = [];
-  private token: string = localStorage.getItem('token')!;
 
   constructor(
     private authService: AuthService,
@@ -90,12 +88,8 @@ export class ShowAppointmentComponent implements OnInit {
     this.socketService.connect();
 
     this.subscriptions.push(
-      this.socketService.fromEvent('connect').subscribe(() => {
-        console.log('Conectado al servidor de WebSockets');
-      }),
       this.socketService.fromEvent('agendamiento').subscribe((agendamiento) => {
         const agendamientoTyped = agendamiento as Agendamiento;
-        console.log({ agendamientoTyped });
         const newAppointmentTime = agendamientoTyped.hora_consulta;
         Notify.info(
           `Recordatorio: Nueva cita agendada para las ${newAppointmentTime} horas`,
@@ -103,20 +97,13 @@ export class ShowAppointmentComponent implements OnInit {
             closeButton: true,
           }
         );
-        this.searchUserAgenda();
-        //TODO:Notification
-        // this.playNotification();
-      }),
-      this.socketService.fromEvent('disconnect').subscribe(() => {
-        console.log('Desconectado del servidor');
+        this.searchUserAgenda();;
       })
     );
-    console.log(this.subscriptions);
   }
 
   ngOnDestroy() {
     this.subscriptions.forEach((subscription) => subscription.unsubscribe());
-    console.log('Destroy:', this.subscriptions);
   }
 
   searchUserInformation() {
@@ -142,9 +129,7 @@ export class ShowAppointmentComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.agendaInformation = response;
-          console.log(this.agendaInformation);
           this.getFilteredData();
-          console.log(this.formatedDateNow);
         },
         error: (e) => {
           this.agendaInformation = [];
@@ -204,14 +189,12 @@ export class ShowAppointmentComponent implements OnInit {
   }
 
   onChangeSelection() {
-    console.log(this.initialState);
     this.searchUserAgenda();
   }
 
   openToggleConsultModal(agenda: Agendamiento) {
     this.showConsultModal = true;
     this.formatedTimeStart = this.getActualTime();
-    console.log(agenda.id_agendamiento);
     this.idAgendamiento = agenda.id_agendamiento;
     this.selectedDateCita = agenda.fecha_agenda;
     let patient = agenda.paciente?.pac_cedula;
@@ -363,7 +346,6 @@ export class ShowAppointmentComponent implements OnInit {
       this.consultaService.setConsultationInformation(info),
     ]).subscribe({
       next: ([agendaResponse, consultaResponse]) => {
-        console.log(agendaResponse, consultaResponse);
         this.registConsultationInformation.reset(
           this.resetConsultationInformation
         );
@@ -396,7 +378,6 @@ export class ShowAppointmentComponent implements OnInit {
 
     const segundos = Math.floor(tiempoEnMilisegundos / 1000);
     const minutos = Math.floor(segundos / 60);
-    // const horas = Math.floor(minutos / 60);
 
     return minutos;
   }
@@ -439,11 +420,4 @@ export class ShowAppointmentComponent implements OnInit {
       observaciones: '',
     };
   }
-
-  // playNotification() {
-  //   let audio = new Audio();
-  //   audio.src = '../../../../../assets/sounds/notification.mp3';
-  //   audio.load();
-  //   audio.play();
-  // }
 }

@@ -1,6 +1,5 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Chart } from 'chart.js/auto';
 import { Confirm, Loading, Notify, Report } from 'notiflix';
 import { forkJoin } from 'rxjs';
@@ -110,7 +109,6 @@ export class MedicoProfileComponent {
           )
           .subscribe({
             next: (resp) => {
-              console.log(resp);
               Notify.success('Actualización exitosa');
               this.toggleUserModalClose();
               this.ngOnInit();
@@ -136,7 +134,6 @@ export class MedicoProfileComponent {
       this.userNicknameForm.get('us_user')?.value;
     this.userService.verifyUserNickname(newNicknameValue).subscribe({
       next: (response) => {
-        console.log(response);
         Confirm.show(
           'Actualización',
           `Guardar nuevo usuario para <strong> ${this.userInformation.us_cedula}</strong>`,
@@ -150,7 +147,6 @@ export class MedicoProfileComponent {
               )
               .subscribe({
                 next: (resp) => {
-                  console.log(resp);
                   Notify.success('Actualización exitosa');
                   this.toggleNicknameModalClose();
                   this.ngOnInit();
@@ -171,7 +167,6 @@ export class MedicoProfileComponent {
         );
       },
       error: (e) => {
-        console.log(e);
         Notify.failure('El usuario ya existe, ingrese uno nuevo.');
       },
     });
@@ -181,7 +176,6 @@ export class MedicoProfileComponent {
     if (this.user_password.us_password !== this.passwordRepeat) {
       Notify.warning('Las contraseñas no coinciden.');
     } else {
-      console.log(this.user_password);
       Confirm.show(
         'Actualización',
         `Guardar nueva contraseña para <strong> ${this.userInformation.us_cedula}</strong>`,
@@ -195,7 +189,6 @@ export class MedicoProfileComponent {
             )
             .subscribe({
               next: (resp) => {
-                console.log(resp);
                 Notify.success('Actualización exitosa');
                 this.togglePasswordModalClose();
                 this.ngOnInit();
@@ -255,16 +248,12 @@ export class MedicoProfileComponent {
   }
 
   createChartAVG() {
-    console.log(this.avgTiempoEsperaData);
-
     const labels = this.avgTiempoEsperaData.map(
       (item) => item.dia.split('T')[0]
     );
     const data = this.avgTiempoEsperaData.map(
       (item) => item.tiempo_espera_promedio
     );
-    console.log(labels);
-    console.log(data);
 
     this.chart = new Chart('avgLineChart', {
       type: 'line',

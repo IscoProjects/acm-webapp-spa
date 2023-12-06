@@ -15,8 +15,8 @@ import { environment } from 'src/environments/environments';
 })
 export class UsuarioService {
   //variables de entorno
-  private readonly baseUrl: string = environment.baseUrl;
-  private apiUrlUsuario: string = `${this.baseUrl}/professional/`;
+  private readonly apiUrl: string = environment.apiUrl;
+  private apiUrlUsuario: string = `${this.apiUrl}/professional/`;
 
   constructor(private http: HttpClient) {}
 

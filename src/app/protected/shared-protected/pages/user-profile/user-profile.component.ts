@@ -50,7 +50,6 @@ export class UserProfileComponent implements OnInit {
   searchUserInformation(id: string) {
     this.userService.searchUserInfoInApi(id).subscribe({
       next: (user) => {
-        console.log(user);
         this.userInformation = user;
         this.polInformation = user.estacion_trabajo;
 
@@ -92,7 +91,6 @@ export class UserProfileComponent implements OnInit {
           )
           .subscribe({
             next: (resp) => {
-              console.log(resp);
               Notify.success('Actualización exitosa');
               this.toggleUserModalClose();
               this.ngOnInit();
@@ -118,7 +116,6 @@ export class UserProfileComponent implements OnInit {
       this.adminNicknameForm.get('us_user')?.value;
     this.userService.verifyUserNickname(newNicknameValue).subscribe({
       next: (response) => {
-        console.log(response);
         Confirm.show(
           'Actualización',
           `Guardar nuevo usuario para <strong> ${this.userInformation.us_cedula}</strong>`,
@@ -132,7 +129,6 @@ export class UserProfileComponent implements OnInit {
               )
               .subscribe({
                 next: (resp) => {
-                  console.log(resp);
                   Notify.success('Actualización exitosa');
                   this.toggleNicknameModalClose();
                   this.ngOnInit();
@@ -153,7 +149,6 @@ export class UserProfileComponent implements OnInit {
         );
       },
       error: (e) => {
-        console.log(e);
         Notify.failure('El usuario ya existe, ingrese uno nuevo.');
       },
     });
@@ -163,7 +158,6 @@ export class UserProfileComponent implements OnInit {
     if (this.user_password.us_password !== this.passwordRepeat) {
       Notify.warning('Las contraseñas no coinciden.');
     } else {
-      console.log(this.user_password);
       Confirm.show(
         'Actualización',
         `Guardar nueva contraseña para <strong> ${this.userInformation.us_cedula}</strong>`,
@@ -177,7 +171,6 @@ export class UserProfileComponent implements OnInit {
             )
             .subscribe({
               next: (resp) => {
-                console.log(resp);
                 Notify.success('Actualización exitosa');
                 this.togglePasswordModalClose();
                 this.ngOnInit();

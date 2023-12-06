@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, computed, signal } from '@angular/core';
-import { catchError, map, Observable, of, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, of, throwError } from 'rxjs';
 import {
   User,
   LoginResponse,
@@ -8,14 +8,13 @@ import {
 } from '../interfaces/auth.interface';
 import { environment } from 'src/environments/environments';
 import { AuthStatus } from '../interfaces/auth-status.enum';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   //variables de entorno
-  private readonly baseUrl: string = environment.baseUrl;
+  private readonly apiUrl: string = environment.apiUrl;
 
   //Signals
   private _currentUser = signal<User | null>(null);
@@ -25,11 +24,9 @@ export class AuthService {
   public currentUser = computed(() => this._currentUser());
   public authStatus = computed(() => this._authStatus());
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient) {
     this.checkAuthStatus().subscribe();
   }
-
-  //Control de acceso
 
   private setAuthentication(user: User, token: string): boolean {
     user.token = token;
@@ -41,17 +38,28 @@ export class AuthService {
   }
 
   login(us_user: string, us_password: string): Observable<boolean> {
-    const url = `${this.baseUrl}/professional/login`;
+    const url = `${this.apiUrl}/professional/login`;
     const body_query = { us_user, us_password };
 
     return this.http.post<LoginResponse>(url, body_query).pipe(
       map(({ user, token }) => this.setAuthentication(user, token)),
-      catchError((err) => throwError(() => err.error.message))
+      catchError((err) => {
+        if (err.status === 0) {
+          return throwError(
+            () =>
+              new Error(
+                'No se pudo establecer conexión con el servidor. Por favor, inténtalo de nuevo más tarde.'
+              )
+          );
+        } else {
+          return throwError(() => new Error(err.error.message));
+        }
+      })
     );
   }
 
   checkAuthStatus(): Observable<boolean> {
-    const url = `${this.baseUrl}/professional/status-verify`;
+    const url = `${this.apiUrl}/professional/status-verify`;
     const token = localStorage.getItem('token');
 
     if (!token) {
@@ -84,13 +92,11 @@ export class AuthService {
   isTokenValid(token: string): boolean {
     try {
       const tokenData = JSON.parse(atob(token.split('.')[1]));
-      const currentTime = Math.floor(Date.now() / 1000); // Obtiene el tiempo actual en segundos
-
-      // Comprueba si la fecha de expiración del token es mayor que el tiempo actual
+      const currentTime = Math.floor(Date.now() / 1000);
       return tokenData.exp > currentTime;
     } catch (error) {
-      // Si hay un error al decodificar el token, se considera inválido
       return false;
     }
   }
 }
+

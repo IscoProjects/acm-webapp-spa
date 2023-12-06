@@ -2,12 +2,10 @@ import { Component } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core';
 import { Loading, Report } from 'notiflix';
 import {
-  Agendamiento,
   EventosCalendar,
   Usuario,
 } from 'src/app/protected/prointerfaces/api.interface';
 import { AgendamientoService } from 'src/app/protected/proservices/agendamiento.service';
-import dayGridPlugin from '@fullcalendar/daygrid';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { UsuarioService } from 'src/app/protected/proservices/usuario.service';
 import list from '@fullcalendar/list';
@@ -43,7 +41,6 @@ export class ShowCalendarComponent {
             .searchEventsByProfessionalInApi(this.user_info.id_usuario)
             .subscribe({
               next: (response) => {
-                console.log(response);
                 this.eventos = response;
                 Loading.remove();
               },

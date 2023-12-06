@@ -37,7 +37,6 @@ export class CalendarComponent {
     Loading.pulse('Obteniendo información');
     this.polService.searchAllPolInApi().subscribe({
       next: (pols) => {
-        console.log(pols);
         this.polsInformation = pols;
         Loading.remove();
       },
@@ -99,7 +98,6 @@ export class CalendarComponent {
           );
 
     searchMethod.subscribe((resp) => {
-      console.log(resp);
       this.eventos = resp;
       this.cdRef.detectChanges();
     });

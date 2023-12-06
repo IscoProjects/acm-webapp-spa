@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { PaginationInstance } from 'ngx-pagination';
 import { Confirm, Loading, Notify, Report } from 'notiflix';
 import { AuthService } from 'src/app/auth/services/auth.service';
@@ -79,7 +78,6 @@ export class AreaDistributionComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router,
     private fb: FormBuilder,
     private areaService: AreaService,
     private seccionService: SeccionService,
@@ -97,9 +95,6 @@ export class AreaDistributionComponent implements OnInit {
         this.areaInformation = areas;
         this.seccionInformation = secciones;
         this.polivalenteInformation = polivalentes;
-        console.log(this.areaInformation);
-        console.log(this.seccionInformation);
-        console.log(this.polivalenteInformation);
         Loading.remove();
       },
       error: (e) => {
@@ -262,7 +257,6 @@ export class AreaDistributionComponent implements OnInit {
   }
 
   toggleCreateSeccionModal(area: Area) {
-    console.log(area);
     this.createSectionInformation = `Se creará una nueva sección que pertenece al área de ${area.descripcion}. Por favor, llene los campos a continuación...`;
     this.addSeccionForm.get('area')?.setValue(area.id_area);
     this.showNewSeccionModal = !this.showNewSeccionModal;
@@ -274,7 +268,6 @@ export class AreaDistributionComponent implements OnInit {
   }
 
   toggleCreatePolModal(seccion: Seccion) {
-    console.log(seccion);
     this.createPolInformation = `Se creará un nuevo Polivalente/Módulo a la sección ${seccion.descripcion}, la misma que pertenece al área de ${seccion.area.descripcion}. Por favor, llene los campos a continuación...`;
     this.addNewPolForm.get('seccion')?.setValue(seccion.id_seccion);
     this.showNewPolModal = !this.showNewPolModal;

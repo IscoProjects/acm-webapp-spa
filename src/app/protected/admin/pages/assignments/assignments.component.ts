@@ -103,9 +103,8 @@ export class AssignmentsComponent implements OnInit {
   //Genero
   genre: string[] = ['Masculino', 'Femenino', 'Otro'];
 
-  //ROles
+  //Roles
   userRol: string[] = ['Administrador', 'Agendador', 'Medico'];
-  // changeUserAssignment: FormGroup = this.fb.group({});
 
   constructor(
     private authService: AuthService,
@@ -129,7 +128,6 @@ export class AssignmentsComponent implements OnInit {
       next: (response) => {
         this.userInformation = response;
         Loading.remove();
-        console.log(this.userInformation);
       },
       error: (e) => {
         this.userInformation = Object.create([]);
@@ -155,7 +153,6 @@ export class AssignmentsComponent implements OnInit {
           .updateUserStateInApi(id_usuario, this.temporaryStatus)
           .subscribe({
             next: (resp) => {
-              console.log(resp);
               Notify.success('Actualización exitosa');
               this.loadProfessionalsInformation();
             },
@@ -172,12 +169,8 @@ export class AssignmentsComponent implements OnInit {
   }
 
   createNewUserInformation() {
-    console.log(this.addUserForm.valid);
-    console.log(this.addUserForm.value);
-    console.log(this.polivalente);
     this.usuarioService.addNewSeccionInApi(this.addUserForm.value).subscribe({
       next: (resp) => {
-        console.log(resp);
         Notify.success('Registro exitoso');
         this.loadProfessionalsInformation();
       },
@@ -196,12 +189,6 @@ export class AssignmentsComponent implements OnInit {
   reassignmentUserInformation() {
     this.reassignmentUser.estacion_trabajo =
       this.searchAreasInformation.get('pol_agenda')?.value;
-    console.log(
-      'Id:',
-      this.temporaryUserSelected,
-      ' Pol: ',
-      this.reassignmentUser
-    );
 
     Confirm.show(
       'Actualización',
@@ -216,7 +203,6 @@ export class AssignmentsComponent implements OnInit {
           )
           .subscribe({
             next: (resp) => {
-              console.log(resp);
               Notify.success('Actualización exitosa');
               this.loadProfessionalsInformation();
               this.toggleReassignmentModalClose();
@@ -239,7 +225,6 @@ export class AssignmentsComponent implements OnInit {
         this.areasInformation = area.filter(
           (area) => area.isAvailible === true
         );
-        console.log(this.areasInformation);
       },
       error: (e) => {
         this.areasInformation = [];
@@ -297,7 +282,6 @@ export class AssignmentsComponent implements OnInit {
         next: (polivalente) => {
           if (polivalente !== null) {
             this.handlePolivalenteResult(polivalente);
-            console.log(this.polsInformation);
           } else {
             this.polsInformation = [];
           }
@@ -331,7 +315,6 @@ export class AssignmentsComponent implements OnInit {
   toggleCreateModalClose() {
     this.addUserForm.reset(this.resetUserInformation);
     this.searchAreasInformation.reset(this.resetAreasInformation);
-    console.log(this.addUserForm.value);
     this.toggleCreateModal();
   }
 
@@ -348,7 +331,6 @@ export class AssignmentsComponent implements OnInit {
     this.showReassignmentModal = !this.showReassignmentModal;
     this.temporaryUserSelected = Object.create([]);
     this.userSelectedMssg = '';
-    console.log(this.reassignmentUser);
   }
 
   private handlePolivalenteResult(polivalente: EstacionTrabajo[]) {

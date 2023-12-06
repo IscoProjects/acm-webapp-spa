@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
 import { PaginationInstance } from 'ngx-pagination';
 import { Loading, Report } from 'notiflix';
 import { switchMap } from 'rxjs';
@@ -48,7 +47,6 @@ export class ShowPacienteComponent implements OnInit {
       .subscribe({
         next: (resp) => {
           Loading.remove();
-          console.log(resp);
           this.patientsInformation = resp;
         },
         error: (e) => {

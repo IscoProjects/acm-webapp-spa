@@ -9,8 +9,8 @@ import { environment } from 'src/environments/environments';
 })
 export class AreaService {
   //variables de entorno
-  private readonly baseUrl: string = environment.baseUrl;
-  private apiUrlArea: string = `${this.baseUrl}/area/`;
+  private readonly apiUrl: string = environment.apiUrl;
+  private apiUrlArea: string = `${this.apiUrl}/area/`;
 
   constructor(private http: HttpClient) {}
 

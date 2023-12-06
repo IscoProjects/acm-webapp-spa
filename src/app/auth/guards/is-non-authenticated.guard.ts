@@ -7,7 +7,6 @@ export const isNonAuthenticatedGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  console.log(authService.authStatus());
   if (authService.authStatus() === AuthStatus.authenticated) {
     switch (authService.currentUser()?.us_role) {
       case 'Administrador':

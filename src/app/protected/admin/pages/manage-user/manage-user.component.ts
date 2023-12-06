@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { PaginationInstance } from 'ngx-pagination';
 import { Loading, Report } from 'notiflix';
 import { AuthService } from 'src/app/auth/services/auth.service';
@@ -50,7 +49,6 @@ export class ManageUserComponent implements OnInit {
       next: (response) => {
         this.userInformation = response;
         Loading.remove();
-        console.log(this.userInformation);
       },
       error: (e) => {
         this.userInformation = [];

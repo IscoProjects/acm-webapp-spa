@@ -104,15 +104,12 @@ export class UpdatePacienteComponent {
   }
 
   searchPatientInfo() {
-    console.log(this.searchPatientString);
-
     if (this.searchPatientString) {
       Loading.dots('Obteniendo información');
       this.pacienteService
         .searchPatientInApi(this.searchPatientString)
         .subscribe({
           next: (resp) => {
-            console.log(resp);
             this.patientInformation = resp;
             this.isPatientFound = true;
             this.updatePatientForm.patchValue(this.patientInformation);
@@ -140,9 +137,6 @@ export class UpdatePacienteComponent {
   }
 
   updatePatientInfo() {
-    console.log(this.updatePatientForm.valid);
-    console.log(this.updatePatientForm.value);
-
     Confirm.show(
       'Actualización',
       `Guardar cambios para el paciente: ${this.patientInformation.pac_cedula}`,
@@ -156,7 +150,6 @@ export class UpdatePacienteComponent {
           )
           .subscribe({
             next: (resp) => {
-              console.log(resp);
               Notify.success('Actualización exitosa');
               this.searchPatientString = '';
               this.isPatientFound = false;
@@ -191,8 +184,6 @@ export class UpdatePacienteComponent {
     );
 
     if (selectedProvincia) {
-      console.log(selectedProvincia.id);
-
       this.cantones = this.provinciaService.getCantonesByProvinciaId(
         selectedProvincia.id
       );
@@ -212,8 +203,6 @@ export class UpdatePacienteComponent {
     );
 
     if (selectedCanton) {
-      console.log(selectedCanton.id);
-
       this.parroquias = this.provinciaService.getParroquiasByCantonId(
         selectedCanton.id
       );
@@ -249,8 +238,6 @@ export class UpdatePacienteComponent {
       (provincia) => provincia.nombre === defaultProvincia
     );
     if (selectedProvincia) {
-      console.log(selectedProvincia.id);
-
       this.cantones = this.provinciaService.getCantonesByProvinciaId(
         selectedProvincia.id
       );
@@ -260,7 +247,6 @@ export class UpdatePacienteComponent {
     );
 
     if (selectedCanton) {
-      console.log(selectedCanton.id);
       this.parroquias = this.provinciaService.getParroquiasByCantonId(
         selectedCanton.id
       );
@@ -274,8 +260,6 @@ export class UpdatePacienteComponent {
         selectedParroquia.id
       );
     }
-
-    console.log(selectedProvincia, selectedCanton, selectedParroquia);
   }
 
   get canUpdate(): boolean {

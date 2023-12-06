@@ -97,7 +97,6 @@ export class UpdateAgendamientoComponent implements OnInit {
     Loading.pulse('Obteniendo información');
     this.polService.searchAllPolInApi().subscribe({
       next: (pols) => {
-        console.log(pols);
         this.polsInformation = pols;
         this.polFilterValue = pols[0].descripcion;
         this.searchAgendaByPol();
@@ -117,7 +116,6 @@ export class UpdateAgendamientoComponent implements OnInit {
 
   searchAgendaByPol() {
     Loading.dots('Cargando...');
-    console.log('Buscando agendamientos por polivalente');
 
     this.agendaService
       .searchAgendaByWorkstationAndDate(
@@ -127,7 +125,6 @@ export class UpdateAgendamientoComponent implements OnInit {
       .subscribe({
         next: (agenda) => {
           this.agendamientos = agenda;
-          console.log('Agenda:', agenda);
           Loading.remove();
         },
         error: (e) => {
@@ -153,15 +150,11 @@ export class UpdateAgendamientoComponent implements OnInit {
     this.getProfessionalToUpdate = agenda.usuario!.id_usuario;
     this.updateDateForm.get('usuario')?.setValue(this.getProfessionalToUpdate);
 
-    console.log('Usuario seleccionado', agenda);
-
     const seccion = agenda.usuario!.estacion_trabajo.seccion.descripcion;
-    console.log(seccion);
 
     this.usuarioService.searchUsersBySectionFromApi(seccion).subscribe({
       next: (usuarios) => {
         this.listUsersBySection = usuarios || [];
-        console.log(this.listUsersBySection);
         Loading.remove();
       },
       error: (e) => {
@@ -201,7 +194,6 @@ export class UpdateAgendamientoComponent implements OnInit {
       .subscribe({
         next: (agenda) => {
           this.eventos = agenda;
-          console.log(agenda);
           Loading.remove();
         },
         error: (e) => {
@@ -220,7 +212,6 @@ export class UpdateAgendamientoComponent implements OnInit {
   formatTime(date: Date) {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
-    console.log(`${hours}:${minutes}`);
 
     return `${hours}:${minutes}`;
   }
@@ -233,7 +224,6 @@ export class UpdateAgendamientoComponent implements OnInit {
       .subscribe({
         next: (agenda) => {
           this.eventos = agenda;
-          console.log(agenda);
           Loading.remove();
         },
         error: (e) => {
@@ -269,7 +259,6 @@ export class UpdateAgendamientoComponent implements OnInit {
           )
           .subscribe({
             next: (resp) => {
-              console.log(resp);
               Notify.success('Actualización exitosa');
               this.searchPatientString = '';
               this.patientInformation = Object.create([]);
@@ -357,11 +346,9 @@ export class UpdateAgendamientoComponent implements OnInit {
         .searchPatientMetadataInApi(this.searchPatientString)
         .subscribe({
           next: (resp) => {
-            console.log(resp);
             this.patientInformation = resp;
             this.patientNumerOfDates =
               this.patientInformation.agendamiento.length;
-            console.log(this.patientInformation);
 
             this.isAgendaFound = true;
             Loading.remove();
@@ -397,7 +384,6 @@ export class UpdateAgendamientoComponent implements OnInit {
 
   updateDate(event: any) {
     const newValue = event.target.value;
-    console.log(this.getProfessionalToUpdate);
 
     if (this.formatedDateNow !== newValue) {
       this.formatedDateNow = newValue;
@@ -460,7 +446,7 @@ export class UpdateAgendamientoComponent implements OnInit {
   isTimeAlreadyReserved(selectedDate: string, selectedTime: string): boolean {
     // Convierte la hora seleccionada a un formato compatible con tus eventos
     const selectedTimeAsDate = new Date(`${selectedDate}T${selectedTime}`);
-    
+
     return this.eventos.some((evento) => {
       const startTime = new Date(`${selectedDate}T${evento.start}`);
       const endTime = new Date(`${selectedDate}T${evento.end}`);
@@ -474,8 +460,6 @@ export class UpdateAgendamientoComponent implements OnInit {
       Notify.warning(
         'La hora seleccionada ya está reservada o superpone a una existente. Por favor, seleccione otra.'
       );
-    } else {
-      console.log('Hora Valida');
     }
   }
 
@@ -501,7 +485,6 @@ export class UpdateAgendamientoComponent implements OnInit {
   onChangeSelection(value: any) {
     this.polFilterValue = value.target.value;
     this.searchAgendaByPol();
-    console.log(this.polFilterValue);
   }
 
   onPageChange(number: number) {

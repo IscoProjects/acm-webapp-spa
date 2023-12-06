@@ -224,7 +224,7 @@
                                         value="{{registerNewPatientDate.get('fecha_consulta')?.value}}">
                                 </div>
 
-                                <div *ngIf="registerNewPatientDate.get('fecha_consulta')!.value !== ''">
+                                <div *ngIf="registerNewPatientDate.get('fecha_consulta')?.value">
                                     <label for="time-picker"
                                         class="block text-[10px] tracking-wider text-gray-500 uppercase font-medium dark:text-gray-400">Hora
                                         <strong class="font-semibold text-blue-500">*</strong></label>
@@ -234,7 +234,7 @@
                                         value="{{registerNewPatientDate.get('hora_consulta')?.value}}">
                                 </div>
 
-                                <div *ngIf="registerNewPatientDate.get('hora_consulta')!.value !== ''">
+                                <div *ngIf="registerNewPatientDate.get('fecha_consulta')?.value">
                                     <label for="duracion-consulta"
                                         class="block text-[10px] tracking-wider text-gray-500 uppercase font-medium dark:text-gray-400">Tiempo
                                         Aprox.
@@ -363,7 +363,7 @@
                                                     class="flex items-center justify-end px-3 py-2 border-t border-solid bg-mirage-50 border-mirage-400 dark:bg-mirage-950 dark:border-mirage-600">
                                                     <button (click)="togglePolModalAccept()"
                                                         class="custom-blue-button hover:shadow-md disabled:hover:shadow-none dark:custom-blue-button-dark dark:disabled:hover:shadow-none"
-                                                        [disabled]="registerNewPatientDate.get('usuario')!.value === ''">Aceptar</button>
+                                                        [disabled]="!registerNewPatientDate.get('usuario')?.value">Aceptar</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -555,7 +555,7 @@
                                                                 </div>
 
                                                                 <ng-container *ngIf="formatedTimeEnd">
-                                                                    
+
                                                                     <span>Hora de finalización</span>
 
                                                                     <div>

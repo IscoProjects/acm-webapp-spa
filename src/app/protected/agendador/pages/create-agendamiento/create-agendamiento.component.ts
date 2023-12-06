@@ -159,17 +159,14 @@ export class CreateAgendamientoComponent {
   createPatientDate() {
     switch (true) {
       case this.isDemandaNoAgendadaChecked:
-        console.log('Demanda no Agendada');
         this.infoNewScheduling('Demanda no Agendada', false);
         break;
 
       case this.isInterconsultaChecked:
-        console.log('Interconsulta');
         this.infoNewScheduling('Interconsulta', true);
         break;
 
       default:
-        console.log('Consulta');
         this.infoNewScheduling('Consulta', true);
         break;
     }
@@ -181,8 +178,6 @@ export class CreateAgendamientoComponent {
       ?.setValue(this.patientInformation.id_paciente);
     this.registerNewPatientDate.get('detalle_agenda')?.setValue(detail);
     this.registerNewPatientDate.get('estado_agenda')?.setValue(state);
-
-    console.log(this.registerNewPatientDate.value);
 
     Confirm.show(
       'Confirmar cita',
@@ -196,7 +191,6 @@ export class CreateAgendamientoComponent {
           .addNewSchedulingInApi(this.registerNewPatientDate.value)
           .subscribe({
             next: (resp) => {
-              console.log(resp);
               this.isPatientFound = false;
               this.registerNewPatientDate.reset(this.resetReservationForm);
               this.searchAreasInformation.reset(this.resetAreasInformation);
@@ -247,7 +241,6 @@ export class CreateAgendamientoComponent {
       .subscribe({
         next: (agenda) => {
           this.eventos = agenda;
-          console.log('Agenda:', agenda);
           Loading.remove();
         },
         error: (e) => {
@@ -318,7 +311,6 @@ export class CreateAgendamientoComponent {
   formatTime(date: Date) {
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
-    console.log(`${hours}:${minutes}`);
 
     return `${hours}:${minutes}`;
   }
@@ -420,7 +412,6 @@ export class CreateAgendamientoComponent {
       .subscribe({
         next: (agendamientos) => {
           let num = agendamientos.length;
-          console.log(num);
           const usuario = this.profesionalInformation.find(
             (user) => user.id_usuario === id_usuario
           );
@@ -542,9 +533,7 @@ export class CreateAgendamientoComponent {
       Notify.warning(
         'La hora seleccionada ya está reservada o superpone a una existente. Por favor, seleccione otra.'
       );
-    } else {
-      console.log('Hora Valida');
-    }
+    } 
   }
 
   resetFormatedTime() {

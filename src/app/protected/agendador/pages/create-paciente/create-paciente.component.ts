@@ -105,8 +105,6 @@ export class CreatePacienteComponent {
 
   register_patient_new() {
     this.checkPatientAge();
-    console.log(this.add_patient.valid);
-    console.log(this.add_patient.value);
 
     Confirm.show(
       'Agregar Paciente',
@@ -118,7 +116,6 @@ export class CreatePacienteComponent {
           .addNewPatientInApi(this.add_patient.value)
           .subscribe({
             next: (resp) => {
-              console.log(resp);
               this.add_patient.reset(this.resetPatitentInformation);
               Notify.success('Paciente registrado exitosamente');
             },
@@ -208,7 +205,6 @@ export class CreatePacienteComponent {
     );
 
     if (selectedProvincia) {
-      console.log(selectedProvincia.id);
 
       this.cantones = this.provinciaService.getCantonesByProvinciaId(
         selectedProvincia.id
@@ -228,7 +224,6 @@ export class CreatePacienteComponent {
     );
 
     if (selectedCanton) {
-      console.log(selectedCanton.id);
 
       this.parroquias = this.provinciaService.getParroquiasByCantonId(
         selectedCanton.id

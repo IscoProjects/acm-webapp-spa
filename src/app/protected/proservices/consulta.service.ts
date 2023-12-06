@@ -9,8 +9,8 @@ import { environment } from 'src/environments/environments';
 })
 export class ConsultaService {
   //variables de entorno
-  private readonly baseUrl: string = environment.baseUrl;
-  private apiUrlAgenda: string = `${this.baseUrl}/appointment/`;
+  private readonly apiUrl: string = environment.apiUrl;
+  private apiUrlAgenda: string = `${this.apiUrl}/appointment/`;
 
   constructor(private http: HttpClient) {}
 

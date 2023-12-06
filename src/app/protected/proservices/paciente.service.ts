@@ -9,8 +9,8 @@ import { environment } from 'src/environments/environments';
 })
 export class PacienteService {
   //variables de entorno
-  private readonly baseUrl: string = environment.baseUrl;
-  private apiUrlPaciente: string = `${this.baseUrl}/patient/`;
+  private readonly apiUrl: string = environment.apiUrl;
+  private apiUrlPaciente: string = `${this.apiUrl}/patient/`;
 
   constructor(private http: HttpClient) {}
 
