@@ -62,6 +62,7 @@ export class UpdateAgendamientoComponent implements OnInit {
   eventos: Eventos[] = [];
   formatedDateNow: string = this.getDateNow.toISOString().split('T')[0];
   formatedTimeNow: string = '';
+  formatedTimeEnd: string = '';
   defaultAppointmentTime: number = 30;
   getProfessionalToUpdate: string = '';
 
@@ -299,7 +300,7 @@ export class UpdateAgendamientoComponent implements OnInit {
     const idAgendamientoSelected = agenda.id_agendamiento;
     this.cancelDateForm.get('detalle_agenda')?.setValue('Cancelado');
     Confirm.show(
-      '¿Desea cancelar la cita agendada?',
+      '¿Cancelar cita seleccionada?',
       'Esta acción no se podrá deshacer',
       'Si',
       'No',
@@ -323,7 +324,7 @@ export class UpdateAgendamientoComponent implements OnInit {
           detalle_agenda: '',
           estado_agenda: false,
         });
-        this.searchAgendaInformation();
+        this.searchAgendaByPol();
       },
       error: (e) => {
         this.cancelDateForm.reset({
@@ -391,30 +392,45 @@ export class UpdateAgendamientoComponent implements OnInit {
     }
   }
 
+  // updateTime(event: any) {
+  //   const newValue = event.target.value;
+  //   if (this.formatedTimeNow !== newValue) {
+  //     this.formatedTimeNow = newValue;
+  //   }
+
+  //   const formatedEndTime = this.createEndTime(
+  //     this.formatedDateNow,
+  //     this.formatedTimeNow,
+  //     this.defaultAppointmentTime
+  //   );
+
+  //   // Verifica si la hora seleccionada ya está reservada
+  //   const isTimeStartReserved = this.isTimeAlreadyReserved(
+  //     this.formatedDateNow,
+  //     this.formatedTimeNow
+  //   );
+
+  //   const isTimeEndReserved = this.isTimeAlreadyReserved(
+  //     this.formatedDateNow,
+  //     formatedEndTime
+  //   );
+
+  //   this.checkScheduleAvailability(isTimeStartReserved, isTimeEndReserved);
+  // }
+
   updateTime(event: any) {
     const newValue = event.target.value;
     if (this.formatedTimeNow !== newValue) {
       this.formatedTimeNow = newValue;
     }
-
-    const formatedEndTime = this.createEndTime(
+    // Verifica si la hora seleccionada ya está reservada
+    const isTimeStartReserved = this.isTimeAlreadyReserved(
       this.formatedDateNow,
       this.formatedTimeNow,
       this.defaultAppointmentTime
     );
 
-    // Verifica si la hora seleccionada ya está reservada
-    const isTimeStartReserved = this.isTimeAlreadyReserved(
-      this.formatedDateNow,
-      this.formatedTimeNow
-    );
-
-    const isTimeEndReserved = this.isTimeAlreadyReserved(
-      this.formatedDateNow,
-      formatedEndTime
-    );
-
-    this.checkScheduleAvailability(isTimeStartReserved, isTimeEndReserved);
+    this.checkScheduleAvailability(isTimeStartReserved);
   }
 
   updateAppointmentTime(event: any) {
@@ -423,45 +439,93 @@ export class UpdateAgendamientoComponent implements OnInit {
       this.defaultAppointmentTime = newValue;
     }
 
-    const formatedEndTime = this.createEndTime(
+    // Verifica si la hora seleccionada ya está reservada
+    const isTimeStartReserved = this.isTimeAlreadyReserved(
       this.formatedDateNow,
       this.formatedTimeNow,
       this.defaultAppointmentTime
     );
 
-    // Verifica si la hora seleccionada ya está reservada
-    const isTimeStartReserved = this.isTimeAlreadyReserved(
-      this.formatedDateNow,
-      this.formatedTimeNow
-    );
-
-    const isTimeEndReserved = this.isTimeAlreadyReserved(
-      this.formatedDateNow,
-      formatedEndTime
-    );
-
-    this.checkScheduleAvailability(isTimeStartReserved, isTimeEndReserved);
+    this.checkScheduleAvailability(isTimeStartReserved);
   }
 
-  isTimeAlreadyReserved(selectedDate: string, selectedTime: string): boolean {
+  isTimeAlreadyReserved(
+    selectedDate: string,
+    selectedTime: string,
+    duration: number
+  ): boolean {
     // Convierte la hora seleccionada a un formato compatible con tus eventos
     const selectedTimeAsDate = new Date(`${selectedDate}T${selectedTime}`);
+    const endTimeAsDate = new Date(
+      selectedTimeAsDate.getTime() + duration * 60000
+    );
+
+    this.formatedTimeEnd = this.formatTime(endTimeAsDate);
 
     return this.eventos.some((evento) => {
       const startTime = new Date(`${selectedDate}T${evento.start}`);
       const endTime = new Date(`${selectedDate}T${evento.end}`);
-      return selectedTimeAsDate > startTime && selectedTimeAsDate < endTime;
+      return (
+        (selectedTimeAsDate >= startTime && selectedTimeAsDate < endTime) ||
+        (endTimeAsDate > startTime && endTimeAsDate <= endTime) ||
+        (selectedTimeAsDate < startTime && endTimeAsDate > endTime)
+      );
     });
   }
 
-  checkScheduleAvailability(startTime: boolean, endTIme: boolean) {
-    // Si la hora está reservada, puedes mostrar un mensaje o deshabilitar el botón de guardar
-    if (startTime || endTIme) {
+  checkScheduleAvailability(startTime: boolean) {
+    if (startTime) {
       Notify.warning(
         'La hora seleccionada ya está reservada o superpone a una existente. Por favor, seleccione otra.'
       );
-    }
+    } 
   }
+
+  // updateAppointmentTime(event: any) {
+  //   const newValue = parseInt(event.target.value, 10);
+  //   if (!isNaN(newValue) && this.defaultAppointmentTime !== newValue) {
+  //     this.defaultAppointmentTime = newValue;
+  //   }
+
+  //   const formatedEndTime = this.createEndTime(
+  //     this.formatedDateNow,
+  //     this.formatedTimeNow,
+  //     this.defaultAppointmentTime
+  //   );
+
+  //   // Verifica si la hora seleccionada ya está reservada
+  //   const isTimeStartReserved = this.isTimeAlreadyReserved(
+  //     this.formatedDateNow,
+  //     this.formatedTimeNow
+  //   );
+
+  //   const isTimeEndReserved = this.isTimeAlreadyReserved(
+  //     this.formatedDateNow,
+  //     formatedEndTime
+  //   );
+
+  //   this.checkScheduleAvailability(isTimeStartReserved, isTimeEndReserved);
+  // }
+
+  // isTimeAlreadyReserved(selectedDate: string, selectedTime: string): boolean {
+  //   // Convierte la hora seleccionada a un formato compatible con tus eventos
+  //   const selectedTimeAsDate = new Date(`${selectedDate}T${selectedTime}`);
+
+  //   return this.eventos.some((evento) => {
+  //     const startTime = new Date(`${selectedDate}T${evento.start}`);
+  //     const endTime = new Date(`${selectedDate}T${evento.end}`);
+  //     return selectedTimeAsDate > startTime && selectedTimeAsDate < endTime;
+  //   });
+  // }
+
+  // checkScheduleAvailability(startTime: boolean, endTIme: boolean) {
+  //   // Si la hora está reservada, puedes mostrar un mensaje o deshabilitar el botón de guardar
+  //   if (startTime || endTIme) {
+  //     Notify.warning(
+  //       'La hora seleccionada ya está reservada o superpone a una existente. Por favor, seleccione otra.'
+  //     );
+  //   }
+  // }
 
   private createEndTime(fecha: string, hora: string, duracion: number): string {
     const startDate = this.createStartDate(fecha, hora);

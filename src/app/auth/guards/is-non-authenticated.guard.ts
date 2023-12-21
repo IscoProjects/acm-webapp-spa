@@ -10,7 +10,7 @@ export const isNonAuthenticatedGuard: CanActivateFn = (route, state) => {
   if (authService.authStatus() === AuthStatus.authenticated) {
     switch (authService.currentUser()?.us_role) {
       case 'Administrador':
-        router.navigateByUrl('/protected-route/admin/pages/home');
+        router.navigateByUrl('/protected-route/administrador/pages/home');
         break;
 
       case 'Agendador':

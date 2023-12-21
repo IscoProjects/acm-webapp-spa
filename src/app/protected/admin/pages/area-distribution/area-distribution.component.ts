@@ -115,7 +115,7 @@ export class AreaDistributionComponent implements OnInit {
     this.temporaryStatus.isAvailible = !estado;
     Confirm.show(
       'Actualización',
-      '¿está seguro de realizar los cambios?',
+      '¿Está seguro de guardar los cambios?',
       'Aceptar',
       'Cancelar',
       () => {
@@ -142,7 +142,7 @@ export class AreaDistributionComponent implements OnInit {
     this.temporaryStatus.isAvailible = !estado;
     Confirm.show(
       'Actualización',
-      '¿está seguro de realizar los cambios?',
+      '¿Está seguro de guardar los cambios?',
       'Aceptar',
       'Cancelar',
       () => {
@@ -169,7 +169,7 @@ export class AreaDistributionComponent implements OnInit {
     this.temporaryStatus.isAvailible = !estado;
     Confirm.show(
       'Actualización',
-      '¿está seguro de realizar los cambios?',
+      '¿Está seguro de guardar los cambios?',
       'Aceptar',
       'Cancelar',
       () => {

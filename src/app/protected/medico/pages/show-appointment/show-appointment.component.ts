@@ -97,7 +97,7 @@ export class ShowAppointmentComponent implements OnInit {
             closeButton: true,
           }
         );
-        this.searchUserAgenda();;
+        this.searchUserAgenda();
       })
     );
   }

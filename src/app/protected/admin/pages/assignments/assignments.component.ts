@@ -141,11 +141,11 @@ export class AssignmentsComponent implements OnInit {
     });
   }
 
-  updateUserStatus(id_usuario: string, nombre: string, estado: boolean) {
+  updateUserStatus(id_usuario: string, nombre: string, apellido: string, estado: boolean) {
     this.temporaryStatus.us_isActive = !estado;
     Confirm.show(
       'Actualización',
-      `¿Está seguro de actualizar el estado actual del Usuario '${nombre}'?`,
+      `¿Está seguro de actualizar el estado actual del Usuario '${nombre} ${apellido}'?`,
       'Aceptar',
       'Cancelar',
       () => {

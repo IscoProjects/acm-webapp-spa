@@ -30,25 +30,6 @@ export class AppComponent {
     switch (this.authService.authStatus()) {
       case AuthStatus.checking:
         return;
-      // case AuthStatus.authenticated:
-      //   switch (this.currentProfesional()?.us_role) {
-      //     case 'Administrador':
-      //       this.router.navigateByUrl('/protected-route/admin/pages/home');
-      //       break;
-
-      //     case 'Agendador':
-      //       this.router.navigateByUrl('/protected-route/agendador/pages/home');
-      //       break;
-
-      //     case 'Medico':
-      //       this.router.navigateByUrl('/protected-route/medico/pages/home');
-      //       break;
-
-      //     default:
-      //       this.router.navigateByUrl('/auth/error');
-      //       break;
-      //   }
-      //   return;
       case AuthStatus.nonAuthenticated:
         this.router.navigateByUrl('/auth/login');
         return;

@@ -1,6 +1,13 @@
 # AcmProjectWebapp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.4.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.10.
+
+
+## Project configuration
+
+- Edit variables in the `environments` directory to configure the project.
+
+- Configure the Socket `service` in the directory `proservices/socket.service.ts`.
 
 ## Development server
 

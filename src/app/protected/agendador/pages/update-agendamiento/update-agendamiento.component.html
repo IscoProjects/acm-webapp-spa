@@ -219,8 +219,7 @@
                                                 {{ agendamiento.observaciones | nullPipe}}
                                             </td>
                                             <td class="p-4 whitespace-nowrap">
-                                                <button type="button"
-                                                    (click)="updatePatientInformationForm(agendamiento);"
+                                                <button (click)="updatePatientInformationForm(agendamiento);"
                                                     [value]="agendamiento.id_agendamiento"
                                                     class="p-1 text-xs font-medium text-green-800 bg-green-100 rounded-full dark:bg-green-900 dark:text-green-300 disabled:bg-none disabled:opacity-25"
                                                     [disabled]="!isAnEditableField(agendamiento)">
@@ -240,7 +239,7 @@
                                                 </button>
                                             </td>
                                             <td>
-                                                <button type="button" (click)="toggleCancelModal(agendamiento);"
+                                                <button (click)="toggleCancelModal(agendamiento);"
                                                     [value]="agendamiento.id_agendamiento"
                                                     class="p-1 text-xs font-medium text-red-800 bg-red-100 rounded-full dark:bg-red-900 dark:text-red-300 disabled:bg-none disabled:opacity-25"
                                                     [disabled]="!isAnEditableField(agendamiento)">
@@ -622,7 +621,8 @@
                         <div
                             class="flex items-center justify-end px-3 py-2 border-t border-solid bg-mirage-50 border-mirage-400 dark:bg-mirage-950 dark:border-mirage-600">
                             <button type="submit"
-                                class="custom-blue-button hover:shadow-md disabled:hover:shadow-none dark:custom-blue-button-dark dark:disabled:hover:shadow-none">
+                                class="custom-blue-button hover:shadow-md disabled:hover:shadow-none dark:custom-blue-button-dark dark:disabled:hover:shadow-none"
+                                [disabled]="!updateDateForm.get('usuario')?.value">
                                 Aceptar
                             </button>
                         </div>

@@ -80,7 +80,7 @@ export class UserProfileComponent implements OnInit {
   updateUserInformation() {
     Confirm.show(
       'Actualización',
-      `Guardar cambios para el usuario: ${this.userInformation.us_cedula}`,
+      `¿Guardar cambios para el usuario con CI: ${this.userInformation.us_cedula}?`,
       'Confirmar',
       'Cancelar',
       () => {
@@ -118,7 +118,7 @@ export class UserProfileComponent implements OnInit {
       next: (response) => {
         Confirm.show(
           'Actualización',
-          `Guardar nuevo usuario para <strong> ${this.userInformation.us_cedula}</strong>`,
+          `¿Guardar nuevo usuario para el usuario con CI: ${this.userInformation.us_cedula}?`,
           'Confirmar',
           'Cancelar',
           () => {
@@ -160,7 +160,7 @@ export class UserProfileComponent implements OnInit {
     } else {
       Confirm.show(
         'Actualización',
-        `Guardar nueva contraseña para <strong> ${this.userInformation.us_cedula}</strong>`,
+        `¿Guardar nueva contraseña para el usuario con CI: ${this.userInformation.us_cedula}?`,
         'Confirmar',
         'Cancelar',
         () => {

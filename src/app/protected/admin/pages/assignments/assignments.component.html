@@ -32,7 +32,7 @@
                     </svg>
                     <span class="sr-only">Search</span>
                 </div>
-                <input [(ngModel)]="searchUserString"
+                <input [(ngModel)]="searchUserString" autocomplete="off"
                     class="tracking-wide custom-input-light-square placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark-square dark:shadow-none"
                     placeholder="Buscar Paciente" type="text" name="search" maxlength="12">
             </div>
@@ -322,7 +322,7 @@
                                 <td class="p-4 whitespace-nowrap">
                                     <label class="relative inline-flex items-center cursor-pointer">
                                         <input type="checkbox" [checked]="user.us_isActive" name="user-active"
-                                            (change)="updateUserStatus(user.id_usuario, user.us_nombres, user.us_isActive)"
+                                            (change)="updateUserStatus(user.id_usuario, user.us_nombres, user.us_apellidos, user.us_isActive)"
                                             class="sr-only peer" />
                                         <div
                                             class="peer h-5 w-9 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-mirage-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-mirage-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-mirage-800">
