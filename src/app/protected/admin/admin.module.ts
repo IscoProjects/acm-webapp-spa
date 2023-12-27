@@ -12,9 +12,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { AssignmentsComponent } from './pages/assignments/assignments.component';
 import { AreaDistributionComponent } from './pages/area-distribution/area-distribution.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { SharedProtectedModule } from '../shared-protected/shared-protected.module';
 import { AdminCalendarComponent } from './pages/admin-calendar/admin-calendar.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SharedProtectedModule } from '../shared/shared-protected.module';
 
 @NgModule({
     declarations: [

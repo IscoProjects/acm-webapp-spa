@@ -13,9 +13,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { AgendadorProfileComponent } from './pages/agendador-profile/agendador-profile.component';
-import { SharedProtectedModule } from '../shared-protected/shared-protected.module';
 import { AgrCalendarComponent } from './pages/agr-calendar/agr-calendar.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SharedProtectedModule } from '../shared/shared-protected.module';
 
 @NgModule({
   declarations: [
