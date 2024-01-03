@@ -169,7 +169,7 @@ export class AssignmentsComponent implements OnInit {
   }
 
   createNewUserInformation() {
-    this.usuarioService.addNewSeccionInApi(this.addUserForm.value).subscribe({
+    this.usuarioService.addNewUserInApi(this.addUserForm.value).subscribe({
       next: (resp) => {
         Notify.success('Registro exitoso');
         this.loadProfessionalsInformation();

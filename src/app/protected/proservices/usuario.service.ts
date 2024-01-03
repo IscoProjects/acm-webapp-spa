@@ -20,7 +20,7 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) {}
 
-  addNewSeccionInApi(user: Usuario): Observable<Usuario> {
+  addNewUserInApi(user: Usuario): Observable<Usuario> {
     const x_token = `Bearer ${localStorage.getItem('token')}`;
     const headers = new HttpHeaders().set('Authorization', x_token || '');
     const url = `${this.apiUrlUsuario}create/`;
