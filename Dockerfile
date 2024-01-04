@@ -4,7 +4,7 @@ FROM node:18 as build
 # Establecer el directorio de trabajo en el contenedor
 WORKDIR /app
 
-# Copiar los archivos del paquete.json y el paquete-lock.json
+# Copiar los archivos del paquete.json
 COPY package*.json ./
 
 # Instalar las dependencias
