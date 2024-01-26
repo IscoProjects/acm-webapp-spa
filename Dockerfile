@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Construir la aplicación
-RUN npm run build --prod
+RUN npm run build --omit=dev
 
 # Fase 2: Configurar el servidor Nginx
 FROM nginx:1.21.1-alpine

@@ -19,19 +19,6 @@
                 class="flex items-center justify-center w-full h-6 rounded text-mirage-700 bg-mirage-100 dark:text-mirage-500 dark:bg-mirage-700/30">
                 <h1 class="text-xs font-semibold tracking-wide uppercase">Menú</h1>
             </div>
-            <!-- <button class="text-gray-300 focus:text-orange-500" (click)="toggleSidebar()">
-                <span class="sr-only">Close sidebar</span>
-                <svg xmlns="http://www.w3.org/2000/svg"
-                    class="icon icon-tabler icon-tabler-layout-sidebar-left-collapse" width="22" height="22"
-                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                    <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z">
-                    </path>
-                    <path d="M9 4v16"></path>
-                    <path d="M15 10l-2 2l2 2"></path>
-                </svg>
-            </button> -->
         </div>
 
         <!-- menu -->
@@ -41,8 +28,7 @@
                 <span class="text-xs font-semibold uppercase text-mirage-700 dark:text-mirage-500"> Home</span>
             </div>
 
-            <div [routerLink]="['/protected-route/agendador/pages/home/']"
-                class="flex items-center w-full select-none group gap-x-1">
+            <div [routerLink]="['home']" class="flex items-center w-full select-none group gap-x-1">
                 <div routerLinkActive="bg-orange-500"
                     class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
                     <div
@@ -70,8 +56,7 @@
                 <span class="text-xs font-semibold uppercase text-mirage-700 dark:text-mirage-500"> Agendamientos</span>
             </div>
 
-            <div [routerLink]="['/protected-route/agendador/pages/update-agenda']"
-                class="flex items-center w-full select-none group gap-x-1">
+            <div [routerLink]="['update-agenda']" class="flex items-center w-full select-none group gap-x-1">
                 <div routerLinkActive="bg-orange-500"
                     class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
                     <div
@@ -93,8 +78,7 @@
                 </div>
             </div>
 
-            <div [routerLink]="['/protected-route/agendador/pages/agr-calendar']"
-                class="flex items-center w-full select-none group gap-x-1">
+            <div [routerLink]="['agr-calendar']" class="flex items-center w-full select-none group gap-x-1">
                 <div routerLinkActive="bg-orange-500"
                     class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
                     <div
@@ -122,8 +106,7 @@
                 <span class="text-xs font-semibold uppercase text-mirage-700 dark:text-mirage-500"> Pacientes</span>
             </div>
 
-            <div [routerLink]="['/protected-route/agendador/pages/register-patient']"
-                class="flex items-center w-full select-none group gap-x-1">
+            <div [routerLink]="['register-patient']" class="flex items-center w-full select-none group gap-x-1">
                 <div routerLinkActive="bg-orange-500"
                     class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
                     <div
@@ -145,8 +128,7 @@
                 </div>
             </div>
 
-            <div [routerLink]="['/protected-route/agendador/pages/update-patient']"
-                class="flex items-center w-full select-none group gap-x-1">
+            <div [routerLink]="['update-patient']" class="flex items-center w-full select-none group gap-x-1">
                 <div routerLinkActive="bg-orange-500"
                     class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
                     <div
@@ -167,8 +149,7 @@
                 </div>
             </div>
 
-            <div [routerLink]="['/protected-route/agendador/pages/show-patient']"
-                class="flex items-center w-full select-none group gap-x-1">
+            <div [routerLink]="['show-patient']" class="flex items-center w-full select-none group gap-x-1">
                 <div routerLinkActive="bg-orange-500"
                     class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
                     <div
@@ -270,7 +251,7 @@
                     <path d="M4 18l16 0"></path>
                 </svg>
             </button>
-            <img class="h-7 w-7 md:hidden" src="assets/images/ic_logo_acm.png" />
+            <img class="h-7 w-7 md:hidden" src="assets/images/acm_logo.png" />
         </div>
 
         <div class="flex flex-col w-full gap-1 px-3 my-2">
@@ -280,8 +261,7 @@
                 <span class="text-xs font-bold uppercase text-mirage-700 dark:text-mirage-500">H</span>
             </div>
 
-            <div [routerLink]="['/protected-route/agendador/pages/home/']"
-                class="flex items-center w-full select-none group gap-x-1">
+            <div [routerLink]="['home']" class="flex items-center w-full select-none group gap-x-1">
                 <div routerLinkActive="bg-orange-500"
                     class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
                     <div
@@ -310,8 +290,7 @@
                 <span class="text-xs font-bold uppercase text-mirage-700 dark:text-mirage-500">A</span>
             </div>
 
-            <div [routerLink]="['/protected-route/agendador/pages/update-agenda']"
-                class="flex items-center w-full select-none group gap-x-1">
+            <div [routerLink]="['update-agenda']" class="flex items-center w-full select-none group gap-x-1">
                 <div routerLinkActive="bg-orange-500"
                     class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
                     <div
@@ -333,8 +312,7 @@
                 </div>
             </div>
 
-            <div [routerLink]="['/protected-route/agendador/pages/agr-calendar']"
-                class="flex items-center w-full select-none group gap-x-1">
+            <div [routerLink]="['agr-calendar']" class="flex items-center w-full select-none group gap-x-1">
                 <div routerLinkActive="bg-orange-500"
                     class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
                     <div
@@ -363,8 +341,7 @@
                 <span class="text-xs font-bold uppercase text-mirage-700 dark:text-mirage-500">P</span>
             </div>
 
-            <div [routerLink]="['/protected-route/agendador/pages/register-patient']"
-                class="flex items-center w-full select-none group gap-x-1">
+            <div [routerLink]="['register-patient']" class="flex items-center w-full select-none group gap-x-1">
                 <div routerLinkActive="bg-orange-500"
                     class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
                     <div
@@ -386,8 +363,7 @@
                 </div>
             </div>
 
-            <div [routerLink]="['/protected-route/agendador/pages/update-patient']"
-                class="flex items-center w-full select-none group gap-x-1">
+            <div [routerLink]="['update-patient']" class="flex items-center w-full select-none group gap-x-1">
                 <div routerLinkActive="bg-orange-500"
                     class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
                     <div
@@ -408,8 +384,7 @@
                 </div>
             </div>
 
-            <div [routerLink]="['/protected-route/agendador/pages/show-patient']"
-                class="flex items-center w-full select-none group gap-x-1">
+            <div [routerLink]="['show-patient']" class="flex items-center w-full select-none group gap-x-1">
                 <div routerLinkActive="bg-orange-500"
                     class="relative w-1 h-8 overflow-hidden transition-colors duration-200 rounded-xl">
                     <div
@@ -512,13 +487,14 @@
     <div class="flex flex-col h-full" [ngStyle]="{'width': showSidebar ? 'calc(100% - 288px)' : 'calc(100% - 64px)'}">
         <div
             class="hidden inset-0 min-h-[64px] w-full items-center justify-between border-b border-solid border-gray-300 p-3 dark:border-gray-600 md:flex">
-            <div class="flex gap-2">
-                <img class="w-6 h-6" src="assets/images/ic_logo_acm.png" />
-                <span class="font-semibold">Agendador de Citas</span>
+            <div class="flex flex-row items-center gap-2">
+                <div class="p-1 bg-gray-200 rounded-full dark:bg-zinc-800">
+                    <img class="w-5 h-5" src="assets/images/acm_logo.png" />
+                </div>
+                <span class="font-medium">Agendador de Citas</span>
             </div>
 
-            <div [routerLink]="['/protected-route/agendador/pages/agr-profile']"
-                routerLinkActive="border-orange-600 dark:border-orange-600"
+            <div [routerLink]="['agr-profile']" routerLinkActive="border-orange-600 dark:border-orange-600"
                 class="flex px-2 border-r-4 border-solid border-mirage-700 dark:border-mirage-500">
                 <button class="flex items-center gap-2 hover:text-slate-700 dark:hover:text-gray-200">
                     <span class="sr-only">Profile</span>

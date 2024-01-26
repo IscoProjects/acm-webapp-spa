@@ -11,8 +11,6 @@ import { PacienteService } from 'src/app/protected/proservices/paciente.service'
   styleUrls: ['./show-paciente.component.css'],
 })
 export class ShowPacienteComponent implements OnInit {
-  @Input('data') patientsInformation: Paciente[] = [];
-
   //Paginacion
   public searchPatientString: string = '';
   public maxSize: number = 7;
@@ -32,6 +30,9 @@ export class ShowPacienteComponent implements OnInit {
     screenReaderCurrentLabel: `Página nro.`,
   };
   public eventLog: string[] = [];
+
+  //data
+  patientsInformation: Paciente[] = [];
 
   constructor(private pacienteService: PacienteService) {}
 

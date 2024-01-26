@@ -233,7 +233,7 @@
                     <path d="M4 18l16 0"></path>
                 </svg>
             </button>
-            <img class="h-7 w-7 md:hidden" src="assets/images/ic_logo_acm.png" />
+            <img class="h-7 w-7 md:hidden" src="assets/images/acm_logo.png" />
         </div>
 
         <div class="flex flex-col w-full gap-1 px-3 my-2">
@@ -453,8 +453,10 @@
     <div class="flex flex-col h-full" [ngStyle]="{'width': showSidebar ? 'calc(100% - 288px)' : 'calc(100% - 64px)'}">
         <div
             class="hidden inset-0 min-h-[64px] w-full items-center justify-between border-b border-solid border-gray-300 p-3 dark:border-gray-600 md:flex">
-            <div class="flex gap-2">
-                <img class="w-6 h-6" src="assets/images/ic_logo_acm.png" />
+            <div class="flex flex-row items-center gap-2">
+                <div class="p-1 bg-gray-200 rounded-full dark:bg-zinc-800">
+                    <img class="w-5 h-5" src="assets/images/acm_logo.png" />
+                </div>
                 <span class="font-medium">Agendador de Citas</span>
             </div>
 
