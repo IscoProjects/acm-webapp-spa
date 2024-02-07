@@ -91,6 +91,7 @@ export class CreateAgendamientoComponent {
     'Ninguno',
     'IEES',
     'ISSFA',
+    'ISSPOL',
     'Seguro Campesino',
   ];
 

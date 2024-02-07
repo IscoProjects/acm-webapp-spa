@@ -37,11 +37,11 @@ export class ShowPacienteComponent implements OnInit {
   constructor(private pacienteService: PacienteService) {}
 
   ngOnInit(): void {
+    Loading.dots('Obteniendo información');
     this.pacienteService
       .searchAllPatientInApi()
       .pipe(
         switchMap(() => {
-          Loading.dots('Obteniendo información');
           return this.pacienteService.searchAllPatientInApi();
         })
       )

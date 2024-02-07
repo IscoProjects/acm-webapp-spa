@@ -118,7 +118,7 @@ export class UserProfileComponent implements OnInit {
       next: (response) => {
         Confirm.show(
           'Actualización',
-          `¿Guardar nuevo usuario para el usuario con CI: ${this.userInformation.us_cedula}?`,
+          `¿Guardar nuevo usuario para el profesional con CI: ${this.userInformation.us_cedula}?`,
           'Confirmar',
           'Cancelar',
           () => {

@@ -104,9 +104,9 @@
                                     class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400 truncate">Grupo
                                     Prioritario <strong class="font-semibold text-blue-500">*</strong>
                                 </label>
-
-                                <ng-select labelForId="pac_gprioritario" class="mt-1.5 text-sm" [items]="listOfGroups"
-                                    placeholder="-- Seleccione --" formControlName="pac_gprioritario" [multiple]="true">
+                                <ng-select [items]="listOfGroups" [multiple]="true" labelForId="pac_gprioritario"
+                                    class="mt-1.5 text-sm" placeholder="-- Seleccione --"
+                                    formControlName="pac_gprioritario">
                                 </ng-select>
                             </div>
                         </div>

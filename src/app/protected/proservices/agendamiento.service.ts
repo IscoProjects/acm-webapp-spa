@@ -84,17 +84,6 @@ export class AgendamientoService {
     return this.http.get<Agendamiento[]>(url, { headers });
   }
 
-  searchAgendaByWorkstationAndDate(
-    term: string,
-    date: string
-  ): Observable<Agendamiento[]> {
-    const x_token = `Bearer ${localStorage.getItem('token')}`;
-    const headers = new HttpHeaders().set('Authorization', x_token || '');
-    const url = `${this.apiUrlAgenda}searchByWorkStation&Date/${term}/${date}`;
-
-    return this.http.get<Agendamiento[]>(url, { headers });
-  }
-
   searchEventsByProfessionalInApi(term: string): Observable<EventosCalendar[]> {
     const x_token = `Bearer ${localStorage.getItem('token')}`;
     const headers = new HttpHeaders().set('Authorization', x_token || '');
@@ -142,14 +131,14 @@ export class AgendamientoService {
     );
   }
 
-  searchEventsByWorkstationAndDatesInApi(
+  searchEventsByProfessionalAndDatesInApi(
     term: string,
     startDate: string,
     endDate: string
   ): Observable<EventosCalendar[]> {
     const x_token = `Bearer ${localStorage.getItem('token')}`;
     const headers = new HttpHeaders().set('Authorization', x_token || '');
-    const url = `${this.apiUrlAgenda}searchByWorkStation&Dates/${term}/${startDate}/${endDate}/`;
+    const url = `${this.apiUrlAgenda}searchByProfessional&Dates/${term}/${startDate}/${endDate}`;
 
     return this.http.get<Agendamiento[]>(url, { headers }).pipe(
       map((response) => {

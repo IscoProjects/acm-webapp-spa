@@ -79,15 +79,14 @@ export class UpdateAgendamientoComponent implements OnInit {
     estado_agenda: false,
   });
 
-  polFilterValue: string = '';
-  polsInformation: EstacionTrabajo[] = [];
+  userFilterValue: string = '';
+  usersInformation: Usuario[] = [];
 
   constructor(
     private authService: AuthService,
     private agendaService: AgendamientoService,
     private pacienteService: PacienteService,
     private usuarioService: UsuarioService,
-    private polService: PolivalenteService,
     private fb: FormBuilder,
     private ngSelectConfig: NgSelectConfig
   ) {
@@ -96,15 +95,15 @@ export class UpdateAgendamientoComponent implements OnInit {
 
   ngOnInit(): void {
     Loading.pulse('Obteniendo información');
-    this.polService.searchAllPolInApi().subscribe({
-      next: (pols) => {
-        this.polsInformation = pols;
-        this.polFilterValue = pols[0].descripcion;
-        this.searchAgendaByPol();
+    this.usuarioService.searchAllUsersInfoInApi().subscribe({
+      next: (users) => {
+        this.usersInformation = users;
+        this.userFilterValue = users[0].id_usuario;
+        this.searchAgendaByProfessional();
         Loading.remove();
       },
       error: (e) => {
-        this.polsInformation = [];
+        this.usersInformation = [];
         Loading.remove();
         Report.failure(
           '¡Ups! Algo ha salido mal',
@@ -115,12 +114,11 @@ export class UpdateAgendamientoComponent implements OnInit {
     });
   }
 
-  searchAgendaByPol() {
+  searchAgendaByProfessional() {
     Loading.dots('Cargando...');
-
     this.agendaService
-      .searchAgendaByWorkstationAndDate(
-        this.polFilterValue,
+      .searchAgendaByProfessionalAndDateInApi(
+        this.userFilterValue,
         this.formatedDateNow
       )
       .subscribe({
@@ -284,7 +282,7 @@ export class UpdateAgendamientoComponent implements OnInit {
   }
 
   toggleUpdateModal() {
-    this.searchAgendaByPol();
+    this.searchAgendaByProfessional();
     this.showUpdateModal = !this.showUpdateModal;
   }
 
@@ -324,7 +322,7 @@ export class UpdateAgendamientoComponent implements OnInit {
           detalle_agenda: '',
           estado_agenda: false,
         });
-        this.searchAgendaByPol();
+        this.searchAgendaByProfessional();
       },
       error: (e) => {
         this.cancelDateForm.reset({
@@ -392,32 +390,6 @@ export class UpdateAgendamientoComponent implements OnInit {
     }
   }
 
-  // updateTime(event: any) {
-  //   const newValue = event.target.value;
-  //   if (this.formatedTimeNow !== newValue) {
-  //     this.formatedTimeNow = newValue;
-  //   }
-
-  //   const formatedEndTime = this.createEndTime(
-  //     this.formatedDateNow,
-  //     this.formatedTimeNow,
-  //     this.defaultAppointmentTime
-  //   );
-
-  //   // Verifica si la hora seleccionada ya está reservada
-  //   const isTimeStartReserved = this.isTimeAlreadyReserved(
-  //     this.formatedDateNow,
-  //     this.formatedTimeNow
-  //   );
-
-  //   const isTimeEndReserved = this.isTimeAlreadyReserved(
-  //     this.formatedDateNow,
-  //     formatedEndTime
-  //   );
-
-  //   this.checkScheduleAvailability(isTimeStartReserved, isTimeEndReserved);
-  // }
-
   updateTime(event: any) {
     const newValue = event.target.value;
     if (this.formatedTimeNow !== newValue) {
@@ -481,52 +453,6 @@ export class UpdateAgendamientoComponent implements OnInit {
     } 
   }
 
-  // updateAppointmentTime(event: any) {
-  //   const newValue = parseInt(event.target.value, 10);
-  //   if (!isNaN(newValue) && this.defaultAppointmentTime !== newValue) {
-  //     this.defaultAppointmentTime = newValue;
-  //   }
-
-  //   const formatedEndTime = this.createEndTime(
-  //     this.formatedDateNow,
-  //     this.formatedTimeNow,
-  //     this.defaultAppointmentTime
-  //   );
-
-  //   // Verifica si la hora seleccionada ya está reservada
-  //   const isTimeStartReserved = this.isTimeAlreadyReserved(
-  //     this.formatedDateNow,
-  //     this.formatedTimeNow
-  //   );
-
-  //   const isTimeEndReserved = this.isTimeAlreadyReserved(
-  //     this.formatedDateNow,
-  //     formatedEndTime
-  //   );
-
-  //   this.checkScheduleAvailability(isTimeStartReserved, isTimeEndReserved);
-  // }
-
-  // isTimeAlreadyReserved(selectedDate: string, selectedTime: string): boolean {
-  //   // Convierte la hora seleccionada a un formato compatible con tus eventos
-  //   const selectedTimeAsDate = new Date(`${selectedDate}T${selectedTime}`);
-
-  //   return this.eventos.some((evento) => {
-  //     const startTime = new Date(`${selectedDate}T${evento.start}`);
-  //     const endTime = new Date(`${selectedDate}T${evento.end}`);
-  //     return selectedTimeAsDate > startTime && selectedTimeAsDate < endTime;
-  //   });
-  // }
-
-  // checkScheduleAvailability(startTime: boolean, endTIme: boolean) {
-  //   // Si la hora está reservada, puedes mostrar un mensaje o deshabilitar el botón de guardar
-  //   if (startTime || endTIme) {
-  //     Notify.warning(
-  //       'La hora seleccionada ya está reservada o superpone a una existente. Por favor, seleccione otra.'
-  //     );
-  //   }
-  // }
-
   private createEndTime(fecha: string, hora: string, duracion: number): string {
     const startDate = this.createStartDate(fecha, hora);
     const endTime = new Date(startDate.getTime() + duracion * 60000);
@@ -547,8 +473,8 @@ export class UpdateAgendamientoComponent implements OnInit {
   }
 
   onChangeSelection(value: any) {
-    this.polFilterValue = value.target.value;
-    this.searchAgendaByPol();
+    this.userFilterValue = value.target.value;
+    this.searchAgendaByProfessional();
   }
 
   onPageChange(number: number) {

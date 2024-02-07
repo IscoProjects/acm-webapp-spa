@@ -26,7 +26,7 @@ module.exports = {
         },
       },
       fontFamily: {
-        outfit: ["Outfit", "sans-serif"],
+        barlow: ["Barlow", "sans-serif"],
       },
     },
   },

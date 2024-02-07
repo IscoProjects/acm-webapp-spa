@@ -4,6 +4,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Barlow";
+  src: url("assets/fonts/Barlow-Regular.ttf") format("truetype");
+}
+
 @layer components {
   .custom-input-light {
     margin-top: 6px;

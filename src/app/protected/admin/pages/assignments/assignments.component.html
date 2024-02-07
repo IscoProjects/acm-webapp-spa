@@ -34,7 +34,7 @@
                 </div>
                 <input [(ngModel)]="searchUserString" autocomplete="off"
                     class="tracking-wide custom-input-light-square placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark-square dark:shadow-none"
-                    placeholder="Buscar Paciente" type="text" name="search" maxlength="12">
+                    placeholder="Buscar profesional" type="text" name="search" maxlength="12">
             </div>
 
             <div class="">
@@ -217,7 +217,7 @@
 
                                                     <div *ngIf="searchAreasInformation.get('seccion_agenda')?.value">
                                                         <label for="pol_agenda"
-                                                            class="block text-[10px] uppercase font-medium dark:text-gray-400">Polivalente
+                                                            class="block text-[10px] uppercase font-medium dark:text-gray-400">Estación de trabajo
                                                             <strong
                                                                 class="font-semibold text-blue-500">*</strong></label>
                                                         <ng-select labelForId="pol_agenda" formControlName="pol_agenda"

@@ -53,6 +53,7 @@ export class CreatePacienteComponent {
 
   //Grupos prioritarios
   listOfGroups: string[] = [
+    'Ninguno',
     'Mujer embarazada',
     'Niño menor de 5 años con malnutrición',
     'Niño con esquema de vacunación incompleto',

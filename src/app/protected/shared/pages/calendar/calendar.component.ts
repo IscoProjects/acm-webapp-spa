@@ -5,9 +5,10 @@ import { Loading, Report } from 'notiflix';
 import {
   EstacionTrabajo,
   EventosCalendar,
+  Usuario,
 } from 'src/app/protected/prointerfaces/api.interface';
 import { AgendamientoService } from 'src/app/protected/proservices/agendamiento.service';
-import { PolivalenteService } from 'src/app/protected/proservices/polivalente.service';
+import { UsuarioService } from 'src/app/protected/proservices/usuario.service';
 
 @Component({
   selector: 'app-calendar',
@@ -17,7 +18,7 @@ import { PolivalenteService } from 'src/app/protected/proservices/polivalente.se
 export class CalendarComponent {
   //Find data
   polFilterValue: string = '';
-  polsInformation: EstacionTrabajo[] = [];
+  usersInformation: Usuario[] = [];
 
   //FullCalendar
   calendarOptions!: CalendarOptions;
@@ -25,7 +26,7 @@ export class CalendarComponent {
 
   constructor(
     private agendaService: AgendamientoService,
-    private polService: PolivalenteService,
+    private userService: UsuarioService,
     private cdRef: ChangeDetectorRef
   ) {}
 
@@ -35,13 +36,13 @@ export class CalendarComponent {
 
   private loadInformation() {
     Loading.pulse('Obteniendo información');
-    this.polService.searchAllPolInApi().subscribe({
-      next: (pols) => {
-        this.polsInformation = pols;
+    this.userService.searchAllUsersInfoInApi().subscribe({
+      next: (users) => {
+        this.usersInformation = users;
         Loading.remove();
       },
       error: (e) => {
-        this.polsInformation = [];
+        this.usersInformation = [];
         Loading.remove();
         Report.failure(
           '¡Ups! Algo ha salido mal',
@@ -87,12 +88,12 @@ export class CalendarComponent {
     };
   }
 
-  getEventsFromApi(startDate: string, endDate: string, pol: string) {
+  getEventsFromApi(startDate: string, endDate: string, user: string) {
     const searchMethod =
-      pol === ''
+      user === ''
         ? this.agendaService.searchEventsByDatesInApi(startDate, endDate)
-        : this.agendaService.searchEventsByWorkstationAndDatesInApi(
-            pol,
+        : this.agendaService.searchEventsByProfessionalAndDatesInApi(
+            user,
             startDate,
             endDate
           );

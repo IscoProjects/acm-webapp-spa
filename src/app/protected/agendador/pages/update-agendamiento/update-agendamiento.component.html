@@ -294,10 +294,10 @@
                     <div>
                         <select (change)="onChangeSelection($event)" id="filter-agenda"
                             class="pl-3 pr-2 truncate appearance-none cursor-pointer h-7 custom-input-light-nomargin focus:shadow-md dark:custom-input-dark-nomargin dark:shadow-none">
-                            <option value="" hidden selected disabled> {{polFilterValue}}
+                            <option value="" hidden selected disabled> {{userFilterValue}}
                             </option>
-                            <option *ngFor="let pol of polsInformation" [value]="pol.descripcion">
-                                {{pol.descripcion}}</option>
+                            <option *ngFor="let user of usersInformation" [value]="user.id_usuario">
+                                {{user.us_apellidos + ' ' + user.us_nombres}}</option>
                         </select>
                     </div>
 
