@@ -12,6 +12,7 @@ import { Chart } from 'chart.js/auto';
 import { SeccionService } from 'src/app/protected/proservices/seccion.service';
 import { NgSelectConfig } from '@ng-select/ng-select';
 import { forkJoin } from 'rxjs';
+import { DateTimeService } from 'src/app/protected/proservices/dateTime.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,8 +26,7 @@ export class DashboardComponent implements OnInit {
 
   currentUserInformation: Usuario = Object.create([]);
   usersList: Usuario[] = [];
-  dateNow = new Date();
-  formatedDateNow: string = this.dateNow.toISOString().split('T')[0];
+  formatedDateNow = this.dateTimeService.getCurrentDate();
   avgTiempoEsperaUsersData: AvgTiempoEspera[] = [];
   avgTiempoEsperaSeccions: AvgTiempoEsperaPorSeccion[] = [];
   avgTiempoEsperaUser: AvgTiempoEspera[] = [];
@@ -46,7 +46,8 @@ export class DashboardComponent implements OnInit {
     private userService: UsuarioService,
     private agendaService: AgendamientoService,
     private seccionService: SeccionService,
-    private ngSelectConfig: NgSelectConfig
+    private ngSelectConfig: NgSelectConfig,
+    private dateTimeService: DateTimeService
   ) {
     this.ngSelectConfig.appendTo = 'body';
   }
@@ -109,6 +110,9 @@ export class DashboardComponent implements OnInit {
     const data = this.avgTiempoEsperaUsersData.map(
       (item) => item.tiempo_espera_promedio
     );
+    const turnos = this.avgTiempoEsperaUsersData.map(
+      (item) => item.total_turnos
+    );
 
     this.generalChart = new Chart('avgGeneralLineChart', {
       type: 'line',
@@ -118,10 +122,17 @@ export class DashboardComponent implements OnInit {
           {
             label: 'Tiempo Promedio',
             data: data,
-            borderColor: 'rgb(6 182 212)',
+            borderColor: 'rgb(249 115 22)',
             fill: false,
             tension: 0.1,
             borderWidth: 1.5,
+          },
+          {
+            label: 'Turnos atendidos',
+            data: turnos,
+            borderColor: 'rgb(6 182 212)',
+            fill: false,
+            tension: 0.1,
           },
         ],
       },
@@ -210,6 +221,7 @@ export class DashboardComponent implements OnInit {
     const data = this.avgTiempoEsperaUser.map(
       (item) => item.tiempo_espera_promedio
     );
+    const turnos = this.avgTiempoEsperaUser.map((item) => item.total_turnos);
 
     if (this.userChart) {
       this.userChart.destroy();
@@ -223,6 +235,13 @@ export class DashboardComponent implements OnInit {
           {
             label: 'Tiempo de espera',
             data: data,
+            borderColor: 'rgb(249 115 22)',
+            fill: false,
+            tension: 0.1,
+          },
+          {
+            label: 'Turnos atendidos',
+            data: turnos,
             borderColor: 'rgb(6 182 212)',
             fill: false,
             tension: 0.1,

@@ -42,6 +42,7 @@ export interface Agendamiento {
   id_agendamiento: string;
   nro_agenda: number;
   canal_agenda: string;
+  tipo_agenda: string;
   detalle_agenda: string;
   fecha_agenda: Date;
   fecha_consulta: string;
@@ -148,6 +149,7 @@ export interface polState {
 export interface AvgTiempoEspera {
   dia: string;
   tiempo_espera_promedio: number;
+  total_turnos: number;
 }
 
 export interface AvgTiempoEsperaPorSeccion {

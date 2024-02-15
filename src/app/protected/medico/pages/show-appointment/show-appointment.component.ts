@@ -13,6 +13,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Confirm, Loading, Notify, Report } from 'notiflix';
 import { Subscription, forkJoin } from 'rxjs';
 import { SocketService } from 'src/app/protected/proservices/socket.service';
+import { DateTimeService } from 'src/app/protected/proservices/dateTime.service';
 
 @Component({
   selector: 'app-show-appointment',
@@ -26,7 +27,7 @@ export class ShowAppointmentComponent implements OnInit {
 
   userInformation: Usuario = Object.create([]);
   userPolivalente: EstacionTrabajo = Object.create([]);
-  formatedDateNow: string = new Date().toISOString().split('T')[0];
+  formatedDateNow: string = this.dateTimeService.getCurrentDate();
   formatedTimeStart: string = '';
   formatedTimeEnd: string = '';
   agendaInformation: Agendamiento[] = [];
@@ -38,7 +39,6 @@ export class ShowAppointmentComponent implements OnInit {
   agendaAtendidosNumber: number = 0;
   agendaPendientesNumber: number = 0;
   agendaAusentesNumber: number = 0;
-  initialState: string = 'pendientes';
   showAgendaInformation: Agendamiento[] = [];
   idAgendamiento: string = '';
   // tiempo
@@ -68,13 +68,31 @@ export class ShowAppointmentComponent implements OnInit {
   public message: string = '';
   private subscriptions: Subscription[] = [];
 
+  //categories
+
+  appointmentMessages: { [key: string]: string } = {
+    Agendado: 'Nueva cita agendada para las',
+    Cancelado: 'La cita para las',
+  };
+
+  //Filtrar
+  filterAppointments = [
+    { value: 'pendientes', label: 'Pendientes', default: true },
+    { value: 'atendidos', label: 'Atendidos' },
+    { value: 'inasistencias', label: 'Inasistencias' },
+    { value: 'agendados', label: 'Ver todos' },
+  ];
+
+  initialState = this.filterAppointments[0];
+
   constructor(
     private authService: AuthService,
     private userService: UsuarioService,
     private agendaService: AgendamientoService,
     private consultaService: ConsultaService,
     private fb: FormBuilder,
-    private socketService: SocketService
+    private socketService: SocketService,
+    private dateTimeService: DateTimeService
   ) {}
 
   ngOnInit(): void {
@@ -90,13 +108,18 @@ export class ShowAppointmentComponent implements OnInit {
     this.subscriptions.push(
       this.socketService.fromEvent('agendamiento').subscribe((agendamiento) => {
         const agendamientoTyped = agendamiento as Agendamiento;
+        const newAppointmentType = agendamientoTyped.detalle_agenda;
         const newAppointmentTime = agendamientoTyped.hora_consulta;
-        Notify.info(
-          `Recordatorio: Nueva cita agendada para las ${newAppointmentTime} horas`,
-          {
-            closeButton: true,
-          }
-        );
+
+        const message = this.appointmentMessages[newAppointmentType];
+        if (message) {
+          const notification =
+            newAppointmentType === 'Cancelado'
+              ? `${message} ${newAppointmentTime} horas a sido cancelada`
+              : `${message} ${newAppointmentTime} horas`;
+          Notify.info(`Notificación: ${notification}`, { closeButton: true });
+        }
+
         this.searchUserAgenda();
       })
     );
@@ -121,6 +144,7 @@ export class ShowAppointmentComponent implements OnInit {
   }
 
   searchUserAgenda() {
+    Loading.dots('Cargando...');
     this.agendaService
       .searchAgendaByProfessionalAndDateInApi(
         this.currentProfesional!.id_usuario,
@@ -130,9 +154,11 @@ export class ShowAppointmentComponent implements OnInit {
         next: (response) => {
           this.agendaInformation = response;
           this.getFilteredData();
+          Loading.remove();
         },
         error: (e) => {
           this.agendaInformation = [];
+          Loading.remove();
           Report.failure(
             '¡Ups! Algo ha salido mal',
             `${e.error.message}`,
@@ -144,7 +170,7 @@ export class ShowAppointmentComponent implements OnInit {
 
   getFilteredData() {
     this.filterAgenda(this.agendaInformation);
-    this.setFilteredData(this.initialState);
+    this.setFilteredData(this.initialState.value);
   }
 
   setFilteredData(state: string) {
@@ -390,11 +416,20 @@ export class ShowAppointmentComponent implements OnInit {
     return modalActive || !isConsultationDone;
   }
 
+  getTypeClass(detalle: string): string {
+    switch (detalle) {
+      case 'Interconsulta':
+        return 'bg-violet-100 text-violet-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-violet-900 dark:text-violet-300';
+      default:
+        return 'bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300';
+    }
+  }
+
   getAssistanceClass(assistance: boolean): string {
     if (assistance) {
       return 'bg-green-100 text-green-800 text-xs font-medium px-2.5 py-1 rounded dark:bg-green-900 dark:text-green-300';
     } else {
-      return 'bg-orange-100 text-orange-800 text-xs font-medium px-2.5 py-1 rounded dark:bg-orange-800 dark:text-orange-300';
+      return 'bg-pink-100 text-pink-800 text-xs font-medium px-2.5 py-1 rounded dark:bg-pink-800 dark:text-pink-300';
     }
   }
 

@@ -8,13 +8,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instalar las dependencias
-RUN npm install
+RUN npm install --omit=dev
 
 # Copiar el resto de los archivos de la aplicación
 COPY . .
 
 # Construir la aplicación
-RUN npm run build --omit=dev
+RUN npm run build
 
 # Fase 2: Configurar el servidor Nginx
 FROM nginx:1.21.1-alpine

@@ -54,10 +54,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "acm-project-webapp:build:production"
+              "buildTarget": "acm-project-webapp:build:production"
             },
             "development": {
-              "browserTarget": "acm-project-webapp:build:development"
+              "buildTarget": "acm-project-webapp:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -65,7 +65,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "acm-project-webapp:build"
+            "buildTarget": "acm-project-webapp:build"
           }
         },
         "test": {

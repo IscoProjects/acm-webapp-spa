@@ -23,41 +23,19 @@
                 </div>
             </div>
 
-            <div
-                class="flex flex-row items-center gap-1.5 bg-gray-200 px-1.5 py-1 max-w-fit rounded-md dark:bg-mirage-950">
-
-                <div>
-                    <select id="pol-descripcion" (change)="onChangeSelection()" [(ngModel)]="polFilterValue"
-                        class="pl-3 pr-2 truncate appearance-none cursor-pointer h-7 custom-input-light-nomargin focus:shadow-md dark:custom-input-dark-nomargin dark:shadow-none">
-                        <option value="" selected> Mostrar Todo
-                        </option>
-                        <option *ngFor="let user of usersInformation" [value]="user.id_usuario">
-                            {{user.us_apellidos + ' ' + user.us_nombres}}</option>
-                    </select>
-                </div>
-
-                <div class="items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-adjustments-alt"
-                        width="22" height="22" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" fill="none"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                        <path d="M4 8h4v4h-4z"></path>
-                        <path d="M6 4l0 4"></path>
-                        <path d="M6 12l0 8"></path>
-                        <path d="M10 14h4v4h-4z"></path>
-                        <path d="M12 4l0 10"></path>
-                        <path d="M12 18l0 2"></path>
-                        <path d="M16 5h4v4h-4z"></path>
-                        <path d="M18 4l0 1"></path>
-                        <path d="M18 9l0 11"></path>
-                    </svg>
-                </div>
-            </div>
+            <ng-select labelForId="filter-agenda" [(ngModel)]="userFilterValue" (change)="onChangeSelection()"
+                class="w-48 text-sm" [searchable]="false" [clearable]="false" placeholder="-- Seleccione --">
+                <ng-option [value]="''">Ver todos</ng-option>
+                <ng-option *ngFor="let user of usersInformation" [value]="user.id_usuario">{{user.us_apellidos +
+                    ' '
+                    + user.us_nombres}}
+                </ng-option>
+            </ng-select>
         </div>
     </section>
 
     <section>
-        <div class="p-3 overflow-x-auto bg-gray-100 rounded-md text-mirage-700 dark:bg-gray-300">
+        <div class="p-3 overflow-x-auto bg-gray-200 rounded-md text-mirage-700">
             <full-calendar class=" min-w-[450px] h-[90vh] text-[10px] md:text-sm" [options]="calendarOptions"
                 [events]="eventos"></full-calendar>
         </div>

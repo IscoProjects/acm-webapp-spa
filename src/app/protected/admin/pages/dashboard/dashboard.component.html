@@ -9,7 +9,7 @@
             </div>
 
             <div class="flex flex-row items-center gap-3">
-                <span class="text-xs sm:text-sm">{{ dateNow | date}}</span>
+                <span class="text-xs sm:text-sm">{{ formatedDateNow | date}}</span>
                 <div
                     class="items-center p-1 text-sm rounded-full bg-mirage-600 text-zinc-100 dark:text-zinc-800 dark:bg-mirage-400">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-event"
@@ -29,9 +29,15 @@
     </section>
 
     <section class="flex flex-col gap-2 mb-3 overflow-auto md:overflow-hidden">
-        <div class="flex flex-row items-center min-w-[500px]">
-            <span class="text-sm font-medium sm:text-base">Tiempos de espera por
-                día</span>
+        <div class="flex flex-col justify-center gap-1 min-w-[500px]">
+            <span class="text-sm font-semibold sm:text-base">Resumen general</span>
+            <p class="text-xs text-justify">
+                El siguiente gráfico estadístico representa la tendencia del tiempo promedio de espera de los pacientes
+                para recibir atención en el centro de salud durante los últimos 7 días. En el eje y, se muestra la media
+                en minutos, lo que indica el tiempo promedio que los pacientes esperaron antes de recibir atención
+                médica. Mientras tanto, en el eje x, se presentan las fechas de los últimos 7 días en los que se
+                recopilaron datos sobre el tiempo de espera.
+            </p>
         </div>
         <div
             class="flex justify-center gap-4 p-3 border border-solid bg-mirage-50 border-mirage-400 rounded min-h-[275px] min-w-[500px] max-h-[450px] dark:border-mirage-600 dark:bg-mirage-950">
@@ -40,9 +46,16 @@
     </section>
 
     <section class="flex flex-col gap-2 mb-3 overflow-auto md:overflow-hidden">
-        <div class="flex flex-row items-center min-w-[500px]">
-            <span class="text-sm font-medium sm:text-base">Tiempos de Espera por
+        <div class="flex flex-col justify-center gap-1 min-w-[500px]">
+            <span class="text-sm font-semibold sm:text-base">Tiempos de Espera por
                 Secciones</span>
+            <p class="text-xs text-justify">
+                El siguiente gráfico estadístico representa la tendencia del tiempo promedio de espera de los pacientes
+                para recibir atención en el centro de salud agrupada por las áreas de atención existentes en el centro
+                de salud. En el eje y, se muestra la media en minutos, lo que indica el tiempo promedio que los
+                pacientes esperaron antes de recibir atención médica. Mientras tanto, en el eje x, se presentan las
+                distintas áreas de las que se recopilaron datos sobre el tiempo de espera.
+            </p>
         </div>
         <div
             class="flex justify-center gap-4 p-3 border border-solid bg-mirage-50 border-mirage-400 rounded min-h-[275px] min-w-[500px] max-h-[450px] dark:border-mirage-600 dark:bg-mirage-950">

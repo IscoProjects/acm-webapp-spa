@@ -1,6 +1,6 @@
 <div class="flex flex-col gap-3">
     <div>
-        <div class="hidden w-full h-auto overflow-hidden rounded-b bg-gray-100 max-h-52 md:block">
+        <div class="hidden w-full h-auto overflow-hidden bg-gray-100 rounded-b max-h-52 md:block">
             <img class="bg-no-repeat bg-cover" src="assets/images/msp_banner.svg" alt="">
         </div>
         <div class="flex flex-col items-center mt-2 md:-mt-20">
@@ -13,7 +13,7 @@
                     <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
                 </svg>
             </div>
-            <p class="text-gray-500 dark:text-gray-400"> @{{ userInformation.us_user }}</p>
+            <p class="text-gray-500 dark:text-gray-400"> {{ userInformation.us_user }}</p>
             <div class="flex flex-row items-center gap-3">
                 <p class="text-base sm:text-2xl"> {{userInformation.us_apellidos}} {{userInformation.us_nombres}} </p>
                 <span class="text-mirage-600 dark:text-mirage-400">
@@ -167,12 +167,32 @@
 
         <div
             class="flex flex-col justify-center gap-4 p-3 border border-gray-300 rounded group/item dark:border-mirage-900">
-            <div class="flex flex-row items-center">
+            <div class="flex flex-col gap-3">
                 <span class="text-sm font-medium text-mirage-600 dark:text-mirage-400 sm:text-base">Mis
                     estadísticas</span>
+
+                <p class="text-sm text-justify">
+                    El siguiente gráfico estadístico representa la tendencia del tiempo promedio que el paciente espera
+                    para recibir atención en su especialidad, dentro del centro de salud Chambo. En el eje y, se muestra
+                    la media en minutos, lo que indica el tiempo promedio que los pacientes esperaron desde que fueron
+                    agendados hasta que se registró la atención por parte del profesional. Mientras tanto, en el eje x,
+                    se presentan las fechas de los últimos días en los que se recopilaron datos sobre el tiempo de
+                    espera.
+                </p>
             </div>
             <div class="block">
                 <canvas id="avgLineChart"> {{chart}} </canvas>
+            </div>
+            <div>
+                <p class="text-sm text-justify">
+                    Este gráfico proporciona una visión general de la fluctuación del tiempo de espera promedio a lo
+                    largo de una semana, lo que puede ser útil para identificar patrones temporales y posibles
+                    tendencias. Sin embargo, es importante tener en cuenta que este es un gráfico estadístico
+                    referencial y que otros factores pueden influir en el tiempo de espera exacto de los pacientes, como
+                    la cantidad de personal disponible, la gravedad de las condiciones de los pacientes y la carga de
+                    trabajo del centro de salud en un momento dado. Por lo tanto, este gráfico debe interpretarse como
+                    una indicación general del tiempo de espera promedio y no como un valor absoluto.
+                </p>
             </div>
         </div>
     </div>

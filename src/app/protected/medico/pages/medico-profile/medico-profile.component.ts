@@ -68,7 +68,6 @@ export class MedicoProfileComponent {
           this.polInformation = user.estacion_trabajo;
           this.avgTiempoEsperaData = data;
           this.createChartAVG();
-
           this.userInformationForm
             .get('us_carrera')
             ?.setValue(this.userInformation.us_carrera);
@@ -251,10 +250,11 @@ export class MedicoProfileComponent {
     const labels = this.avgTiempoEsperaData.map(
       (item) => item.dia.split('T')[0]
     );
-    const data = this.avgTiempoEsperaData.map(
+    const avgTime = this.avgTiempoEsperaData.map(
       (item) => item.tiempo_espera_promedio
     );
-
+    const turnos = this.avgTiempoEsperaData.map((item) => item.total_turnos);
+    
     this.chart = new Chart('avgLineChart', {
       type: 'line',
       data: {
@@ -262,7 +262,14 @@ export class MedicoProfileComponent {
         datasets: [
           {
             label: 'Tiempo de espera',
-            data: data,
+            data: avgTime,
+            borderColor: 'rgb(249 115 22)',
+            fill: false,
+            tension: 0.1,
+          },
+          {
+            label: 'Turnos atendidos',
+            data: turnos,
             borderColor: 'rgb(6 182 212)',
             fill: false,
             tension: 0.1,

@@ -17,6 +17,7 @@ import { AgendamientoService } from '../../../proservices/agendamiento.service';
 import { SeccionService } from 'src/app/protected/proservices/seccion.service';
 import { UsuarioService } from 'src/app/protected/proservices/usuario.service';
 import { NgSelectConfig } from '@ng-select/ng-select';
+import { DateTimeService } from 'src/app/protected/proservices/dateTime.service';
 
 @Component({
   selector: 'app-create-agendamiento',
@@ -32,8 +33,7 @@ export class CreateAgendamientoComponent {
   }
 
   //Variables
-  getDateNow: Date = new Date();
-  formatedDateNow: string = this.getDateNow.toISOString().split('T')[0];
+  formatedDateNow: string = this.dateTimeService.getCurrentDate();
   formatedTimeNow: string = '';
   formatedTimeEnd: string = '';
   defaultAppointmentTime: number = 30;
@@ -61,13 +61,15 @@ export class CreateAgendamientoComponent {
     usuario: [, [Validators.required]],
     paciente: [[Validators.required]],
     canal_agenda: [, [Validators.required]],
+    tipo_agenda: [''],
     detalle_agenda: [''],
+    fecha_agenda: [''],
     fecha_consulta: ['', [Validators.required]],
     hora_consulta: ['', [Validators.required]],
     duracion_consulta: ['', [Validators.required]],
     estado_agenda: true,
     pac_asistencia: false,
-    pac_afiliacion: [],
+    pac_afiliacion: [, [Validators.required]],
     observaciones: [''],
     agendado_por: this.currentProfesional!.id_usuario,
   });
@@ -104,7 +106,8 @@ export class CreateAgendamientoComponent {
     private usuarioService: UsuarioService,
     private fb: FormBuilder,
     private router: Router,
-    private ngSelectConfig: NgSelectConfig
+    private ngSelectConfig: NgSelectConfig,
+    private dateTimeService: DateTimeService
   ) {
     this.ngSelectConfig.appendTo = 'body';
   }
@@ -158,26 +161,40 @@ export class CreateAgendamientoComponent {
   }
 
   createPatientDate() {
+    const appointmentDateString =
+      this.registerNewPatientDate.get('fecha_consulta')?.value;
     switch (true) {
       case this.isDemandaNoAgendadaChecked:
-        this.infoNewScheduling('Demanda no Agendada', false);
+        this.infoNewScheduling('Demanda no Agendada', 'DNA', false);
         break;
 
       case this.isInterconsultaChecked:
-        this.infoNewScheduling('Interconsulta', true);
+        if (appointmentDateString !== this.dateTimeService.getCurrentDate()) {
+          this.infoNewScheduling('Interconsulta', 'Pre-agendado', true);
+        } else {
+          this.infoNewScheduling('Interconsulta', 'Agendado', true);
+        }
         break;
 
       default:
-        this.infoNewScheduling('Consulta', true);
+        if (appointmentDateString !== this.dateTimeService.getCurrentDate()) {
+          this.infoNewScheduling('Consulta', 'Pre-agendado', true);
+        } else {
+          this.infoNewScheduling('Consulta', 'Agendado', true);
+        }
         break;
     }
   }
 
-  infoNewScheduling(detail: string, state: boolean) {
+  infoNewScheduling(type: string, detail: string, state: boolean) {
     this.registerNewPatientDate
       .get('paciente')
       ?.setValue(this.patientInformation.id_paciente);
+    this.registerNewPatientDate.get('tipo_agenda')?.setValue(type);
     this.registerNewPatientDate.get('detalle_agenda')?.setValue(detail);
+    this.registerNewPatientDate
+      .get('fecha_agenda')
+      ?.setValue(this.dateTimeService.getCurrentDateTime());
     this.registerNewPatientDate.get('estado_agenda')?.setValue(state);
 
     Confirm.show(
@@ -290,7 +307,7 @@ export class CreateAgendamientoComponent {
     this.registerNewPatientDate.get('fecha_consulta')?.reset('');
     this.registerNewPatientDate.get('hora_consulta')?.reset('');
     this.registerNewPatientDate.get('duracion_consulta')?.reset('');
-    this.formatedDateNow = this.getDateNow.toISOString().split('T')[0];
+    this.formatedDateNow = this.dateTimeService.getCurrentDate();
     this.showDateModal = !this.showDateModal;
   }
 
@@ -452,9 +469,9 @@ export class CreateAgendamientoComponent {
 
   getAppointmentLengthStyle(len: number): string {
     if (len < 16) {
-      return 'flex bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300';
+      return 'flex justify-center bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300';
     } else {
-      return 'flex bg-pink-100 text-pink-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-pink-900 dark:text-pink-300';
+      return 'flex justify-center bg-pink-100 text-pink-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-pink-900 dark:text-pink-300';
     }
   }
 
@@ -534,11 +551,11 @@ export class CreateAgendamientoComponent {
       Notify.warning(
         'La hora seleccionada ya está reservada o superpone a una existente. Por favor, seleccione otra.'
       );
-    } 
+    }
   }
 
   resetFormatedTime() {
-    this.formatedDateNow = this.getDateNow.toISOString().split('T')[0];
+    this.formatedDateNow = this.dateTimeService.getCurrentDate();
     this.formatedTimeEnd = '';
     this.defaultAppointmentTime = 30;
   }
@@ -548,7 +565,9 @@ export class CreateAgendamientoComponent {
       usuario: '',
       paciente: null,
       canal_agenda: null,
+      tipo_agenda: '',
       detalle_agenda: '',
+      fecha_agenda: '',
       fecha_consulta: '',
       hora_consulta: '',
       duracion_consulta: '',

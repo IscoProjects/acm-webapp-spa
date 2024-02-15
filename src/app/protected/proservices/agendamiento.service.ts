@@ -176,13 +176,14 @@ export class AgendamientoService {
     });
   }
 
+
   updateSchedulingStateInApi(
     term: string,
     mark: any
   ): Observable<Agendamiento> {
     const x_token = `Bearer ${localStorage.getItem('token')}`;
     const headers = new HttpHeaders().set('Authorization', x_token || '');
-    const updateUrlInfo = `${this.apiUrlAgenda}update/${term}`;
+    const updateUrlInfo = `${this.apiUrlAgenda}update-status/${term}`;
     return this.http.patch<Agendamiento>(updateUrlInfo, mark, {
       headers,
     });
@@ -201,13 +202,13 @@ export class AgendamientoService {
     const asistencia = item.pac_asistencia ? 'Asistido' : 'No Asistido';
     const vigencia = item.estado_agenda ? 'Vigente' : 'No Vigente';
     const observaciones = item.observaciones || 'S/Inf.';
-    const detalle = item.detalle_agenda || 'S/Inf';
+    const tipo = item.tipo_agenda || 'S/Inf';
 
     return `PAC.: ${item.paciente!.pac_cedula}, ${
       item.paciente!.pac_apellido
     } ${item.paciente!.pac_nombre}. PROF.: ${item.usuario?.us_apellidos} ${
       item.usuario?.us_nombres
-    }. ESTADO: ${vigencia}. DETALLES: ${detalle} - ${asistencia}. OBS.: ${observaciones}`;
+    }. ESTADO: ${vigencia}. DETALLES: ${tipo} - ${asistencia}. OBS.: ${observaciones}`;
   }
 
   private createStartDate(fecha: string, hora: string): Date {

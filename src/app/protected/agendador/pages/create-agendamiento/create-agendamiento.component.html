@@ -173,7 +173,7 @@
                                 <div class="">
                                     <label for="pac_afiliacion"
                                         class="block text-[10px] tracking-wider text-gray-500 uppercase font-medium dark:text-gray-400">Afiliación
-                                        Paciente</label>
+                                        Paciente <strong class="font-semibold text-blue-500">*</strong></label>
                                     <ng-select [items]="patientAffiliationList" labelForId="pac_afiliacion"
                                         class="mt-1.5 text-sm" placeholder="-- Seleccione --"
                                         formControlName="pac_afiliacion">
@@ -299,17 +299,20 @@
                                                     <div class="relative min-h-[6rem] overflow-x-auto w-80 sm:w-auto">
                                                         <span
                                                             class="text-[10px] uppercase font-medium dark:text-gray-400">Asignaciones</span>
-                                                        <div>
+                                                        <div class="mt-1.5">
                                                             <table class="w-full text-left">
                                                                 <thead
                                                                     class="text-xs uppercase border bg-mirage-50 border-mirage-400 dark:bg-mirage-950 dark:border-mirage-600">
                                                                     <tr>
                                                                         <th scope="col"
                                                                             class="px-1.5 py-2 text-[10px] font-medium uppercase">
-                                                                            Médico</th>
+                                                                            Profesional</th>
                                                                         <th scope="col"
                                                                             class="px-1.5 py-2 text-[10px] font-medium uppercase">
-                                                                            Polivalente</th>
+                                                                            Consultorio</th>
+                                                                        <th scope="col"
+                                                                            class="px-1.5 py-2 text-[10px] font-medium uppercase">
+                                                                            Turnos</th>
                                                                     </tr>
                                                                 </thead>
 
@@ -317,25 +320,26 @@
                                                                     class="border border-mirage-400 dark:border-mirage-600">
                                                                     <tr
                                                                         *ngFor="let profesional of profesionalInformation ">
-                                                                        <td class="px-1.5 py-2 flex flex-col gap-1">
+                                                                        <td class="px-2 py-1.5">
                                                                             <div
                                                                                 [ngClass]="getStringStyle(profesional.us_isActive)">
-                                                                                <span>{{profesional.us_apellidos + ' '
-                                                                                    +
-                                                                                    profesional.us_nombres |
-                                                                                    nullPipe}}</span>
+                                                                                {{profesional.us_apellidos + ' '
+                                                                                +
+                                                                                profesional.us_nombres |
+                                                                                nullPipe}}
                                                                             </div>
                                                                         </td>
-                                                                        <td class="px-1.5 py-2">
-                                                                            <div class="flex flex-row gap-3">
-                                                                                <span>
-                                                                                    {{
-                                                                                    profesional.estacion_trabajo.descripcion
-                                                                                    }}
-                                                                                </span>
-                                                                                <span
-                                                                                    [ngClass]="getAppointmentLengthStyle(profesional.numTurnos!)">{{profesional.numTurnos
-                                                                                    + ' turnos'}}</span>
+                                                                        <td class="px-2 py-1.5">
+                                                                            <div class="flex">
+                                                                                {{
+                                                                                profesional.estacion_trabajo.descripcion
+                                                                                }}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="px-2 py-1.5">
+                                                                            <div
+                                                                                [ngClass]="getAppointmentLengthStyle(profesional.numTurnos!)">
+                                                                                {{profesional.numTurnos}}
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -373,11 +377,11 @@
                                     </div>
                                 </section>
 
-                                <!-- Modal Fecha -->
+                                <!-- Modal agendamiento -->
                                 <section *ngIf="showDateModal">
                                     <div
                                         class="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
-                                        <div class="relative my-6 mx-auto w-64 sm:w-96 md:w-[475px] lg:w-[650px]">
+                                        <div class="relative my-6 mx-auto w-64 sm:w-96 md:w-[500px] lg:w-[650px]">
                                             <!--content-->
                                             <div
                                                 class="flex flex-col w-full overflow-hidden border border-solid rounded outline-none border-mirage-400 bg-mirage-50 focus:outline-none dark:border-mirage-600">
@@ -424,14 +428,13 @@
                                                 <div
                                                     class="relative flex-auto px-3 py-2 overflow-auto bg-gray-50 dark:bg-mirage-950 dark:border-mirage-600 md:overflow-hidden">
                                                     <div class="relative w-80 sm:w-auto">
-                                                        <div class="flex h-[450px] flex-col gap-4 md:flex-row">
-                                                            <div
-                                                                class="flex flex-col gap-3 basis-1/2 md:overflow-y-auto">
+                                                        <div class="flex h-[450px] flex-col md:flex-row">
+                                                            <div class="flex flex-col gap-3 basis-1/2">
                                                                 <span>Reservaciones</span>
-                                                                <div class="flex flex-col gap-2">
+                                                                <div class="flex flex-col gap-2 md:overflow-y-auto">
                                                                     <ng-container *ngFor="let event of eventos">
                                                                         <div
-                                                                            class="flex flex-col px-2 py-1 border-l-2 border-solid shadow-md border-mirage-600 rounded-r-md bg-mirage-50 dark:bg-zinc-900">
+                                                                            class="flex flex-col gap-1 px-2 py-1 border-l-2 border-solid shadow-md border-mirage-600 rounded-r-md bg-mirage-50 dark:bg-zinc-900">
                                                                             <div class="flex justify-between">
                                                                                 <div class="flex items-center gap-1">
                                                                                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -481,19 +484,19 @@
                                                                                 </div>
                                                                             </div>
                                                                             <div
-                                                                                class="flex flex-row items-center justify-between">
-
-                                                                                <span class="text-sm"><strong>Paciente:
-                                                                                    </strong>{{event.paciente}}</span>
-
-                                                                                <small>{{event.duracion_consulta}}
-                                                                                    min.</small>
+                                                                                class="flex flex-row items-center text-xs">
+                                                                                Paciente: {{event.paciente}}
+                                                                            </div>
+                                                                            <div class="flex justify-start text-xs">
+                                                                                Tiempo de consulta:
+                                                                                {{event.duracion_consulta}} minutos.
                                                                             </div>
                                                                         </div>
                                                                     </ng-container>
                                                                 </div>
                                                             </div>
-                                                            <div class="flex flex-col gap-3 basis-1/2">
+                                                            <div
+                                                                class="flex flex-col gap-3 py-3 basis-1/2 md:pl-3 md:pt-0">
 
                                                                 <span>Calendario</span>
 

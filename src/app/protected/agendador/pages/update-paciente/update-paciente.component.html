@@ -185,7 +185,7 @@
                                     class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400">Parroquia
                                     <strong class="font-semibold text-blue-500">*</strong></label>
                                 <ng-select labelForId="pac_parroquia" class="mt-1.5 text-sm" [items]="parroquias"
-                                    (change)="onParroquiaChange()" bindLabel="nombre" bindValue="nombre"
+                                    (change)="onParroquiaChange()" bindLabel="nombre" bindValue="nombre" [addTag]="true"
                                     placeholder="-- Seleccione --" formControlName="pac_parroquia" required>
                                 </ng-select>
                             </div>

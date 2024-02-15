@@ -15,6 +15,7 @@ import { PaginationInstance } from 'ngx-pagination';
 import { UsuarioService } from 'src/app/protected/proservices/usuario.service';
 import { PolivalenteService } from 'src/app/protected/proservices/polivalente.service';
 import { NgSelectConfig } from '@ng-select/ng-select';
+import { DateTimeService } from 'src/app/protected/proservices/dateTime.service';
 
 @Component({
   selector: 'app-update-agendamiento',
@@ -53,14 +54,13 @@ export class UpdateAgendamientoComponent implements OnInit {
   agendaUpdateSumary: string = '';
   patientNumerOfDates: number = 0;
   searchPatientString: string = '';
-  getDateNow = new Date();
   isAgendaFound: boolean = false;
   listUsersBySection: Usuario[] = [];
   agendamientos: Agendamiento[] = [];
 
   //Eventos
   eventos: Eventos[] = [];
-  formatedDateNow: string = this.getDateNow.toISOString().split('T')[0];
+  formatedDateNow: string = this.dateTimeService.getCurrentDate();
   formatedTimeNow: string = '';
   formatedTimeEnd: string = '';
   defaultAppointmentTime: number = 30;
@@ -68,6 +68,7 @@ export class UpdateAgendamientoComponent implements OnInit {
 
   updateDateForm: FormGroup = this.fb.group({
     usuario: ['', [Validators.required]],
+    fecha_agenda: '',
     fecha_consulta: ['', [Validators.required]],
     hora_consulta: ['', [Validators.required]],
     detalle_agenda: ['', [Validators.required]],
@@ -79,6 +80,11 @@ export class UpdateAgendamientoComponent implements OnInit {
     estado_agenda: false,
   });
 
+  confirmAppointmentForm: FormGroup = this.fb.group({
+    fecha_agenda: '',
+    detalle_agenda: 'Agendado',
+  });
+
   userFilterValue: string = '';
   usersInformation: Usuario[] = [];
 
@@ -88,7 +94,8 @@ export class UpdateAgendamientoComponent implements OnInit {
     private pacienteService: PacienteService,
     private usuarioService: UsuarioService,
     private fb: FormBuilder,
-    private ngSelectConfig: NgSelectConfig
+    private ngSelectConfig: NgSelectConfig,
+    private dateTimeService: DateTimeService
   ) {
     this.ngSelectConfig.appendTo = 'body';
   }
@@ -141,7 +148,7 @@ export class UpdateAgendamientoComponent implements OnInit {
   updatePatientInformationForm(agenda: Agendamiento) {
     const getTimeNow = new Date();
     this.formatedTimeNow = this.formatTime(getTimeNow);
-    this.formatedDateNow = this.getDateNow.toISOString().split('T')[0];
+    this.formatedDateNow = this.dateTimeService.getCurrentDate();
     this.idAgendamientoSelected = agenda.id_agendamiento;
 
     this.agendaUpdateSumary = `La consulta está programada para el ${agenda.fecha_consulta} a las ${agenda.hora_consulta}, con el Profesional ${agenda.usuario?.us_apellidos} ${agenda.usuario?.us_nombres}. Para cambiarla, seleccione una nueva fecha.`;
@@ -240,10 +247,21 @@ export class UpdateAgendamientoComponent implements OnInit {
   updatePatientDate() {
     this.updateDateForm.get('fecha_consulta')?.setValue(this.formatedDateNow);
     this.updateDateForm.get('hora_consulta')?.setValue(this.formatedTimeNow);
-    this.updateDateForm.get('detalle_agenda')?.setValue('Reagendado');
     this.updateDateForm
       .get('duracion_consulta')
       ?.setValue(this.defaultAppointmentTime);
+
+    this.updateDateForm
+      .get('fecha_agenda')
+      ?.setValue(this.dateTimeService.getCurrentDateTime());
+
+    if (this.formatedDateNow === this.dateTimeService.getCurrentDate()) {
+      this.updateDateForm.get('detalle_agenda')?.setValue('Reagendado');
+    } else {
+      this.updateDateForm.get('detalle_agenda')?.setValue('Pre-agendado');
+    }
+
+    console.log(this.updateDateForm.value);
 
     Confirm.show(
       'Actualización',
@@ -259,17 +277,11 @@ export class UpdateAgendamientoComponent implements OnInit {
           .subscribe({
             next: (resp) => {
               Notify.success('Actualización exitosa');
-              this.searchPatientString = '';
-              this.patientInformation = Object.create([]);
-              this.isAgendaFound = false;
               this.updateDateForm.reset(this.resetReservationForm);
               this.toggleUpdateModal();
             },
             error: (e) => {
               Report.failure('No actualizado', `${e.error.message}`, 'Volver');
-              this.searchPatientString = '';
-              this.patientInformation = Object.create([]);
-              this.isAgendaFound = false;
               this.updateDateForm.reset(this.resetReservationForm);
               this.toggleUpdateModal();
             },
@@ -282,7 +294,12 @@ export class UpdateAgendamientoComponent implements OnInit {
   }
 
   toggleUpdateModal() {
-    this.searchAgendaByProfessional();
+    this.formatedDateNow = this.dateTimeService.getCurrentDate();
+    if (this.isAgendaFound) {
+      this.searchAgendaInformation();
+    } else {
+      this.searchAgendaByProfessional();
+    }
     this.showUpdateModal = !this.showUpdateModal;
   }
 
@@ -322,7 +339,11 @@ export class UpdateAgendamientoComponent implements OnInit {
           detalle_agenda: '',
           estado_agenda: false,
         });
-        this.searchAgendaByProfessional();
+        if (this.isAgendaFound) {
+          this.searchAgendaInformation();
+        } else {
+          this.searchAgendaByProfessional();
+        }
       },
       error: (e) => {
         this.cancelDateForm.reset({
@@ -348,7 +369,6 @@ export class UpdateAgendamientoComponent implements OnInit {
             this.patientInformation = resp;
             this.patientNumerOfDates =
               this.patientInformation.agendamiento.length;
-
             this.isAgendaFound = true;
             Loading.remove();
           },
@@ -373,12 +393,13 @@ export class UpdateAgendamientoComponent implements OnInit {
   }
 
   isAnEditableField(agenda: Agendamiento): boolean {
+    const getDateNow = new Date();
     if (agenda.detalle_agenda === 'Cancelado') {
       return false;
     }
     const stringDate = `${agenda.fecha_consulta}T${agenda.hora_consulta}`;
     const fechaCita = new Date(stringDate);
-    return fechaCita >= this.getDateNow;
+    return fechaCita >= getDateNow;
   }
 
   updateDate(event: any) {
@@ -450,17 +471,57 @@ export class UpdateAgendamientoComponent implements OnInit {
       Notify.warning(
         'La hora seleccionada ya está reservada o superpone a una existente. Por favor, seleccione otra.'
       );
-    } 
+    }
   }
 
-  private createEndTime(fecha: string, hora: string, duracion: number): string {
-    const startDate = this.createStartDate(fecha, hora);
-    const endTime = new Date(startDate.getTime() + duracion * 60000);
-    const hours = endTime.getHours().toString().padStart(2, '0');
-    const minutes = endTime.getMinutes().toString().padStart(2, '0');
-    const seconds = endTime.getSeconds().toString().padStart(2, '0');
-    return `${hours}:${minutes}:${seconds}`;
+  confirmAppointment(agenda: Agendamiento) {
+    const id_agenda = agenda.id_agendamiento;
+
+    this.confirmAppointmentForm
+      .get('fecha_agenda')
+      ?.setValue(this.dateTimeService.getCurrentDateTime());
+
+    console.log(this.confirmAppointmentForm.value);
+
+    Confirm.show(
+      'Actualización',
+      '¿Validar la cita pre-agendada?',
+      'Confirmar',
+      'Cancelar',
+      () => {
+        this.agendaService
+          .updateSchedulingStateInApi(
+            id_agenda,
+            this.confirmAppointmentForm.value
+          )
+          .subscribe({
+            next: (resp) => {
+              this.confirmAppointmentForm.reset(this.resetConfirmForm);
+              this.searchAgendaInformation();
+              Notify.success('Actualización exitosa');
+            },
+            error: (e) => {
+              Report.failure('No actualizado', `${e.error.message}`, 'Volver');
+              this.confirmAppointmentForm.reset(this.resetConfirmForm);
+              this.searchAgendaInformation();
+            },
+          });
+      },
+      () => {
+        Notify.failure('Actualización cancelada');
+        this.confirmAppointmentForm.reset(this.resetConfirmForm);
+      }
+    );
   }
+
+  // private createEndTime(fecha: string, hora: string, duracion: number): string {
+  //   const startDate = this.createStartDate(fecha, hora);
+  //   const endTime = new Date(startDate.getTime() + duracion * 60000);
+  //   const hours = endTime.getHours().toString().padStart(2, '0');
+  //   const minutes = endTime.getMinutes().toString().padStart(2, '0');
+  //   const seconds = endTime.getSeconds().toString().padStart(2, '0');
+  //   return `${hours}:${minutes}:${seconds}`;
+  // }
 
   private createStartDate(fecha: string, hora: string): Date {
     return new Date(`${fecha}T${hora}`);
@@ -469,11 +530,27 @@ export class UpdateAgendamientoComponent implements OnInit {
   onSearchInputChange() {
     if (this.searchPatientString === '') {
       this.isAgendaFound = false;
+      this.usuarioService.searchAllUsersInfoInApi().subscribe({
+        next: (users) => {
+          this.usersInformation = users;
+          this.userFilterValue = users[0].id_usuario;
+          this.searchAgendaByProfessional();
+          Loading.remove();
+        },
+        error: (e) => {
+          this.usersInformation = [];
+          Loading.remove();
+          Report.failure(
+            '¡Ups! Algo ha salido mal',
+            `${e.error.message}`,
+            'Volver'
+          );
+        },
+      });
     }
   }
 
-  onChangeSelection(value: any) {
-    this.userFilterValue = value.target.value;
+  onChangeSelection() {
     this.searchAgendaByProfessional();
   }
 
@@ -491,12 +568,25 @@ export class UpdateAgendamientoComponent implements OnInit {
     this.eventLog.unshift(`${new Date().toISOString()}: ${message}`);
   }
 
-  getStatusClass(detalle: string): string {
+  getTypeClass(detalle: string): string {
     switch (detalle) {
-      case 'Cancelado':
-        return 'bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300';
+      case 'Interconsulta':
+        return 'bg-violet-100 text-violet-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-violet-900 dark:text-violet-300';
+      case 'Demanda no Agendada':
+        return 'bg-fuchsia-100 text-fuchsia-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-fuchsia-900 dark:text-fuchsia-300';
       default:
         return 'bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300';
+    }
+  }
+
+  getDetailClass(detalle: string): string {
+    switch (detalle) {
+      case 'Cancelado':
+        return 'bg-pink-100 text-pink-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-pink-900 dark:text-pink-300';
+      case 'DNA':
+        return 'bg-fuchsia-100 text-fuchsia-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-fuchsia-900 dark:text-fuchsia-300';
+      default:
+        return 'bg-teal-100 text-teal-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-teal-900 dark:text-teal-300';
     }
   }
 
@@ -504,17 +594,25 @@ export class UpdateAgendamientoComponent implements OnInit {
     if (assistance) {
       return 'bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300';
     } else {
-      return 'bg-pink-100 text-pink-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-pink-900 dark:text-pink-300';
+      return 'bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300';
     }
   }
 
   get resetReservationForm() {
     return {
       usuario: '',
+      fecha_agenda: '',
       detalle_agenda: '',
       fecha_consulta: '',
       hora_consulta: '',
       duracion_consulta: 30,
+    };
+  }
+
+  get resetConfirmForm() {
+    return {
+      fecha_agenda: '',
+      detalle_agenda: 'Agendado',
     };
   }
 }

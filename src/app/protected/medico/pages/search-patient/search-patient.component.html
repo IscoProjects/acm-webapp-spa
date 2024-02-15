@@ -211,6 +211,9 @@
                                                 Hora
                                             </th>
                                             <th scope="col" class="p-4">
+                                                Profesional
+                                            </th>
+                                            <th scope="col" class="p-4">
                                                 Estado
                                             </th>
                                             <th scope="col" class="p-4">
@@ -230,9 +233,12 @@
                                             <td class="p-4 whitespace-nowrap">
                                                 {{ agendamiento.hora_consulta}}
                                             </td>
-
                                             <td class="p-4 whitespace-nowrap">
-                                                <span [ngClass]="getStatusClass(agendamiento.detalle_agenda)">{{
+                                                {{ agendamiento.usuario!.us_nombres}} {{
+                                                agendamiento.usuario!.us_apellidos}}
+                                            </td>
+                                            <td class="p-4 whitespace-nowrap">
+                                                <span [ngClass]="getTypeClass(agendamiento.detalle_agenda)">{{
                                                     agendamiento.detalle_agenda }}</span>
                                             </td>
                                             <td class="p-4 whitespace-nowrap">

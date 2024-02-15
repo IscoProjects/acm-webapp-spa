@@ -12,6 +12,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MedicoProfileComponent } from './pages/medico-profile/medico-profile.component';
 import { SharedProtectedModule } from '../shared/shared-protected.module';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { SharedProtectedModule } from '../shared/shared-protected.module';
     ProtectedModule,
     FullCalendarModule,
     NgxPaginationModule,
+    NgSelectModule
   ],
 })
 export class MedicoModule {}

@@ -92,7 +92,7 @@ export class ShowCalendarComponent {
       locale: 'es',
       fixedWeekCount: false,
       firstDay: 1,
-      weekends: false,
+      weekends: true,
     };
   }
 }

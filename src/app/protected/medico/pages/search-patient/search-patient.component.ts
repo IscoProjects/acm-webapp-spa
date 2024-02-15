@@ -85,10 +85,10 @@ export class SearchPatientComponent {
     this.eventLog.unshift(`${new Date().toISOString()}: ${message}`);
   }
 
-  getStatusClass(estado: string): string {
-    switch (estado) {
-      case 'Cancelado':
-        return 'bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300';
+  getTypeClass(detalle: string): string {
+    switch (detalle) {
+      case 'Interconsulta':
+        return 'bg-violet-100 text-violet-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-violet-900 dark:text-violet-300';
       default:
         return 'bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300';
     }

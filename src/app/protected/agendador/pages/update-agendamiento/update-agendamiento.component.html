@@ -172,6 +172,9 @@
                                                 Profesional
                                             </th>
                                             <th scope="col" class="p-4">
+                                                Tipo
+                                            </th>
+                                            <th scope="col" class="p-4">
                                                 Detalle
                                             </th>
                                             <th scope="col" class="p-4">
@@ -181,7 +184,7 @@
                                                 Observaciones
                                             </th>
                                             <th scope="col" class="p-4">
-                                                Modificar
+                                                Acciones
                                             </th>
                                             <th scope="col" class="p-4">
                                                 Cancelar
@@ -208,8 +211,14 @@
                                                 agendamiento.usuario!.us_apellidos}}
                                             </td>
                                             <td class="p-4 whitespace-nowrap">
-                                                <span [ngClass]="getStatusClass(agendamiento.detalle_agenda)">{{
-                                                    agendamiento.detalle_agenda }}</span>
+                                                <span [ngClass]="getTypeClass(agendamiento.tipo_agenda)">
+                                                    {{agendamiento.tipo_agenda }}
+                                                </span>
+                                            </td>
+                                            <td class="p-4 whitespace-nowrap">
+                                                <span [ngClass]="getDetailClass(agendamiento.detalle_agenda)">
+                                                    {{agendamiento.detalle_agenda }}
+                                                </span>
                                             </td>
                                             <td class="p-4 whitespace-nowrap">
                                                 <span [ngClass]="getAssistanceClass(agendamiento.pac_asistencia)">{{
@@ -219,6 +228,22 @@
                                                 {{ agendamiento.observaciones | nullPipe}}
                                             </td>
                                             <td class="p-4 whitespace-nowrap">
+                                                @if (agendamiento.detalle_agenda === 'Pre-agendado') {
+                                                <button (click)="confirmAppointment(agendamiento);"
+                                                    [value]="agendamiento.id_agendamiento"
+                                                    class="p-1 text-xs font-medium text-teal-800 bg-teal-100 rounded-full dark:bg-teal-900 dark:text-teal-300 disabled:bg-none disabled:opacity-25"
+                                                    [disabled]="!isAnEditableField(agendamiento)">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="icon icon-tabler icon-tabler-checks" width="18"
+                                                        height="18" viewBox="0 0 24 24" stroke-width="1.5"
+                                                        stroke="currentColor" fill="none" stroke-linecap="round"
+                                                        stroke-linejoin="round">
+                                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                        <path d="M7 12l5 5l10 -10" />
+                                                        <path d="M2 12l5 5m5 -5l5 -5" />
+                                                    </svg>
+                                                </button>
+                                                }@else {
                                                 <button (click)="updatePatientInformationForm(agendamiento);"
                                                     [value]="agendamiento.id_agendamiento"
                                                     class="p-1 text-xs font-medium text-green-800 bg-green-100 rounded-full dark:bg-green-900 dark:text-green-300 disabled:bg-none disabled:opacity-25"
@@ -237,8 +262,9 @@
                                                         <path d="M16 5l3 3"></path>
                                                     </svg>
                                                 </button>
+                                                }
                                             </td>
-                                            <td>
+                                            <td class="p-4 whitespace-nowrap">
                                                 <button (click)="toggleCancelModal(agendamiento);"
                                                     [value]="agendamiento.id_agendamiento"
                                                     class="p-1 text-xs font-medium text-red-800 bg-red-100 rounded-full dark:bg-red-900 dark:text-red-300 disabled:bg-none disabled:opacity-25"
@@ -288,36 +314,12 @@
 
                 <span class="hidden text-sm font-medium uppercase md:flex">Agendamientos</span>
 
-                <div
-                    class="flex flex-row items-center gap-1.5 bg-gray-200 px-1.5 py-1 max-w-fit rounded-md dark:bg-mirage-950">
+                <ng-select labelForId="filter-agenda" [(ngModel)]="userFilterValue" (change)="onChangeSelection()"
+                    class="w-48 text-sm" placeholder="-- Seleccione --" [searchable]="false" [clearable]="false">
 
-                    <div>
-                        <select (change)="onChangeSelection($event)" id="filter-agenda"
-                            class="pl-3 pr-2 truncate appearance-none cursor-pointer h-7 custom-input-light-nomargin focus:shadow-md dark:custom-input-dark-nomargin dark:shadow-none">
-                            <option value="" hidden selected disabled> {{userFilterValue}}
-                            </option>
-                            <option *ngFor="let user of usersInformation" [value]="user.id_usuario">
-                                {{user.us_apellidos + ' ' + user.us_nombres}}</option>
-                        </select>
-                    </div>
-
-                    <div class="items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-adjustments-alt"
-                            width="22" height="22" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor"
-                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path d="M4 8h4v4h-4z"></path>
-                            <path d="M6 4l0 4"></path>
-                            <path d="M6 12l0 8"></path>
-                            <path d="M10 14h4v4h-4z"></path>
-                            <path d="M12 4l0 10"></path>
-                            <path d="M12 18l0 2"></path>
-                            <path d="M16 5h4v4h-4z"></path>
-                            <path d="M18 4l0 1"></path>
-                            <path d="M18 9l0 11"></path>
-                        </svg>
-                    </div>
-                </div>
+                    <ng-option *ngFor="let user of usersInformation" [value]="user.id_usuario">{{user.us_apellidos + ' '
+                        + user.us_nombres}}</ng-option>
+                </ng-select>
             </div>
 
             <div *ngIf="agendamientos.length >= 1" class="flex">
@@ -345,6 +347,9 @@
                                     Profesional
                                 </th>
                                 <th scope="col" class="p-4">
+                                    Tipo
+                                </th>
+                                <th scope="col" class="p-4">
                                     Detalle
                                 </th>
                                 <th scope="col" class="p-4">
@@ -354,7 +359,7 @@
                                     Observaciones
                                 </th>
                                 <th scope="col" class="p-4">
-                                    Modificar
+                                    Acciones
                                 </th>
                                 <th scope="col" class="p-4">
                                     Cancelar
@@ -378,7 +383,7 @@
                                         {{agendamiento.paciente?.pac_nombre}}</p>
                                 </td>
                                 <td class="p-4 whitespace-nowrap">
-                                    {{ agendamiento.duracion_consulta}}
+                                    {{ agendamiento.duracion_consulta}} min.
                                 </td>
                                 <td class="p-4 whitespace-nowrap">
                                     {{ agendamiento.usuario!.estacion_trabajo.seccion.descripcion}}
@@ -388,8 +393,14 @@
                                     agendamiento.usuario!.us_apellidos}}
                                 </td>
                                 <td class="p-4 whitespace-nowrap">
-                                    <span [ngClass]="getStatusClass(agendamiento.detalle_agenda)">{{
-                                        agendamiento.detalle_agenda }}</span>
+                                    <span [ngClass]="getTypeClass(agendamiento.tipo_agenda)">
+                                        {{agendamiento.tipo_agenda }}
+                                    </span>
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    <span [ngClass]="getDetailClass(agendamiento.detalle_agenda)">
+                                        {{agendamiento.detalle_agenda }}
+                                    </span>
                                 </td>
                                 <td class="p-4 whitespace-nowrap">
                                     <span [ngClass]="getAssistanceClass(agendamiento.pac_asistencia)">{{
@@ -417,7 +428,7 @@
                                         </svg>
                                     </button>
                                 </td>
-                                <td>
+                                <td class="p-4 whitespace-nowrap">
                                     <button type="button" (click)="toggleCancelModal(agendamiento);"
                                         [value]="agendamiento.id_agendamiento"
                                         class="p-1 text-xs font-medium text-red-800 bg-red-100 rounded-full dark:bg-red-900 dark:text-red-300 disabled:bg-none disabled:opacity-25"
@@ -449,10 +460,10 @@
     <section *ngIf="showUpdateModal">
         <div
             class="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
-            <div class="relative my-6 mx-auto w-64 sm:w-96 md:w-[475px] lg:w-[600px]">
+            <div class="relative my-6 mx-auto w-64 sm:w-96 md:w-[500px] lg:w-[650px]">
                 <!--content-->
                 <div
-                    class="flex flex-col w-full overflow-hidden border border-solid rounded outline-none border-mirage-400 focus:outline-none dark:border-mirage-600">
+                    class="flex flex-col w-full overflow-hidden border border-solid rounded outline-none bg-mirage-50 border-mirage-400 focus:outline-none dark:border-mirage-600">
                     <!-- formulario -->
                     <form autocomplete="off" [formGroup]="updateDateForm" (ngSubmit)="updatePatientDate()">
                         <!--header-->
@@ -504,13 +515,13 @@
                                     </ng-select>
                                 </div>
 
-                                <div class="flex h-[450px] flex-col gap-4 md:flex-row">
+                                <div class="flex h-[400px] flex-col md:flex-row">
                                     <div class="flex flex-col gap-3 basis-1/2 md:overflow-y-auto">
                                         <span>Reservaciones</span>
                                         <div class="flex flex-col gap-2">
                                             <ng-container *ngFor="let event of eventos">
                                                 <div
-                                                    class="flex flex-col px-2 py-1 border-l-2 border-solid shadow-md border-mirage-600 rounded-r-md bg-mirage-50 dark:bg-zinc-900">
+                                                    class="flex flex-col gap-1 px-2 py-1 border-l-2 border-solid shadow-md border-mirage-600 rounded-r-md bg-mirage-50 dark:bg-zinc-900">
                                                     <div class="flex justify-between">
                                                         <div class="flex items-center gap-1">
                                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -547,19 +558,18 @@
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div class="flex flex-row items-center justify-between">
-
-                                                        <span class="text-sm"><strong>Paciente:
-                                                            </strong>{{event.paciente}}</span>
-
-                                                        <small>{{event.duracion_consulta}}
-                                                            min.</small>
+                                                    <div class="flex flex-row items-center text-xs">
+                                                        Paciente: {{event.paciente}}
+                                                    </div>
+                                                    <div class="flex justify-start text-xs">
+                                                        Tiempo de consulta:
+                                                        {{event.duracion_consulta}} minutos.
                                                     </div>
                                                 </div>
                                             </ng-container>
                                         </div>
                                     </div>
-                                    <div class="flex flex-col gap-3 basis-1/2">
+                                    <div class="flex flex-col gap-3 pt-3 basis-1/2 md:pl-3 md:pt-0">
                                         <span>Calendario</span>
                                         <div>
                                             <div class="relative max-w-sm">
@@ -572,8 +582,8 @@
                                                             d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                                                     </svg>
                                                 </div>
-                                                <input id="datepickerId" type="date" [min]="formatedDateNow"
-                                                    [value]="formatedDateNow" (input)="updateDate($event)"
+                                                <input id="datepickerId" type="date" [value]="formatedDateNow"
+                                                    (input)="updateDate($event)"
                                                     class="block w-full border border-solid border-mirage-400 text-sm rounded pl-10 p-2.5 focus:border-mirage-600 focus:outline-none dark:bg-mirage-950 dark:border-mirage-600 dark:placeholder-gray-400 dark:focus:border-mirage-400"
                                                     placeholder="Select date">
                                             </div>

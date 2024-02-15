@@ -17,7 +17,7 @@ import { UsuarioService } from 'src/app/protected/proservices/usuario.service';
 })
 export class CalendarComponent {
   //Find data
-  polFilterValue: string = '';
+  userFilterValue: string = '';
   usersInformation: Usuario[] = [];
 
   //FullCalendar
@@ -79,11 +79,11 @@ export class CalendarComponent {
       locale: 'es',
       fixedWeekCount: false,
       firstDay: 1,
-      weekends: false,
+      weekends: true,
       datesSet: (info) => {
         const startDate = info.start.toISOString().split('T')[0];
         const endDate = info.end.toISOString().split('T')[0];
-        this.getEventsFromApi(startDate, endDate, this.polFilterValue);
+        this.getEventsFromApi(startDate, endDate, this.userFilterValue);
       },
     };
   }
