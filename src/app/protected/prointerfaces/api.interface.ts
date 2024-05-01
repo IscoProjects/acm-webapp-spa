@@ -83,13 +83,13 @@ export interface SeccionMetadata {
   isAvailible: boolean;
   estacion_trabajo: EstacionTrabajo[];
   area: Area;
-  numPolivalentes: number;
-  dailyCapacity: number;
-  totalCapacityThreeMonths: number;
-  appointmentNumberThreeMonths: number;
-  appointmentFilledPercentageThreeMonths: number;
-  freeAppointmentNumberThreeMonths: number;
-  freeAppointmentPercentageThreeMonths: number;
+  // numPolivalentes: number;
+  // dailyCapacity: number;
+  // totalCapacityThreeMonths: number;
+  // appointmentNumberThreeMonths: number;
+  // appointmentFilledPercentageThreeMonths: number;
+  // freeAppointmentNumberThreeMonths: number;
+  // freeAppointmentPercentageThreeMonths: number;
 }
 
 export interface EventosCalendar {

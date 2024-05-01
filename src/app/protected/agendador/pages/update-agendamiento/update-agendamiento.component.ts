@@ -104,8 +104,10 @@ export class UpdateAgendamientoComponent implements OnInit {
     Loading.pulse('Obteniendo información');
     this.usuarioService.searchAllUsersInfoInApi().subscribe({
       next: (users) => {
-        this.usersInformation = users;
-        this.userFilterValue = users[0].id_usuario;
+        this.usersInformation = users.filter(
+          (user) => user.us_role === 'Medico'
+        );
+        this.userFilterValue = this.usersInformation[0].id_usuario;
         this.searchAgendaByProfessional();
         Loading.remove();
       },
@@ -260,8 +262,6 @@ export class UpdateAgendamientoComponent implements OnInit {
     } else {
       this.updateDateForm.get('detalle_agenda')?.setValue('Pre-agendado');
     }
-
-    console.log(this.updateDateForm.value);
 
     Confirm.show(
       'Actualización',
@@ -481,8 +481,6 @@ export class UpdateAgendamientoComponent implements OnInit {
       .get('fecha_agenda')
       ?.setValue(this.dateTimeService.getCurrentDateTime());
 
-    console.log(this.confirmAppointmentForm.value);
-
     Confirm.show(
       'Actualización',
       '¿Validar la cita pre-agendada?',
@@ -523,30 +521,15 @@ export class UpdateAgendamientoComponent implements OnInit {
   //   return `${hours}:${minutes}:${seconds}`;
   // }
 
-  private createStartDate(fecha: string, hora: string): Date {
-    return new Date(`${fecha}T${hora}`);
-  }
+  // private createStartDate(fecha: string, hora: string): Date {
+  //   return new Date(`${fecha}T${hora}`);
+  // }
 
   onSearchInputChange() {
     if (this.searchPatientString === '') {
       this.isAgendaFound = false;
-      this.usuarioService.searchAllUsersInfoInApi().subscribe({
-        next: (users) => {
-          this.usersInformation = users;
-          this.userFilterValue = users[0].id_usuario;
-          this.searchAgendaByProfessional();
-          Loading.remove();
-        },
-        error: (e) => {
-          this.usersInformation = [];
-          Loading.remove();
-          Report.failure(
-            '¡Ups! Algo ha salido mal',
-            `${e.error.message}`,
-            'Volver'
-          );
-        },
-      });
+      this.userFilterValue = this.usersInformation[0].id_usuario;
+      this.searchAgendaByProfessional();
     }
   }
 

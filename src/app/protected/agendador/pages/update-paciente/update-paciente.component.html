@@ -50,8 +50,9 @@
     </section>
 
     <section>
+        @if (isPatientFound) {
         <!-- Formulario de Actualización -->
-        <div *ngIf="isPatientFound" class="flex flex-col gap-3 pb-2">
+        <div class="flex flex-col gap-3 pb-2">
             <div class="flex-grow">
                 <form [formGroup]="updatePatientForm" autocomplete="off" (ngSubmit)="updatePatientInfo()">
                     <div class="flex-grow overflow-hidden border rounded border-mirage-400 dark:border-mirage-600">
@@ -111,7 +112,7 @@
                                     class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400 truncate">Fecha
                                     Nacimiento <strong class="font-semibold text-blue-500">*</strong></label>
                                 <input type="date" id="pac_fecha_nac" formControlName="pac_fecha_nac"
-                                    class="h-10 px-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none"
+                                    class="block h-10 px-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none"
                                     min="1950-01-01" max="{{date_now | date:'yyyy-MM-dd'}}">
                             </div>
                             <div class="">
@@ -191,7 +192,7 @@
                             </div>
                             <div class="">
                                 <label for="pac_direccion"
-                                    class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400">Dirección
+                                    class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400">Barrio/Comunidad
                                     <strong class="font-semibold text-blue-500">*</strong></label>
                                 <ng-select labelForId="pac_direccion" class="mt-1.5 text-sm" [items]="barrios"
                                     formControlName="pac_direccion" bindLabel="nombre" bindValue="nombre"
@@ -273,8 +274,7 @@
                             </h2>
                         </div>
                         <div class="flex items-center justify-center p-3">
-                            <button type="submit"
-                                class="custom-blue-button hover:shadow-md disabled:hover:shadow-none dark:custom-blue-button-dark dark:disabled:hover:shadow-none"
+                            <button type="submit" class="custom-blue-button dark:custom-blue-button-dark"
                                 [disabled]="!canUpdate">
                                 <span class="px-3">Actualizar</span>
                             </button>
@@ -283,5 +283,6 @@
                 </form>
             </div>
         </div>
+        }
     </section>
 </div>

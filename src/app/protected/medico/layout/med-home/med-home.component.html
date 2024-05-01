@@ -1,6 +1,8 @@
 <section class="flex w-full h-screen overflow-hidden overflow-y-auto">
+
+    @if (showSidebar) {
     <!-- Open Menu -->
-    <div *ngIf="showSidebar"
+    <div
         class="inset-0 min-w-[225px] overflow-y-auto bg-gray-50 border-gray-300 border-solid border-r dark:bg-zinc-900 dark:border-gray-600 md:min-w-[288px]">
         <div class="flex items-center gap-4 px-3 py-6">
             <button class="text-mirage-700 focus:text-orange-500 dark:text-mirage-500" (click)="toggleSidebar()">
@@ -160,9 +162,9 @@
             </div>
         </div>
     </div>
-
+    }@else {
     <!-- Hide menu -->
-    <div *ngIf="!showSidebar"
+    <div
         class="inset-0 min-w-[64px] overflow-y-auto flex-col bg-gray-50 border-gray-300 border-solid border-r dark:bg-zinc-900 dark:border-gray-600">
         <div class="flex items-center justify-center gap-4 px-3 py-6">
             <button (click)="toggleSidebar()"
@@ -334,7 +336,8 @@
             </div>
         </div>
     </div>
-
+    }
+    
     <div class="flex flex-col h-full" [ngStyle]="{'width': showSidebar ? 'calc(100% - 288px)' : 'calc(100% - 64px)'}">
         <div
             class="hidden inset-0 min-h-[64px] w-full items-center justify-between border-b border-solid border-gray-300 p-3 dark:border-gray-600 md:flex">

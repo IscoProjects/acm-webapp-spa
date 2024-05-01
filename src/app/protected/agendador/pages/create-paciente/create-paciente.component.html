@@ -88,7 +88,7 @@
                                     class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400 truncate">Fecha
                                     Nacimiento <strong class="font-semibold text-blue-500">*</strong></label>
                                 <input type="date" id="pac_fecha_nac" formControlName="pac_fecha_nac"
-                                    class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none"
+                                    class="block h-10 px-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark dark:shadow-none"
                                     min="1950-01-01" max="{{date_now | date:'yyyy-MM-dd'}}">
                             </div>
                             <div class="">
@@ -203,7 +203,6 @@
                         </div>
 
                         <div class="grid grid-cols-1 gap-3 p-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-
                             <div class="">
                                 <label for="pac-ref-person"
                                     class="block text-[10px] tracking-wider text-gray-500 uppercase font-semibold dark:text-gray-400 truncate">En
@@ -252,8 +251,7 @@
                             </h2>
                         </div>
                         <div class="flex items-center justify-center p-3">
-                            <button type="submit"
-                                class="custom-blue-button hover:shadow-md disabled:hover:shadow-none dark:custom-blue-button-dark dark:disabled:hover:shadow-none"
+                            <button type="submit" class="custom-blue-button dark:custom-blue-button-dark"
                                 [disabled]="add_patient.invalid">
                                 <span class="px-3">Registrar Paciente</span>
                             </button>

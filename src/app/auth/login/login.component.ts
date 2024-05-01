@@ -10,6 +10,9 @@ import { Report } from 'notiflix';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+  //Variables
+  loginForm: boolean = true;
+
   myLoginForm: FormGroup = this.fb.group({
     us_user: ['', [Validators.required, Validators.minLength(6)]],
     us_password: ['', [Validators.required, Validators.minLength(6)]],
@@ -36,5 +39,9 @@ export class LoginComponent {
         Report.failure('No autorizado', error.message, 'Regresar');
       },
     });
+  }
+
+  changeForm() {
+    this.loginForm = !this.loginForm;
   }
 }

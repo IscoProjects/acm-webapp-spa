@@ -28,9 +28,9 @@
     <section class="flex flex-col gap-2">
         <div class="flex flex-row items-center justify-between gap-2 px-2">
             <h2 class="text-base">Áreas</h2>
-            <button (click)="toggleCreateAreaModal()"
-                class="custom-blue-button hover:shadow-md dark:custom-blue-button-dark">
-                <span>Crear Área</span>
+            <button type="button" (click)="toggleCreateAreaModal()"
+                class="custom-blue-button dark:custom-blue-button-dark">
+                Crear Área
             </button>
         </div>
 
@@ -87,7 +87,6 @@
                                         <div
                                             class="peer h-5 w-9 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-mirage-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-mirage-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-mirage-800">
                                         </div>
-                                        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
                                     </label>
                                 </td>
 
@@ -96,32 +95,31 @@
                                 </td>
 
                                 <td class="p-4 whitespace-nowrap">
-                                    <div *ngIf="area.isAvailible">
-                                        <button (click)="toggleCreateSeccionModal(area)"
-                                            class="inline-flex items-center gap-2 px-2 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded dark:bg-blue-900 dark:text-blue-300">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="icon icon-tabler icon-tabler-plus" width="16" height="16"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                                                stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <path d="M12 5l0 14"></path>
-                                                <path d="M5 12l14 0"></path>
-                                            </svg>
-                                            <span>Sección</span>
-                                        </button>
-                                    </div>
-                                    <div *ngIf="!area.isAvailible">
+                                    @if (area.isAvailible) {
+                                    <button (click)="toggleCreateSeccionModal(area)"
+                                        class="inline-flex items-center gap-2 px-2 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded dark:bg-blue-900 dark:text-blue-300">
                                         <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="text-pink-500 icon icon-tabler icon-tabler-antenna-bars-1" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            class="icon icon-tabler icon-tabler-plus" width="16" height="16"
+                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                            stroke-linecap="round" stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M6 18l0 .01"></path>
-                                            <path d="M10 18l0 .01"></path>
-                                            <path d="M14 18l0 .01"></path>
-                                            <path d="M18 18l0 .01"></path>
+                                            <path d="M12 5l0 14"></path>
+                                            <path d="M5 12l14 0"></path>
                                         </svg>
-                                    </div>
+                                        <span>Sección</span>
+                                    </button>
+                                    } @else {
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="text-pink-500 icon icon-tabler icon-tabler-antenna-bars-1" width="24"
+                                        height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                        fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M6 18l0 .01"></path>
+                                        <path d="M10 18l0 .01"></path>
+                                        <path d="M14 18l0 .01"></path>
+                                        <path d="M18 18l0 .01"></path>
+                                    </svg>
+                                    }
                                 </td>
                             </tr>
                         </tbody>
@@ -131,9 +129,9 @@
         </div>
 
         <div class="flex flex-col items-center justify-between sm:flex-row">
-
             <!-- Area modal -->
-            <section *ngIf="showNewAreaModal">
+            @if (showNewAreaModal) {
+            <section>
                 <div
                     class="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
                     <div
@@ -185,19 +183,17 @@
                                 <!--footer-->
                                 <div
                                     class="flex items-center justify-end px-3 py-2 border-t border-solid border-mirage-400 bg-mirage-50 dark:bg-mirage-950 dark:border-mirage-600">
-                                    <button type="submit"
-                                        class="custom-blue-button hover:shadow-md disabled:hover:shadow-none dark:custom-blue-button-dark dark:disabled:hover:shadow-none"
+                                    <button type="submit" class="custom-blue-button dark:custom-blue-button-dark"
                                         [disabled]="addAreaForm.invalid">Aceptar</button>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-                <div *ngIf="showNewAreaModal"
-                    class="fixed inset-0 z-40 opacity-60 bg-zinc-500 dark:bg-zinc-900 dark:opacity-60">
+                <div class="fixed inset-0 z-40 opacity-60 bg-zinc-500 dark:bg-zinc-900 dark:opacity-60">
                 </div>
             </section>
-
+            }
         </div>
     </section>
 
@@ -267,7 +263,6 @@
                                         <div
                                             class="peer h-5 w-9 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-mirage-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-mirage-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-mirage-800">
                                         </div>
-                                        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
                                     </label>
                                 </td>
 
@@ -276,32 +271,31 @@
                                 </td>
 
                                 <td class="p-4 whitespace-nowrap">
-                                    <div *ngIf="seccion.isAvailible">
-                                        <button (click)="toggleCreatePolModal(seccion)"
-                                            class="inline-flex items-center gap-2 px-2 py-1 text-xs font-medium text-indigo-800 bg-indigo-100 rounded dark:bg-indigo-900 dark:text-indigo-300">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="icon icon-tabler icon-tabler-plus" width="16" height="16"
-                                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                                                stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                                <path d="M12 5l0 14"></path>
-                                                <path d="M5 12l14 0"></path>
-                                            </svg>
-                                            <span>Pol/Mód</span>
-                                        </button>
-                                    </div>
-                                    <div *ngIf="!seccion.isAvailible">
+                                    @if (seccion.isAvailible) {
+                                    <button (click)="toggleCreatePolModal(seccion)"
+                                        class="inline-flex items-center gap-2 px-2 py-1 text-xs font-medium text-indigo-800 bg-indigo-100 rounded dark:bg-indigo-900 dark:text-indigo-300">
                                         <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="text-pink-500 icon icon-tabler icon-tabler-antenna-bars-1" width="24"
-                                            height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            class="icon icon-tabler icon-tabler-plus" width="16" height="16"
+                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                            stroke-linecap="round" stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M6 18l0 .01"></path>
-                                            <path d="M10 18l0 .01"></path>
-                                            <path d="M14 18l0 .01"></path>
-                                            <path d="M18 18l0 .01"></path>
+                                            <path d="M12 5l0 14"></path>
+                                            <path d="M5 12l14 0"></path>
                                         </svg>
-                                    </div>
+                                        <span>Pol/Mód</span>
+                                    </button>
+                                    } @else {
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="text-pink-500 icon icon-tabler icon-tabler-antenna-bars-1" width="24"
+                                        height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                        fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                        <path d="M6 18l0 .01"></path>
+                                        <path d="M10 18l0 .01"></path>
+                                        <path d="M14 18l0 .01"></path>
+                                        <path d="M18 18l0 .01"></path>
+                                    </svg>
+                                    }
                                 </td>
                             </tr>
                         </tbody>
@@ -367,8 +361,7 @@
                                 <!--footer-->
                                 <div
                                     class="flex items-center justify-end px-3 py-2 border-t border-solid border-mirage-400 bg-mirage-50 dark:bg-mirage-950 dark:border-mirage-600">
-                                    <button type="submit"
-                                        class="custom-blue-button hover:shadow-md disabled:hover:shadow-none dark:custom-blue-button-dark dark:disabled:hover:shadow-none"
+                                    <button type="submit" class="custom-blue-button dark:custom-blue-button-dark"
                                         [disabled]="addSeccionForm.invalid">Aceptar</button>
                                 </div>
                             </form>
@@ -396,7 +389,7 @@
                             class="border border-mirage-400 bg-mirage-50 text-[10px] font-medium uppercase dark:bg-mirage-950 dark:border-mirage-600">
                             <tr>
                                 <th scope="col" class="p-4">
-                                    ID Polivalente
+                                    ID Módulo
                                 </th>
                                 <th scope="col" class="p-4">
                                     Sección Correspondiente
@@ -445,7 +438,6 @@
                                         <div
                                             class="peer h-5 w-9 rounded-full bg-gray-200 after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-mirage-500 peer-checked:after:translate-x-full peer-checked:after:border-white peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-mirage-300 dark:border-gray-600 dark:bg-gray-700 dark:peer-focus:ring-mirage-800">
                                         </div>
-                                        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300"></span>
                                     </label>
                                 </td>
 
@@ -475,7 +467,7 @@
                                 (ngSubmit)="createNewPolivalenteInformation()">
                                 <div
                                     class="flex items-center justify-between px-3 py-2 border-b border-solid border-mirage-400 bg-mirage-50 dark:bg-mirage-950 dark:border-mirage-600">
-                                    <h3 class="text-xs font-semibold uppercase">Añadir Polivalente/Módulo
+                                    <h3 class="text-xs font-semibold uppercase">Añadir Pol/Módulo
                                     </h3>
                                     <button class="custom-close-button dark:custom-close-button-dark"
                                         (click)="toggleCreatePolModalClose()">
@@ -514,8 +506,7 @@
                                 <!--footer-->
                                 <div
                                     class="flex items-center justify-end px-3 py-2 border-t border-solid border-mirage-400 bg-mirage-50 dark:bg-mirage-950 dark:border-mirage-600">
-                                    <button type="submit"
-                                        class="custom-blue-button hover:shadow-md disabled:hover:shadow-none dark:custom-blue-button-dark dark:disabled:hover:shadow-none"
+                                    <button type="submit" class="custom-blue-button dark:custom-blue-button-dark"
                                         [disabled]="addNewPolForm.invalid">Aceptar</button>
                                 </div>
                             </form>

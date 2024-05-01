@@ -365,8 +365,8 @@
                                                 <!--footer-->
                                                 <div
                                                     class="flex items-center justify-end px-3 py-2 border-t border-solid bg-mirage-50 border-mirage-400 dark:bg-mirage-950 dark:border-mirage-600">
-                                                    <button (click)="togglePolModalAccept()"
-                                                        class="custom-blue-button hover:shadow-md disabled:hover:shadow-none dark:custom-blue-button-dark dark:disabled:hover:shadow-none"
+                                                    <button type="button" (click)="togglePolModalAccept()"
+                                                        class="custom-blue-button dark:custom-blue-button-dark"
                                                         [disabled]="!registerNewPatientDate.get('usuario')?.value">Aceptar</button>
                                                 </div>
                                             </div>
@@ -588,7 +588,7 @@
                                                 <div
                                                     class="flex items-center justify-end px-3 py-2 border-t border-solid bg-mirage-50 border-mirage-400 dark:bg-mirage-950 dark:border-mirage-600">
                                                     <button type="button" (click)="toggleDateModalSubmit()"
-                                                        class="custom-blue-button hover:shadow-md disabled:hover:shadow-none dark:custom-blue-button-dark dark:disabled:hover:shadow-none">
+                                                        class="custom-blue-button dark:custom-blue-button-dark">
                                                         Aceptar
                                                     </button>
                                                 </div>
@@ -666,7 +666,7 @@
                         </div>
                         <div class="flex items-center justify-center p-3">
                             <button type="submit"
-                                class="custom-blue-button hover:shadow-md disabled:hover:shadow-none dark:custom-blue-button-dark dark:disabled:hover:shadow-none"
+                                class="custom-blue-button dark:custom-blue-button-dark"
                                 [disabled]="registerNewPatientDate.invalid">
                                 <span class="px-3">Agendar</span>
                             </button>

@@ -2,9 +2,9 @@
     <section class="flex flex-col gap-5 mb-3">
         <div class="flex flex-col justify-between gap-3 sm:flex-row">
             <div>
-                <h1 class="text-sm font-semibold sm:text-lg">Hola, <strong class="text-mirage-600 dark:text-mirage-400">
+                <h1 class="text-sm font-semibold sm:text-lg">Hola, <span class="text-mirage-600 dark:text-mirage-400">
                         {{
-                        currentUserInformation.us_nombres }}...</strong></h1>
+                        currentUserInformation.us_nombres }}...</span></h1>
                 <p class="text-xs text-gray-400">Resumen de tiempos de espera</p>
             </div>
 
@@ -77,7 +77,7 @@
             </div>
 
             <button (click)="getUserAvgData()"
-                class="custom-blue-button hover:shadow-md dark:custom-blue-button-dark">Consultar</button>
+                class="custom-blue-button dark:custom-blue-button-dark">Consultar</button>
         </div>
         <div>
             <canvas id="avgUserLineChart"> {{userChart}} </canvas>

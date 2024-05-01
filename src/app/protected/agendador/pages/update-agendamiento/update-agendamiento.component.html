@@ -163,7 +163,7 @@
                                                 Hora
                                             </th>
                                             <th scope="col" class="p-4">
-                                                Polivalente
+                                                Pol/Módulo
                                             </th>
                                             <th scope="col" class="p-4">
                                                 Sección
@@ -231,7 +231,7 @@
                                                 @if (agendamiento.detalle_agenda === 'Pre-agendado') {
                                                 <button (click)="confirmAppointment(agendamiento);"
                                                     [value]="agendamiento.id_agendamiento"
-                                                    class="p-1 text-xs font-medium text-teal-800 bg-teal-100 rounded-full dark:bg-teal-900 dark:text-teal-300 disabled:bg-none disabled:opacity-25"
+                                                    class="p-1.5 text-blue-800 bg-blue-100 hover:bg-blue-200 rounded-full dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-800 disabled:hover:bg-none disabled:hidden"
                                                     [disabled]="!isAnEditableField(agendamiento)">
                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                         class="icon icon-tabler icon-tabler-checks" width="18"
@@ -246,10 +246,10 @@
                                                 }@else {
                                                 <button (click)="updatePatientInformationForm(agendamiento);"
                                                     [value]="agendamiento.id_agendamiento"
-                                                    class="p-1 text-xs font-medium text-green-800 bg-green-100 rounded-full dark:bg-green-900 dark:text-green-300 disabled:bg-none disabled:opacity-25"
+                                                    class="p-1.5 text-green-800 bg-green-100 hover:bg-green-200 rounded-full dark:bg-green-900 dark:text-green-300 dark:hover:bg-green-800 disabled:hidden"
                                                     [disabled]="!isAnEditableField(agendamiento)">
                                                     <svg xmlns="http://www.w3.org/2000/svg"
-                                                        class="icon icon-tabler icon-tabler-edit" width="18" height="18"
+                                                        class="icon icon-tabler icon-tabler-edit" width="20" height="20"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -265,12 +265,12 @@
                                                 }
                                             </td>
                                             <td class="p-4 whitespace-nowrap">
-                                                <button (click)="toggleCancelModal(agendamiento);"
+                                                @if (isAnEditableField(agendamiento)) {
+                                                <button type="button" (click)="toggleCancelModal(agendamiento);"
                                                     [value]="agendamiento.id_agendamiento"
-                                                    class="p-1 text-xs font-medium text-red-800 bg-red-100 rounded-full dark:bg-red-900 dark:text-red-300 disabled:bg-none disabled:opacity-25"
-                                                    [disabled]="!isAnEditableField(agendamiento)">
+                                                    class="p-1.5 text-red-800 bg-red-100 hover:bg-red-200 rounded-full dark:bg-red-900 dark:text-red-300 dark:hover:bg-red-800">
                                                     <svg xmlns="http://www.w3.org/2000/svg"
-                                                        class="icon icon-tabler icon-tabler-x" width="18" height="18"
+                                                        class="icon icon-tabler icon-tabler-x" width="20" height="20"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         fill="none" stroke-linecap="round" stroke-linejoin="round">
                                                         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -278,6 +278,7 @@
                                                         <path d="M6 6l12 12"></path>
                                                     </svg>
                                                 </button>
+                                                }
                                             </td>
                                         </tr>
                                     </tbody>
@@ -316,9 +317,9 @@
 
                 <ng-select labelForId="filter-agenda" [(ngModel)]="userFilterValue" (change)="onChangeSelection()"
                     class="w-48 text-sm" placeholder="-- Seleccione --" [searchable]="false" [clearable]="false">
-
-                    <ng-option *ngFor="let user of usersInformation" [value]="user.id_usuario">{{user.us_apellidos + ' '
-                        + user.us_nombres}}</ng-option>
+                    <ng-option *ngFor="let user of usersInformation" [value]="user.id_usuario">
+                        {{user.us_apellidos + ' ' + user.us_nombres}}
+                    </ng-option>
                 </ng-select>
             </div>
 
@@ -410,12 +411,27 @@
                                     {{ agendamiento.observaciones | nullPipe}}
                                 </td>
                                 <td class="p-4 whitespace-nowrap">
-                                    <button type="button" (click)="updatePatientInformationForm(agendamiento);"
+                                    @if (agendamiento.detalle_agenda === 'Pre-agendado') {
+                                    <button (click)="confirmAppointment(agendamiento);"
                                         [value]="agendamiento.id_agendamiento"
-                                        class="p-1 text-xs font-medium text-green-800 bg-green-100 rounded-full dark:bg-green-900 dark:text-green-300 disabled:bg-none disabled:opacity-25"
+                                        class="p-1.5 text-blue-800 bg-blue-100 hover:bg-blue-200 rounded-full dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-800 disabled:hidden"
                                         [disabled]="!isAnEditableField(agendamiento)">
                                         <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="icon icon-tabler icon-tabler-edit" width="18" height="18"
+                                            class="icon icon-tabler icon-tabler-checks" width="18" height="18"
+                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M7 12l5 5l10 -10" />
+                                            <path d="M2 12l5 5m5 -5l5 -5" />
+                                        </svg>
+                                    </button>
+                                    }@else {
+                                    <button (click)="updatePatientInformationForm(agendamiento);"
+                                        [value]="agendamiento.id_agendamiento"
+                                        class="p-1.5 text-green-800 bg-green-100 hover:bg-green-200 rounded-full dark:bg-green-900 dark:text-green-300 dark:hover:bg-green-800 disabled:hidden"
+                                        [disabled]="!isAnEditableField(agendamiento)">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-edit" width="20" height="20"
                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
                                             stroke-linecap="round" stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -427,14 +443,15 @@
                                             <path d="M16 5l3 3"></path>
                                         </svg>
                                     </button>
+                                    }
                                 </td>
                                 <td class="p-4 whitespace-nowrap">
+                                    @if (isAnEditableField(agendamiento)) {
                                     <button type="button" (click)="toggleCancelModal(agendamiento);"
                                         [value]="agendamiento.id_agendamiento"
-                                        class="p-1 text-xs font-medium text-red-800 bg-red-100 rounded-full dark:bg-red-900 dark:text-red-300 disabled:bg-none disabled:opacity-25"
-                                        [disabled]="!isAnEditableField(agendamiento)">
+                                        class="p-1.5 text-red-800 bg-red-100 hover:bg-red-200 rounded-full dark:bg-red-900 dark:text-red-300 disabled:bg-none dark:hover:bg-red-800">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x"
-                                            width="18" height="18" viewBox="0 0 24 24" stroke-width="1.5"
+                                            width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5"
                                             stroke="currentColor" fill="none" stroke-linecap="round"
                                             stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -442,6 +459,7 @@
                                             <path d="M6 6l12 12"></path>
                                         </svg>
                                     </button>
+                                    }
                                 </td>
                             </tr>
                         </tbody>
@@ -630,8 +648,7 @@
                         <!--footer-->
                         <div
                             class="flex items-center justify-end px-3 py-2 border-t border-solid bg-mirage-50 border-mirage-400 dark:bg-mirage-950 dark:border-mirage-600">
-                            <button type="submit"
-                                class="custom-blue-button hover:shadow-md disabled:hover:shadow-none dark:custom-blue-button-dark dark:disabled:hover:shadow-none"
+                            <button type="submit" class="custom-blue-button dark:custom-blue-button-dark"
                                 [disabled]="!updateDateForm.get('usuario')?.value">
                                 Aceptar
                             </button>

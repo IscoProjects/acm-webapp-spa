@@ -1,100 +1,112 @@
-<div
-    class="flex flex-col items-center h-screen overflow-y-auto justify-evenly custom-background-image sm:justify-between">
+<div class="flex flex-row w-full h-screen">
 
-    <header class="flex flex-row items-center w-full px-5 py-2 my-3">
-        <div class="rounded-full bg-gray-200 p-1.5 text-orange-600">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-empathize" width="24"
-                height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path d="M12 5.5m-2.5 0a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0"></path>
-                <path
-                    d="M12 21.368l5.095 -5.096a3.088 3.088 0 1 0 -4.367 -4.367l-.728 .727l-.728 -.727a3.088 3.088 0 1 0 -4.367 4.367l5.095 5.096z">
-                </path>
-            </svg>
+    <div
+        class="hidden w-full p-8 custom-background-image md:flex md:flex-col md:gap-10 md:justify-center md:items-center">
+        <div>
+            <img class="w-60" src="assets/images/acm_image.svg" alt="" srcset="">
         </div>
-    </header>
+        <div class="text-center text-gray-50">
+            <p class="text-xl">Sistema web</p>
+            <p class="text-xl font-semibold">de agendamiento de citas médicas...</p>
+        </div>
+    </div>
 
-    <section class="flex items-center justify-center w-full">
-        <div class="flex flex-col w-full max-w-xs gap-3 px-5 py-8 m-3 rounded-md shadow-lg bg-gray-50">
-            <div class="flex items-center justify-center gap-3">
-                <div class="rounded-full bg-gray-200 p-1.5">
-                    <img class="w-5 h-5" src="assets/images/acm_logo.png" alt="" srcset="">
+
+    <div class="flex flex-col items-center justify-between w-full p-4 bg-gray-50">
+        <section class="flex flex-col items-center justify-center w-full h-full gap-8">
+
+            <div>
+                <img class="w-48" src="assets/images/msp_image.png" alt="" srcset="">
+            </div>
+            @if (loginForm) {
+            <div class="flex flex-col w-full max-w-xs gap-3 bg-gray-50">
+                <div>
+                    <p class="text-2xl font-semibold tracking-wide text-center text-mirage-800">¡Bienvenido!</p>
                 </div>
-                <span class="text-xs font-semibold tracking-wide text-mirage-800">AGENDADOR DE <span
-                        class="font-bold tracking-wide text-blue-600">CITAS</span></span>
+                <div>
+                    <p class="text-xs text-center text-zinc-800">Por favor, ingrese sus credenciales para continuar.</p>
+                </div>
+
+                <div>
+                    <form class="flex flex-col gap-2.5" autocomplete="off" [formGroup]="myLoginForm"
+                        (ngSubmit)="login()">
+
+                        <div class="">
+                            <label for="user" class="block text-xs font-semibold tracking-wider text-zinc-800">Usuario
+                            </label>
+                            <input type="text" id="user" formControlName="us_user"
+                                class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:text-mirage-800"
+                                placeholder="Usuario" maxlength="24">
+                        </div>
+
+                        <div class="">
+                            <label for="password"
+                                class="block text-xs font-semibold tracking-wider text-zinc-800">Contraseña</label>
+                            <input type="password" id="password" formControlName="us_password"
+                                class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:text-mirage-800"
+                                placeholder="************" maxlength="24">
+                        </div>
+
+                        <span (click)="changeForm()"
+                            class="text-xs font-semibold text-blue-500 cursor-pointer text-end hover:underline hover:text-blue-600">
+                            Olvidé mi contraseña
+                        </span>
+
+                        <button type="submit"
+                            class="flex justify-center w-full px-4 py-2 text-sm font-medium border-none rounded-md text-gray-50 bg-mirage-600 focus:outline-none enabled:hover:bg-mirage-700"
+                            [disabled]="myLoginForm.invalid">
+                            Iniciar Sesión
+                        </button>
+
+                        <p class="text-xs text-center text-zinc-800">¿No tiene una cuenta? <span
+                                class="text-blue-500">Contacte al Administrador</span></p>
+
+                    </form>
+                </div>
             </div>
-            <div>
-                <p class="text-xl font-semibold text-center text-mirage-800">Por favor, ingrese sus credenciales</p>
+            } @else {
+            <div class="flex flex-col w-full max-w-xs gap-3 bg-gray-50">
+                <div>
+                    <p class="text-2xl font-semibold tracking-wide text-center text-mirage-800">
+                        Recuperar contraseña
+                    </p>
+                </div>
+                <div>
+                    <p class="text-xs text-center text-zinc-800">
+                        Por favor, contacte con el administrador del sistema para restablecer su contraseña. Por motivos
+                        de seguridad, se generará una nueva contraseña basada en su CI, la cual deberá ser cambiada a
+                        una contraseña segura una vez que haya restablecido su acceso.
+                    </p>
+                </div>
+                <div>
+                    <p class="text-xs text-center text-zinc-800">¿Ya tiene una cuenta? <span (click)="changeForm()"
+                            class="text-blue-500 cursor-pointer hover:underline hover:text-blue-600">Iniciar
+                            Sesión</span>
+                    </p>
+                </div>
             </div>
-            <div>
-                <form class="flex flex-col gap-2.5" autocomplete="off" [formGroup]="myLoginForm" (ngSubmit)="login()">
+            }
+        </section>
 
-                    <div class="">
-                        <label for="user" class="block text-xs font-semibold tracking-wider text-mirage-700">Usuario
-                        </label>
-                        <input type="text" id="user" formControlName="us_user"
-                            class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:text-mirage-800"
-                            placeholder="user example" maxlength="24">
-                    </div>
-
-                    <div class="">
-                        <label for="password"
-                            class="block text-xs font-semibold tracking-wider text-mirage-700">Contraseña</label>
-                        <input type="password" id="password" formControlName="us_password"
-                            class="h-10 pl-3 custom-input-light placeholder:text-slate-400 focus:shadow-md dark:text-mirage-800"
-                            placeholder="************" maxlength="24">
-                    </div>
-
-                    <span
-                        class="cursor-pointer text-[10px] font-bold text-blue-500 hover:underline hover:text-blue-600">Olvidé
-                        mi
-                        contraseña</span>
-
-                    <button type="submit"
-                        class="flex justify-center w-full px-4 py-2 text-sm font-medium text-white border-none rounded-md bg-mirage-600 hover:bg-mirage-700 focus:outline-none disabled:bg-mirage-200 disabled:text-mirage-700"
-                        [disabled]="myLoginForm.invalid">
-                        Iniciar Sesión
-                    </button>
-
-                    <span class="clock text-[10px] text-center text-mirage-800">¿No tiene una cuenta? <strong
-                            class="text-blue-500">Contacte al Administrador</strong></span>
-
-                </form>
+        <footer
+            class="flex flex-col items-center justify-center w-full gap-1 p-2 my-3 text-xs sm:flex-row sm:text-sm sm:gap-3">
+            <div class="text-gray-500 uppercase">
+                ACM 2024
             </div>
-        </div>
-    </section>
+            <div class="hidden text-gray-500 sm:flex">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical" width="16"
+                    height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                    <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                    <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+                </svg>
+            </div>
+            <div class="text-blue-500">
+                Política de Privacidad
+            </div>
+        </footer>
+    </div>
 
-    <footer
-        class="flex flex-col items-center justify-center w-full gap-1 p-2 my-3 text-xs sm:flex-row sm:text-sm sm:gap-3">
-        <div class="text-gray-500 uppercase">
-            ACM 2023
-        </div>
-        <div class="hidden text-gray-500 sm:flex">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical" width="16"
-                height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-            </svg>
-        </div>
-        <div class="text-blue-500">
-            Términos y Condiciones
-        </div>
-        <div class="hidden text-gray-500 sm:flex">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-dots-vertical" width="16"
-                height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-            </svg>
-        </div>
-        <div class="text-blue-500">
-            Política de Privacidad
-        </div>
-    </footer>
 </div>

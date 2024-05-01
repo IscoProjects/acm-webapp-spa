@@ -38,7 +38,9 @@ export class CalendarComponent {
     Loading.pulse('Obteniendo información');
     this.userService.searchAllUsersInfoInApi().subscribe({
       next: (users) => {
-        this.usersInformation = users;
+        this.usersInformation = users.filter(
+          (user) => user.us_role === 'Medico'
+        );
         Loading.remove();
       },
       error: (e) => {

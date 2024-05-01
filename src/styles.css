@@ -28,7 +28,7 @@
   .custom-input-dark {
     border-width: 1.5px;
     border-color: theme("colors.mirage.600");
-    background: theme("colors.mirage.950");
+    background: transparent;
     border-style: solid;
   }
 
@@ -102,50 +102,43 @@
   }
 
   .custom-blue-button {
-    display: flex;
-    align-items: center;
-    height: 32px;
-    padding: 0px 24px;
-    font-weight: 500;
-    color: whitesmoke;
-    text-transform: uppercase;
-    background-color: theme("colors.mirage.600");
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 4px;
-    border-color: theme("colors.mirage.600");
-    font-size: 12px;
-    line-height: 16px;
+    padding: 6px 16px; /* px-4 py-2 */
+    font-size: 12px; /* text-xs */
+    font-weight: 500; /* font-medium */
+    text-align: center; /* text-center */
+    text-transform: uppercase; /* uppercase */
+    border-width: 1px; /* border */
+    border-radius: 2px; /* rounded-sm */
+    color: theme("colors.mirage.700"); /* text-mirage-700 */
+    border-color: theme("colors.mirage.700"); /* border-mirage-700 */
   }
 
   .custom-blue-button:hover {
-    border-color: theme("colors.mirage.700");
-    background-color: theme("colors.mirage.700");
+    color: whitesmoke;
+    background-color: theme("colors.mirage.800");
   }
 
-  .custom-blue-button:disabled {
-    background-color: theme("colors.mirage.200");
-    border-color: theme("colors.mirage.200");
-    color: theme("colors.mirage.700");
-    opacity: 0.5;
+  .custom-blue-button:focus {
+    outline: none; /* focus:outline-none */
+    box-shadow: 0 0 0 2px #a2b7d7; /* focus:ring-2 focus:ring-mirage-300 */
+  }
+
+  .custom-blue-button:enabled {
+    cursor: pointer;
   }
 
   .custom-blue-button-dark {
-    background-color: theme("colors.mirage.400");
-    border-color: theme("colors.mirage.400");
-    color: theme("colors.mirage.950");
+    border-color: theme("colors.mirage.500");
+    color: theme("colors.mirage.500");
   }
 
   .custom-blue-button-dark:hover {
-    background-color: theme("colors.mirage.300");
-    border-color: theme("colors.mirage.300");
+    color: whitesmoke;
+    background-color: theme("colors.mirage.600");
   }
 
-  .custom-blue-button-dark:disabled {
-    background-color: theme("colors.mirage.800");
-    border-color: theme("colors.mirage.800");
-    color: theme("colors.mirage.100");
-    opacity: 0.5;
+  .custom-blue-button-dark:focus {
+    box-shadow: 0 0 0 2px #2c3f60; /* dark:focus:ring-mirage-800 */
   }
 
   .custom-close-button {
@@ -225,7 +218,7 @@
 
 .dark .ng-select .ng-select-container {
   color: theme("colors.gray.300");
-  background-color: theme("colors.mirage.950");
+  background-color: transparent;
   border-radius: 4px;
   border: 1.5px solid theme("colors.mirage.600");
   min-height: 40px;

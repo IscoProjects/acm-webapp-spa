@@ -1,6 +1,5 @@
 .custom-background-image {
-  background-image: url("../../../assets/images/background-shapes.svg");
+  background-image: url("../../../assets/images/bg_image.svg");
   background-repeat: no-repeat;
-  background-attachment: fixed;
   background-size: cover;
 }

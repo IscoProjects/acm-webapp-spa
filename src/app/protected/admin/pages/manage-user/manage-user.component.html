@@ -25,8 +25,7 @@
                     <input [(ngModel)]="searchUserString"
                         class="tracking-wide custom-input-light-square placeholder:text-slate-400 focus:shadow-md dark:custom-input-dark-square dark:shadow-none"
                         placeholder="Buscar profesional" type="text" name="search" maxlength="12">
-                    <div
-                        class="p-2 ml-0.5 text-gray-200 bg-mirage-600 border-none rounded-r-md dark:bg-mirage-500">
+                    <div class="p-2 ml-0.5 text-gray-200 bg-mirage-600 border-none rounded-r-md dark:bg-mirage-500">
                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -72,13 +71,14 @@
                                     Rol
                                 </th>
                                 <th scope="col" class="p-4">
-                                    Área
-                                </th>
-                                <th scope="col" class="p-4">
-                                    Pol/módulo
-                                </th>
-                                <th scope="col" class="p-4">
                                     Estado
+                                </th>
+                                <th scope="col" class="p-4">
+                                    <h2 class="font-semibold text-gray-800 dark:text-white">
+                                        Reestablecer
+                                    </h2>
+                                    <p class="-mt-1 text-gray-600 dark:text-gray-400">
+                                        contraseña</p>
                                 </th>
                             </tr>
                         </thead>
@@ -115,20 +115,25 @@
                                     {{user.us_role}}
                                 </td>
                                 <td class="p-4 whitespace-nowrap">
-                                    {{user.estacion_trabajo.seccion.area.descripcion}}
-                                </td>
-                                <td class="p-4 whitespace-nowrap">
-                                    <h2 class="font-medium text-gray-800 dark:text-white ">
-                                        {{user.estacion_trabajo.descripcion}}
-                                    </h2>
-                                    <p class="text-[10px] font-semibold text-gray-600 -mt-1 dark:text-gray-400">
-                                        {{user.estacion_trabajo.seccion.descripcion}}</p>
-                                </td>
-                                <td class="p-4 whitespace-nowrap">
                                     <span [ngClass]="getStatusClass(user.us_isActive)">
                                         {{user.us_isActive | statusManagement
                                         }}
                                     </span>
+                                </td>
+                                <td class="p-4 whitespace-nowrap">
+                                    <button type="button" (click)="resetUserPassword(user)"
+                                        class="inline-flex items-center p-2 text-center border rounded-full text-mirage-700 border-mirage-700 hover:bg-mirage-700 hover:text-white focus:ring-2 focus:outline-none focus:ring-mirage-300 dark:border-mirage-500 dark:text-mirage-500 dark:hover:text-white dark:focus:ring-mirage-800 dark:hover:bg-mirage-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-lock" width="20" height="20"
+                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path
+                                                d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z" />
+                                            <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0" />
+                                            <path d="M8 11v-4a4 4 0 1 1 8 0v4" />
+                                        </svg>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>

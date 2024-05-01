@@ -92,7 +92,7 @@ export class AgendamientoService {
     return this.http.get<Agendamiento[]>(url, { headers }).pipe(
       map((response) => {
         return response.map((item) => ({
-          title: this.createEventTitle(item),
+          title: this.createProfessionalEventTitle(item),
           start: this.createStartDate(item.fecha_consulta, item.hora_consulta),
           end: this.createEndDate(
             item.fecha_consulta,
@@ -176,7 +176,6 @@ export class AgendamientoService {
     });
   }
 
-
   updateSchedulingStateInApi(
     term: string,
     mark: any
@@ -204,11 +203,26 @@ export class AgendamientoService {
     const observaciones = item.observaciones || 'S/Inf.';
     const tipo = item.tipo_agenda || 'S/Inf';
 
-    return `PAC.: ${item.paciente!.pac_cedula}, ${
+    return `PACIENTE.: ${item.paciente!.pac_cedula}, ${
       item.paciente!.pac_apellido
-    } ${item.paciente!.pac_nombre}. PROF.: ${item.usuario?.us_apellidos} ${
+    } ${item.paciente!.pac_nombre}. MÉDICO: ${item.usuario?.us_apellidos} ${
       item.usuario?.us_nombres
-    }. ESTADO: ${vigencia}. DETALLES: ${tipo} - ${asistencia}. OBS.: ${observaciones}`;
+    }. DETALLES: ${tipo} - ${vigencia} - ${asistencia}. OBSERVACIÓN: ${observaciones}`;
+  }
+
+  private createProfessionalEventTitle(item: Agendamiento): string {
+    const asistencia = item.pac_asistencia ? 'Asistido' : 'No Asistido';
+    const vigencia = item.estado_agenda ? 'Vigente' : 'No Vigente';
+    const observaciones = item.observaciones || 'S/Inf.';
+    const tipo = item.tipo_agenda || 'S/Inf';
+
+    return `PACIENTE: ${item.paciente!.pac_cedula}, ${
+      item.paciente!.pac_apellido
+    } ${
+      item.paciente!.pac_nombre
+    }. DETALLES: ${tipo} - ${vigencia} - ${asistencia}. AFILIACIÓN: ${
+      item.pac_afiliacion
+    }.  OBSERVACIÓN: ${observaciones}`;
   }
 
   private createStartDate(fecha: string, hora: string): Date {

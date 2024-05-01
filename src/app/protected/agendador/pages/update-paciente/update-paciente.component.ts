@@ -24,12 +24,7 @@ export class UpdatePacienteComponent {
   updatePatientForm: FormGroup = this.fb.group({
     pac_cedula: [
       '',
-      [
-        Validators.required,
-        Validators.pattern('[0-9]+'),
-        Validators.minLength(8),
-        Validators.maxLength(12),
-      ],
+      [Validators.required, Validators.minLength(8), Validators.maxLength(12)],
     ],
     pac_nombre: ['', [Validators.required, Validators.minLength(3)]],
     pac_apellido: ['', [Validators.required, Validators.minLength(3)]],
